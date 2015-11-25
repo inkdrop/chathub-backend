@@ -44,7 +44,7 @@ public class ChatManager {
 	}
 	
 	public void sendToAllRooms(String message){
-		template.convertAndSend(ROOM_TOPIC_EXCHANGE, "room.*", message);
+		template.convertAndSend(ROOM_TOPIC_EXCHANGE, "broadcast", message);
 	}
 
 	private void initializeConfigurations() {
@@ -64,6 +64,7 @@ public class ChatManager {
 		
 //		admin.declareBinding(BindingBuilder.bind(q).to(specificRoom).with(roomId));
 		admin.declareBinding(BindingBuilder.bind(q).to(allRooms).with(roomId));
+		admin.declareBinding(BindingBuilder.bind(q).to(allRooms).with("broadcast"));
 		
 		addMessageListener(q);
 	}
