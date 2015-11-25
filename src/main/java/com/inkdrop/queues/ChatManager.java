@@ -4,6 +4,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
@@ -21,7 +22,7 @@ import com.rabbitmq.client.Channel;
 public class ChatManager {
 
 	private static final String ROOM_TOPIC_EXCHANGE = "room-topic-exchange";
-//	private static final String ROOM_DIRECT_EXCHANGE = "room-direct-exchange";
+	private static final String ROOM_FANOUT_EXCHANGE = "room-fanout-exchange";
 
 	@Autowired
 	RabbitTemplate template;
@@ -44,7 +45,7 @@ public class ChatManager {
 	}
 	
 	public void sendToAllRooms(String message){
-		template.convertAndSend(ROOM_TOPIC_EXCHANGE, "broadcast", message);
+		template.convertAndSend(ROOM_FANOUT_EXCHANGE, "", message);
 	}
 
 	private void initializeConfigurations() {
@@ -55,16 +56,16 @@ public class ChatManager {
 	private void createQueue(String roomId) {
 		Queue q = new Queue(roomId, false, false, true);
 //		DirectExchange specificRoom = new DirectExchange(ROOM_DIRECT_EXCHANGE, false, true);
-		TopicExchange allRooms = new TopicExchange(ROOM_TOPIC_EXCHANGE, false, true);
+		TopicExchange roomExchange = new TopicExchange(ROOM_TOPIC_EXCHANGE, false, true);
+		FanoutExchange fanoutExchange = new FanoutExchange(ROOM_FANOUT_EXCHANGE, false, true);
 		
-//		admin.declareExchange(specificRoom);
-		admin.declareExchange(allRooms);
+		admin.declareExchange(roomExchange);
+		admin.declareExchange(fanoutExchange);
 		
 		admin.declareQueue(q);
 		
-//		admin.declareBinding(BindingBuilder.bind(q).to(specificRoom).with(roomId));
-		admin.declareBinding(BindingBuilder.bind(q).to(allRooms).with(roomId));
-		admin.declareBinding(BindingBuilder.bind(q).to(allRooms).with("broadcast"));
+		admin.declareBinding(BindingBuilder.bind(q).to(roomExchange).with(roomId));
+		admin.declareBinding(BindingBuilder.bind(q).to(fanoutExchange));
 		
 		addMessageListener(q);
 	}
@@ -78,6 +79,7 @@ public class ChatManager {
 			@Override
 			public void onMessage(Message message, Channel channel) throws Exception {
 				log.info(message);
+				log.info(channel);
 				log.info("Got: "+ new String(message.getBody()));
 				// TODO Send to a websocket
 			}
