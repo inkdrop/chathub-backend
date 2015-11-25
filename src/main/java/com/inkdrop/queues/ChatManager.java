@@ -6,6 +6,7 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,6 +20,9 @@ import com.rabbitmq.client.Channel;
 @Component
 public class ChatManager {
 
+	private static final String ROOM_TOPIC_EXCHANGE = "room-topic-exchange";
+//	private static final String ROOM_DIRECT_EXCHANGE = "room-direct-exchange";
+
 	@Autowired
 	RabbitTemplate template;
 	
@@ -30,12 +34,17 @@ public class ChatManager {
 	public void sendMessageToRoom(String message, String room){
 		initializeConfigurations();
 		
-		if(!queueExists(room)) {
+		String rid = getRoomId(room);
+		if(!queueExists(rid)) {
 			log.info("Queue is null, creating!");
-			createQueue(room);
+			createQueue(rid);
 		}
 		
-		template.convertAndSend(room, message);
+		template.convertAndSend(ROOM_TOPIC_EXCHANGE, rid, message);
+	}
+	
+	public void sendToAllRooms(String message){
+		template.convertAndSend(ROOM_TOPIC_EXCHANGE, "room.*", message);
 	}
 
 	private void initializeConfigurations() {
@@ -43,14 +52,19 @@ public class ChatManager {
 		admin = new RabbitAdmin(cf);
 	}
 	
-	private void createQueue(String room) {
-		Queue q = new Queue(room, false, true, true);
-		DirectExchange exchange = new DirectExchange(room);
+	private void createQueue(String roomId) {
+		Queue q = new Queue(roomId, false, false, true);
+//		DirectExchange specificRoom = new DirectExchange(ROOM_DIRECT_EXCHANGE, false, true);
+		TopicExchange allRooms = new TopicExchange(ROOM_TOPIC_EXCHANGE, false, true);
 		
-		admin.declareExchange(exchange);
+//		admin.declareExchange(specificRoom);
+		admin.declareExchange(allRooms);
+		
 		admin.declareQueue(q);
 		
-		admin.declareBinding(BindingBuilder.bind(q).to(exchange).with(room));
+//		admin.declareBinding(BindingBuilder.bind(q).to(specificRoom).with(roomId));
+		admin.declareBinding(BindingBuilder.bind(q).to(allRooms).with(roomId));
+		
 		addMessageListener(q);
 	}
 
@@ -62,13 +76,18 @@ public class ChatManager {
 		container.setMessageListener(new MessageListenerAdapter(){
 			@Override
 			public void onMessage(Message message, Channel channel) throws Exception {
-				log.debug(message);
+				log.info(message);
 				log.info("Got: "+ new String(message.getBody()));
 				// TODO Send to a websocket
 			}
 		});
 		
-		container.start();
+		 if (!container.isRunning()) {
+             container.start();
+         }	}
+	
+	private String getRoomId(String room){
+		return "room."+room;
 	}
 
 	private boolean queueExists(String queue){

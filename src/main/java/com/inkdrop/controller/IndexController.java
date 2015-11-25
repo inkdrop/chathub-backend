@@ -20,4 +20,9 @@ public class IndexController {
 	public void receiveMessage(@RequestParam String room,@RequestParam String message){
 		manager.sendMessageToRoom(message, room);
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, path="/message/rooms")
+	public void receiveMessageAll(@RequestParam String message){
+		manager.sendToAllRooms(message);
+	}
 }
