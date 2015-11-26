@@ -1,7 +1,6 @@
 package com.inkdrop.deserializer;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,9 +24,8 @@ public class MessageDeserializer extends JsonDeserializer<Message> {
 		
 		Room room = repository.findOne(node.get("room").asLong());
 		String content = node.get("content").asText();
-		Date sent = new Date();
 		
-		return new Message(room, content, sent);
+		return new Message(room, content);
 	}
 
 }

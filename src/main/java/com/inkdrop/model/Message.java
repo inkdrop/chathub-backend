@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -23,11 +24,10 @@ public class Message implements Serializable {
 	private static final long serialVersionUID = -5293724621181603251L;
 	public Message() {}
 	
-	public Message(Room room, String content, Date sentAt) {
+	public Message(Room room, String content) {
 		super();
 		this.room = room;
 		this.content = content;
-		this.sentAt = sentAt;
 	}
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -80,6 +80,11 @@ public class Message implements Serializable {
 		} catch (JsonProcessingException e) {
 			return "";
 		}
+	}
+	
+	@PrePersist
+	public void populate(){
+		this.sentAt = new Date();
 	}
 
 	@Override
