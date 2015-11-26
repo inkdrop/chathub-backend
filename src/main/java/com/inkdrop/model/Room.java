@@ -16,7 +16,7 @@ public class Room implements Serializable {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable=false)
 	private String name;
 
@@ -35,15 +35,15 @@ public class Room implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@PrePersist
 	public void populate(){
-		
+
 	}
 
 	@Override
 	public String toString() {
 		return "Room [id=" + id + ", name=" + name + "]";
 	}
-	
+
 }

@@ -17,12 +17,12 @@ public class IndexController {
 
 	@Autowired
 	MessageService service;
-	
+
 	@RequestMapping(method = RequestMethod.POST, path="/message")
 	public void receiveMessage(@RequestBody Message message){
 		service.saveMessage(message);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST, path="/message/rooms")
 	public void receiveMessageAll(@RequestParam String message){
 		service.sendToAllRooms(message);

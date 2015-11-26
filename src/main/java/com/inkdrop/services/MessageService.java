@@ -12,14 +12,14 @@ public class MessageService {
 
 	@Autowired
 	MessageRepository repository;
-	
+
 	@Autowired
 	ChatManager manager;
-	
+
 	public void saveMessage(Message message){
 		try {
-		repository.save(message);
-		manager.sendMessageToRoom(message);
+			repository.save(message);
+			manager.sendMessageToRoom(message);
 		} catch (Exception e){
 			e.printStackTrace();
 		}

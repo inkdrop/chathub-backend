@@ -23,7 +23,7 @@ import com.inkdrop.deserializer.MessageDeserializer;
 public class Message implements Serializable {
 	private static final long serialVersionUID = -5293724621181603251L;
 	public Message() {}
-	
+
 	public Message(Room room, String content) {
 		super();
 		this.room = room;
@@ -32,20 +32,20 @@ public class Message implements Serializable {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
 	private Room room;
-	
+
 	@Column(nullable=false)
 	private String content;
-	
+
 	@CreatedDate
 	private Date sentAt;
-	
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -65,15 +65,15 @@ public class Message implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+
 	public Date getSentAt() {
 		return sentAt;
 	}
-	
+
 	public void setSentAt(Date sentAt) {
 		this.sentAt = sentAt;
 	}
-	
+
 	public String toJson(){
 		try {
 			return new ObjectMapper().writeValueAsString(this);
@@ -81,7 +81,7 @@ public class Message implements Serializable {
 			return "";
 		}
 	}
-	
+
 	@PrePersist
 	public void populate(){
 		this.sentAt = new Date();
@@ -91,5 +91,5 @@ public class Message implements Serializable {
 	public String toString() {
 		return "Message [room=" + room + ", content=" + content + ", sentAt=" + sentAt + "]";
 	}
-	
+
 }
