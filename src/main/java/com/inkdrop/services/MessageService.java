@@ -14,14 +14,14 @@ public class MessageService {
 	MessageRepository repository;
 
 	@Autowired
-	RoomRouter manager;
+	RoomRouter router;
 
 	public void saveAndSend(Message message){
 		repository.save(message);
-		manager.sendMessageToRoom(message);
+		router.sendMessageToRoom(message);
 	}
 
 	public void sendToAllRooms(String message) {
-		manager.sendToAllRooms(message);
+		router.sendToAllRooms(message);
 	}
 }

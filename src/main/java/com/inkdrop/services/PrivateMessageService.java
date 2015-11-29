@@ -18,11 +18,6 @@ public class PrivateMessageService {
 
 	public void saveAndSend(PrivateMessage message){
 		repository.save(message);
-		send(message);
-	}
-
-	private void send(PrivateMessage message) {
 		router.sendMessageToUser(message);
 	}
-
 }
