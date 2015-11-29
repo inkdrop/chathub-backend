@@ -25,7 +25,7 @@ public class PrivateMessageRouter {
 
 	@Autowired
 	RabbitTemplate template;
-	
+
 	@Autowired
 	private SimpMessagingTemplate webSocket;
 
@@ -33,31 +33,6 @@ public class PrivateMessageRouter {
 
 	private RabbitAdmin admin;
 	private ConnectionFactory cf;
-
-	public void sendMessageToUser(PrivateMessage message){
-		initializeConfigurations();
-
-		String queueName = getQueueName(message);
-		if(!queueExists(queueName)) {
-			log.info("Queue is null, creating!");
-			createQueue(queueName);
-		}
-
-		template.convertAndSend(USER_DIRECT_EXCHANGE, queueName, message);
-	}
-
-	private void createQueue(String roomId) {
-		Queue q = new Queue(roomId, false, false, true);
-		DirectExchange roomExchange = new DirectExchange(USER_DIRECT_EXCHANGE, false, true);
-
-		admin.declareExchange(roomExchange);
-
-		admin.declareQueue(q);
-
-		admin.declareBinding(BindingBuilder.bind(q).to(roomExchange).with(roomId));
-
-		addMessageListener(q);
-	}
 
 	private void addMessageListener(Queue q) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(cf);
@@ -78,16 +53,41 @@ public class PrivateMessageRouter {
 		}
 	}
 
-	private void initializeConfigurations() {
-		cf = template.getConnectionFactory();
-		admin = new RabbitAdmin(cf);
+	private void createQueue(String roomId) {
+		Queue q = new Queue(roomId, false, false, true);
+		DirectExchange roomExchange = new DirectExchange(USER_DIRECT_EXCHANGE, false, true);
+
+		admin.declareExchange(roomExchange);
+
+		admin.declareQueue(q);
+
+		admin.declareBinding(BindingBuilder.bind(q).to(roomExchange).with(roomId));
+
+		addMessageListener(q);
 	}
 
 	private String getQueueName(PrivateMessage message){
 		return "pm."+message.getTo().getId();
 	}
 
+	private void initializeConfigurations() {
+		cf = template.getConnectionFactory();
+		admin = new RabbitAdmin(cf);
+	}
+
 	private boolean queueExists(String queue){
 		return admin.getQueueProperties(queue) != null;
+	}
+
+	public void sendMessageToUser(PrivateMessage message){
+		initializeConfigurations();
+
+		String queueName = getQueueName(message);
+		if(!queueExists(queueName)) {
+			log.info("Queue is null, creating!");
+			createQueue(queueName);
+		}
+
+		template.convertAndSend(USER_DIRECT_EXCHANGE, queueName, message);
 	}
 }

@@ -38,44 +38,6 @@ public class RoomRouter {
 	private RabbitAdmin admin;
 	private ConnectionFactory cf;
 
-	public void sendMessageToRoom(Message message){
-		initializeConfigurations();
-
-		String rid = getRoomId(message.getRoom());
-		if(!queueExists(rid)) {
-			log.info("Queue is null, creating!");
-			createQueue(rid);
-		}
-
-		String json = new MessagePresenter(message).toJson();
-		template.convertAndSend(ROOM_DIRECT_EXCHANGE, rid, json);
-	}
-
-	public void sendToAllRooms(String message){
-		template.convertAndSend(ROOM_FANOUT_EXCHANGE, "", message);
-	}
-
-	private void initializeConfigurations() {
-		cf = template.getConnectionFactory();
-		admin = new RabbitAdmin(cf);
-	}
-
-	private void createQueue(String roomId) {
-		Queue q = new Queue(roomId, false, false, true);
-		DirectExchange roomExchange = new DirectExchange(ROOM_DIRECT_EXCHANGE, false, true);
-		FanoutExchange fanoutExchange = new FanoutExchange(ROOM_FANOUT_EXCHANGE, false, true);
-
-		admin.declareExchange(roomExchange);
-		admin.declareExchange(fanoutExchange);
-
-		admin.declareQueue(q);
-
-		admin.declareBinding(BindingBuilder.bind(q).to(roomExchange).with(roomId));
-		admin.declareBinding(BindingBuilder.bind(q).to(fanoutExchange));
-
-		addMessageListener(q);
-	}
-
 	private void addMessageListener(Queue q) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(cf);
 
@@ -96,16 +58,53 @@ public class RoomRouter {
 			}
 		});
 
-		if (!container.isRunning()) {
+		if (!container.isRunning())
 			container.start();
-		}	
+	}
+
+	private void createQueue(String roomId) {
+		Queue q = new Queue(roomId, false, false, true);
+		DirectExchange roomExchange = new DirectExchange(ROOM_DIRECT_EXCHANGE, false, true);
+		FanoutExchange fanoutExchange = new FanoutExchange(ROOM_FANOUT_EXCHANGE, false, true);
+
+		admin.declareExchange(roomExchange);
+		admin.declareExchange(fanoutExchange);
+
+		admin.declareQueue(q);
+
+		admin.declareBinding(BindingBuilder.bind(q).to(roomExchange).with(roomId));
+		admin.declareBinding(BindingBuilder.bind(q).to(fanoutExchange));
+
+		addMessageListener(q);
 	}
 
 	private String getRoomId(Room room){
 		return "room."+room.getId();
 	}
 
+	private void initializeConfigurations() {
+		cf = template.getConnectionFactory();
+		admin = new RabbitAdmin(cf);
+	}
+
 	private boolean queueExists(String queue){
 		return admin.getQueueProperties(queue) != null;
+	}
+
+	public void sendMessageToRoom(Message message){
+		initializeConfigurations();
+
+		String rid = getRoomId(message.getRoom());
+		if(!queueExists(rid)) {
+			log.info("Queue is null, creating!");
+			createQueue(rid);
+		}
+
+		String json = new MessagePresenter(message).toJson();
+		template.convertAndSend(ROOM_DIRECT_EXCHANGE, rid, json);
+	}
+
+	public void sendToAllRooms(String message){
+		template.convertAndSend(ROOM_FANOUT_EXCHANGE, "", message);
 	}
 }

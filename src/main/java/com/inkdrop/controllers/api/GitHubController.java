@@ -23,7 +23,7 @@ public class GitHubController {
 	GitHubService ghService;
 	
 	@RequestMapping(method = RequestMethod.POST, path="/github")
-	public Object createUser(@PathParam("token") String token){
+	public ResponseEntity<?> createUser(@PathParam("token") String token){
 		try {
 			User user =  ghService.createOrUpdateUser(token);
 			return new ResponseEntity<User>(user, HttpStatus.OK);

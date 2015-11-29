@@ -30,7 +30,7 @@ public class Message implements Serializable {
 		super();
 		this.room = room;
 		this.content = content;
-		this.sender = user;
+		sender = user;
 	}
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -45,10 +45,10 @@ public class Message implements Serializable {
 
 	@CreatedDate
 	private Date sentAt;
-	
+
 	@ManyToOne
 	private User sender;
-	
+
 	@Column(nullable=false, unique=true, length=15)
 	private String uniqueId;
 
@@ -83,27 +83,29 @@ public class Message implements Serializable {
 	public void setSentAt(Date sentAt) {
 		this.sentAt = sentAt;
 	}
-	
+
 	public User getSender() {
 		return sender;
 	}
-	
+
 	public void setSender(User sender) {
 		this.sender = sender;
 	}
-	
+
 	public String getUniqueId() {
 		return uniqueId;
 	}
-	
+
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
 	}
 
 	@PrePersist
 	public void prePersist(){
-		this.sentAt = new Date();
-		this.uniqueId = UUIDHelper.generateHash();
+		if(sentAt == null)
+			sentAt = new Date();
+		if(uniqueId == null)
+			uniqueId = UUIDHelper.generateHash();
 	}
 
 	@Override

@@ -12,10 +12,10 @@ public class PrivateMessageService {
 
 	@Autowired
 	PrivateMessageRepostiry repository;
-	
+
 	@Autowired
 	PrivateMessageRouter router;
-	
+
 	public void saveAndSend(PrivateMessage message){
 		repository.save(message);
 		send(message);

@@ -16,10 +16,13 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.inkdrop.domain.deserializers.PrivateMessageDeserializer;
 import com.inkdrop.helpers.UUIDHelper;
 
 @Entity
 @Table(name="private_messages")
+@JsonDeserialize(using = PrivateMessageDeserializer.class)
 public class PrivateMessage implements Serializable {
 	private static final long serialVersionUID = -5159381602814102159L;
 
@@ -27,21 +30,29 @@ public class PrivateMessage implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@JsonIgnore
 	private Long id;
-	
+
 	@ManyToOne
 	private User from;
-	
+
 	@ManyToOne
 	private User to;
-	
+
 	@Lob
 	private String content;
-	
+
 	@CreatedDate
 	private Date sentAt;
-	
+
 	@Column(nullable=false, unique=true, length=15)
 	private String uniqueId;
+
+	public PrivateMessage(User from, User to, String content) {
+		this.from = from;
+		this.to = to;
+		this.content = content;
+	}
+
+	public PrivateMessage() {}
 
 	public Long getId() {
 		return id;
@@ -82,19 +93,21 @@ public class PrivateMessage implements Serializable {
 	public void setSentAt(Date sentAt) {
 		this.sentAt = sentAt;
 	}
-	
+
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
 	}
-	
+
 	public String getUniqueId() {
 		return uniqueId;
 	}
-	
+
 	@PrePersist
 	public void prePersist(){
-		this.sentAt = new Date();
-		this.uniqueId = UUIDHelper.generateHash();
+		if(sentAt == null)
+			sentAt = new Date();
+		if(uniqueId == null)
+			uniqueId = UUIDHelper.generateHash();
 	}
 
 	@Override
@@ -121,5 +134,5 @@ public class PrivateMessage implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

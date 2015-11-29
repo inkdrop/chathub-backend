@@ -9,29 +9,25 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.inkdrop.domain.models.Message;
-import com.inkdrop.domain.models.Room;
+import com.inkdrop.domain.models.PrivateMessage;
 import com.inkdrop.domain.models.User;
-import com.inkdrop.domain.repositories.RoomRepostitory;
 import com.inkdrop.domain.repositories.UserRepository;
 
-public class MessageDeserializer extends JsonDeserializer<Message> {
-
-	@Autowired
-	RoomRepostitory roomRepository;
+public class PrivateMessageDeserializer extends JsonDeserializer<PrivateMessage> {
 
 	@Autowired
 	UserRepository userRepository;
 
 	@Override
-	public Message deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
-		JsonNode node = jp.getCodec().readTree(jp);
+	public PrivateMessage deserialize(JsonParser parser, DeserializationContext dc)
+			throws IOException, JsonProcessingException {
+		JsonNode node = parser.getCodec().readTree(parser);
 
-		Room room = roomRepository.findOne(node.get("room").asLong());
-		User user = userRepository.findByUid(node.get("user").asInt());
+		User from = userRepository.findByUid(node.get("from").asInt());
+		User to = userRepository.findByUid(node.get("to").asInt());
 		String content = node.get("content").asText();
 
-		return new Message(room, content, user);
+		return new PrivateMessage(from, to, content);
 	}
 
 }

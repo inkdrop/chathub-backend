@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inkdrop.domain.models.PrivateMessage;
 
 public class PrivateMessagePresenter {
-
 	private PrivateMessage message;
 	public PrivateMessagePresenter(PrivateMessage message) {
 		this.message = message;

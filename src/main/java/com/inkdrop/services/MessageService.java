@@ -17,12 +17,8 @@ public class MessageService {
 	RoomRouter manager;
 
 	public void saveAndSend(Message message){
-		try {
-			repository.save(message);
-			manager.sendMessageToRoom(message);
-		} catch (Exception e){
-			e.printStackTrace();
-		}
+		repository.save(message);
+		manager.sendMessageToRoom(message);
 	}
 
 	public void sendToAllRooms(String message) {
