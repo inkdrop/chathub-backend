@@ -1,11 +1,11 @@
-package com.inkdrop.repository;
+package com.inkdrop.domain.repositories;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.inkdrop.model.Message;
-import com.inkdrop.model.Room;
+import com.inkdrop.domain.models.Message;
+import com.inkdrop.domain.models.Room;
 
 public interface MessageRepository extends CrudRepository<Message, Long> {
 	List<Message> findByRoom(Room room);

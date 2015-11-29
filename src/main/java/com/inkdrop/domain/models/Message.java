@@ -1,4 +1,4 @@
-package com.inkdrop.model;
+package com.inkdrop.domain.models;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,16 +10,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.inkdrop.deserializer.MessageDeserializer;
+import com.inkdrop.domain.deserializers.MessageDeserializer;
+import com.inkdrop.helpers.UUIDHelper;
 
 @Entity
 @JsonDeserialize(using = MessageDeserializer.class)
+@Table(name="messages")
 public class Message implements Serializable {
 	private static final long serialVersionUID = -5293724621181603251L;
 	public Message() {}
@@ -41,6 +42,9 @@ public class Message implements Serializable {
 
 	@CreatedDate
 	private Date sentAt;
+	
+	@Column(nullable=false, unique=true, length=15)
+	private String uniqueId;
 
 	public Long getId() {
 		return id;
@@ -73,18 +77,19 @@ public class Message implements Serializable {
 	public void setSentAt(Date sentAt) {
 		this.sentAt = sentAt;
 	}
-
-	public String toJson(){
-		try {
-			return new ObjectMapper().writeValueAsString(this);
-		} catch (JsonProcessingException e) {
-			return "";
-		}
+	
+	public String getUniqueId() {
+		return uniqueId;
+	}
+	
+	public void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
 	}
 
 	@PrePersist
-	public void populate(){
+	public void prePersist(){
 		this.sentAt = new Date();
+		this.uniqueId = UUIDHelper.generateHash();
 	}
 
 	@Override

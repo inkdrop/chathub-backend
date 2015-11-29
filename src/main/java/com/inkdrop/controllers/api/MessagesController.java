@@ -1,4 +1,4 @@
-package com.inkdrop.controller;
+package com.inkdrop.controllers.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inkdrop.model.Message;
+import com.inkdrop.domain.models.Message;
 import com.inkdrop.services.MessageService;
 
 @RestController
 @EnableAutoConfiguration
-public class IndexController {
+public class MessagesController {
 
 	@Autowired
 	MessageService service;
 
-	@RequestMapping(method = RequestMethod.POST, path="/message")
+	@RequestMapping(method = RequestMethod.POST, path="/message/room")
 	public void receiveMessage(@RequestBody Message message){
-		service.saveMessage(message);
+		service.saveAndSend(message);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path="/message/rooms")

@@ -1,4 +1,4 @@
-package com.inkdrop.deserializer;
+package com.inkdrop.domain.deserializers;
 
 import java.io.IOException;
 
@@ -9,9 +9,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.inkdrop.model.Message;
-import com.inkdrop.model.Room;
-import com.inkdrop.repository.RoomRepostitory;
+import com.inkdrop.domain.models.Message;
+import com.inkdrop.domain.models.Room;
+import com.inkdrop.domain.repositories.RoomRepostitory;
 
 public class MessageDeserializer extends JsonDeserializer<Message> {
 

@@ -3,9 +3,9 @@ package com.inkdrop.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.inkdrop.model.Message;
-import com.inkdrop.queues.ChatManager;
-import com.inkdrop.repository.MessageRepository;
+import com.inkdrop.domain.models.Message;
+import com.inkdrop.domain.repositories.MessageRepository;
+import com.inkdrop.routers.RoomRouter;
 
 @Component
 public class MessageService {
@@ -14,9 +14,9 @@ public class MessageService {
 	MessageRepository repository;
 
 	@Autowired
-	ChatManager manager;
+	RoomRouter manager;
 
-	public void saveMessage(Message message){
+	public void saveAndSend(Message message){
 		try {
 			repository.save(message);
 			manager.sendMessageToRoom(message);

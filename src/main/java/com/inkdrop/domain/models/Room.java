@@ -1,4 +1,4 @@
-package com.inkdrop.model;
+package com.inkdrop.domain.models;
 
 import java.io.Serializable;
 
@@ -8,8 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="rooms")
 public class Room implements Serializable {
 
 	private static final long serialVersionUID = -7119760968529447945L;
