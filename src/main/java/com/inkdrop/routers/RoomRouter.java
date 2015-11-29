@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -84,9 +85,14 @@ public class RoomRouter {
 			@Override
 			public void onMessage(org.springframework.amqp.core.Message message, Channel channel) throws Exception {
 				log.info(message);
-				log.info("Got: "+ new String(message.getBody()));
 
-				webSocket.convertAndSend("/room/1",new String(message.getBody()));
+				MessageProperties props = message.getMessageProperties();
+				if(props.getReceivedExchange().equals(ROOM_FANOUT_EXCHANGE)){
+					// TODO Sent to all rooms
+				}else {
+					String room = "/".concat(props.getReceivedRoutingKey());
+					webSocket.convertAndSend(room, new String(message.getBody()));
+				}
 			}
 		});
 
