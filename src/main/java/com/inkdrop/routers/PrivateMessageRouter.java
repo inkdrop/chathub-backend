@@ -4,6 +4,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -67,8 +68,8 @@ public class PrivateMessageRouter {
 			@Override
 			public void onMessage(org.springframework.amqp.core.Message message, Channel channel) throws Exception {
 				log.info(message);
-				log.info("Got: "+ new String(message.getBody()));
-				// TODO Send to a websocket
+				MessageProperties props = message.getMessageProperties();
+				webSocket.convertAndSend(props.getReceivedRoutingKey(), message);
 			}
 		});
 

@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.inkdrop.domain.deserializers.MessageDeserializer;
 import com.inkdrop.helpers.UUIDHelper;
@@ -25,13 +26,15 @@ public class Message implements Serializable {
 	private static final long serialVersionUID = -5293724621181603251L;
 	public Message() {}
 
-	public Message(Room room, String content) {
+	public Message(Room room, String content, User user) {
 		super();
 		this.room = room;
 		this.content = content;
+		this.sender = user;
 	}
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
 
 	@ManyToOne
@@ -42,6 +45,9 @@ public class Message implements Serializable {
 
 	@CreatedDate
 	private Date sentAt;
+	
+	@ManyToOne
+	private User sender;
 	
 	@Column(nullable=false, unique=true, length=15)
 	private String uniqueId;
@@ -76,6 +82,14 @@ public class Message implements Serializable {
 
 	public void setSentAt(Date sentAt) {
 		this.sentAt = sentAt;
+	}
+	
+	public User getSender() {
+		return sender;
+	}
+	
+	public void setSender(User sender) {
+		this.sender = sender;
 	}
 	
 	public String getUniqueId() {

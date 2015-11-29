@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inkdrop.helpers.UUIDHelper;
 
 @Entity
@@ -24,6 +25,7 @@ public class PrivateMessage implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
 	
 	@ManyToOne
