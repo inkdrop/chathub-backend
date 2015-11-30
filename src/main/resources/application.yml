@@ -31,12 +31,13 @@ spring:
   
 spring.datasource:
   url: ${JDBC_URL}
+  username: ${JDBC_USER}
+  password: ${JDBC_PASSWORD}
   driverClassName: org.postgresql.Driver
   platform: postgres
 
 spring.jpa:
   show-sql: false
-  database-platform: org.hibernate.dialect.PostgreSQLDialect
   hibernate:
     ddl-auto: update
   
