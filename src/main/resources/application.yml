@@ -28,8 +28,8 @@ spring:
   
 spring.datasource:
   driverClassName: org.postgresql.Driver
-  url: {DATABASE_URL}
+  url: ${DATABASE_URL}
   platform: postgres
   
 spring.rabbitmq:
-  addresses: {RABBITMQ_BIGWIG_URL}
+  addresses: ${RABBITMQ_BIGWIG_URL}
