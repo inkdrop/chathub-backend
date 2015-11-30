@@ -5,11 +5,13 @@ spring:
   profiles: default
   
 spring.datasource:
-  driverClassName: org.postgresql.Driver
   url: jdbc:postgresql://localhost:5432/chatroom
   username: postgres
   password: postgres
   platform: postgres
+ 
+spring.database
+  driverClassName: org.postgresql.Driver
 
 spring.jpa:
   show-sql: false
@@ -27,9 +29,7 @@ spring:
   profiles: production
   
 spring.datasource:
-  driverClassName: org.postgresql.Driver
   url: ${DATABASE_URL}
-  platform: postgres
   
 spring.rabbitmq:
   addresses: ${RABBITMQ_BIGWIG_URL}
