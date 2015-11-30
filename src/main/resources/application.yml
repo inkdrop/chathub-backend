@@ -29,7 +29,7 @@ spring:
   profiles: production
   
 spring.datasource:
-  url: ${DATABASE_URL}
+  url: ${JDBC_URL}
   
 spring.rabbitmq:
   addresses: ${RABBITMQ_BIGWIG_URL}
