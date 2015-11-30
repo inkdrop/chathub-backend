@@ -1,5 +1,6 @@
 spring:
   profiles.active: default
+
 ---
 spring:
   profiles: default
@@ -30,11 +31,12 @@ spring:
   
 spring.datasource:
   url: ${JDBC_URL}
-  driver-class-name: org.postgresql.Driver
+  driverClassName: org.postgresql.Driver
   platform: postgres
 
 spring.jpa:
   show-sql: false
+  database-platform: org.hibernate.dialect.PostgreSQLDialect
   hibernate:
     ddl-auto: update
   
