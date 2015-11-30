@@ -30,6 +30,7 @@ spring:
   
 spring.datasource:
   url: ${JDBC_URL}
+  platform: postgres
   
 spring.database:
   driverClassName: org.postgresql.Driver
