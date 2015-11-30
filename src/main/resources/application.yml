@@ -10,7 +10,7 @@ spring.datasource:
   password: postgres
   platform: postgres
  
-spring.database
+spring.database:
   driverClassName: org.postgresql.Driver
 
 spring.jpa:
