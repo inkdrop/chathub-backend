@@ -1,0 +1,35 @@
+spring:
+  profiles.active: default
+---
+spring:
+  profiles: default
+  
+spring.datasource:
+  driverClassName: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5432/chatroom
+  username: postgres
+  password: postgres
+  platform: postgres
+
+spring.jpa:
+  show-sql: false
+  hibernate:
+    ddl-auto: update
+
+spring.rabbitmq:
+  host: 127.0.0.1
+  port: 5672
+  user: test
+  password: test
+  
+---
+spring:
+  profiles: production
+  
+spring.datasource:
+  driverClassName: org.postgresql.Driver
+  url: {DATABASE_URL}
+  platform: postgres
+  
+spring.rabbitmq:
+  addresses: {RABBITMQ_BIGWIG_URL}
