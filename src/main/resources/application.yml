@@ -31,5 +31,13 @@ spring:
 spring.datasource:
   url: ${JDBC_URL}
   
+spring.database:
+  driverClassName: org.postgresql.Driver
+
+spring.jpa:
+  show-sql: false
+  hibernate:
+    ddl-auto: update
+  
 spring.rabbitmq:
   addresses: ${RABBITMQ_BIGWIG_URL}
