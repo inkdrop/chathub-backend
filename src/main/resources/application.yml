@@ -40,6 +40,11 @@ spring.jpa:
   show-sql: false
   hibernate:
     ddl-auto: update
+    
+security.user:
+  name: admin
+  password: secret
+management.security.role: SUPERUSER
   
 spring.rabbitmq:
   addresses: ${RABBITMQ_BIGWIG_URL}
