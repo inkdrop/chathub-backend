@@ -25,7 +25,8 @@ import com.inkdrop.helpers.TokenGeneratorHelper;
 
 @Entity
 @Table(name="users", indexes = {
-		@Index(unique=true, columnList="uid")
+		@Index(unique=true, columnList="uid"),
+		@Index(unique=true, columnList="backendAccessToken")
 })
 public class User implements Serializable{
 	private static final long serialVersionUID = 1492535311821424305L;
