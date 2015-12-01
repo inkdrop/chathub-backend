@@ -21,6 +21,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.inkdrop.helpers.TokenGeneratorHelper;
 
 @Entity
 @Table(name="users", indexes = {
@@ -56,6 +57,7 @@ public class User implements Serializable{
 	private String avatar;
 
 	@Column
+	@JsonIgnore
 	private String accessToken;
 
 	@CreationTimestamp
@@ -71,9 +73,13 @@ public class User implements Serializable{
 
 	@ManyToMany()
 	@JoinTable(name="rooms_users", joinColumns=
-{@JoinColumn(name="user_id")}, inverseJoinColumns=
-	{@JoinColumn(name="room_id")})
+		{@JoinColumn(name="user_id")},
+			inverseJoinColumns=
+		{@JoinColumn(name="room_id")})
 	private List<Room> rooms = new ArrayList<>();
+
+	@Column(nullable=false, columnDefinition="TEXT")
+	private String backendAccessToken;
 
 	public Long getId() {
 		return id;
@@ -179,10 +185,21 @@ public class User implements Serializable{
 		this.rooms = rooms;
 	}
 
+	public String getBackendAccessToken() {
+		return backendAccessToken;
+	}
+
+	public void setBackendAccessToken(String backendAccessToken) {
+		this.backendAccessToken = backendAccessToken;
+	}
+
 	@PrePersist
 	public void prePersist(){
 		if(createdAt == null)
 			createdAt = new Date();
+
+		if(backendAccessToken == null)
+			backendAccessToken = TokenGeneratorHelper.randomString(25);
 
 		updatedAt = new Date();
 	}
