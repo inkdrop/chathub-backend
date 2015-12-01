@@ -20,12 +20,12 @@ import com.inkdrop.services.GitHubService;
 public class GitHubController {
 
 	@Autowired
-	GitHubService ghService;
-	
+	GitHubService gitHubService;
+
 	@RequestMapping(method = RequestMethod.POST, path="/github")
 	public ResponseEntity<?> createUser(@PathParam("token") String token){
 		try {
-			User user =  ghService.createOrUpdateUser(token);
+			User user =  gitHubService.createOrUpdateUser(token);
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (IOException e) {
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
