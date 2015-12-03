@@ -26,11 +26,9 @@ public class Message implements Serializable {
 	private static final long serialVersionUID = -5293724621181603251L;
 	public Message() {}
 
-	public Message(Room room, String content, User user) {
+	public Message(String content) {
 		super();
-		this.room = room;
 		this.content = content;
-		sender = user;
 	}
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -104,6 +102,7 @@ public class Message implements Serializable {
 	public void prePersist(){
 		if(sentAt == null)
 			sentAt = new Date();
+
 		if(uniqueId == null)
 			uniqueId = UUIDHelper.generateHash();
 	}

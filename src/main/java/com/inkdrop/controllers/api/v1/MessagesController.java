@@ -2,6 +2,9 @@ package com.inkdrop.controllers.api.v1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,15 +20,25 @@ import com.inkdrop.services.MessageService;
 public class MessagesController {
 
 	@Autowired
-	MessageService service;
+	MessageService messageService;
 
 	@RequestMapping(method = RequestMethod.POST, path="/v1/message/{room}")
-	public void receiveMessage(@RequestBody Message message, @RequestHeader("Auth-Token") String token){
-		service.saveAndSend(message);
+	public ResponseEntity<?> receiveMessage(@PathVariable String room,
+			@RequestBody Message partialMessage,
+			@RequestHeader("Auth-Token") String token){
+		try{
+			Message m = messageService.buildMessage(partialMessage, room, token);
+			messageService.saveAndSend(m);
+
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}catch(Exception e){
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path="/v1/message/rooms")
 	public void receiveMessageAll(@RequestParam String message, @RequestHeader("Auth-Token") String token){
-		service.sendToAllRooms(message);
+		messageService.sendToAllRooms(message);
 	}
 }
