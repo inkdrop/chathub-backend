@@ -15,10 +15,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inkdrop.helpers.TokenGeneratorHelper;
@@ -40,6 +42,9 @@ public class User implements Serializable{
 
 	@Column(nullable=false, unique=true)
 	private Integer uid;
+
+	@Column(nullable=false, columnDefinition="TEXT")
+	private String backendAccessToken;
 
 	@Column
 	private String name;
@@ -68,19 +73,14 @@ public class User implements Serializable{
 	@JsonIgnore
 	private Date createdAt;
 
-	@CreatedDate
 	@JsonIgnore
+	@LastModifiedDate
 	private Date updatedAt;
 
 	@ManyToMany()
-	@JoinTable(name="rooms_users", joinColumns=
-		{@JoinColumn(name="user_id")},
-			inverseJoinColumns=
-		{@JoinColumn(name="room_id")})
+	@JoinTable(name="rooms_users", joinColumns={@JoinColumn(name="user_id")},
+				  inverseJoinColumns={@JoinColumn(name="room_id")})
 	private List<Room> rooms = new ArrayList<>();
-
-	@Column(nullable=false, columnDefinition="TEXT")
-	private String backendAccessToken;
 
 	public Long getId() {
 		return id;
@@ -196,13 +196,18 @@ public class User implements Serializable{
 
 	@PrePersist
 	public void prePersist(){
-		if(createdAt == null)
-			createdAt = new Date();
-
 		if(backendAccessToken == null)
 			backendAccessToken = TokenGeneratorHelper.randomString(25);
 
-		updatedAt = new Date();
+		if(createdAt == null)
+			createdAt = new Date();
+
+		preUpdate();
+	}
+
+	@PreUpdate
+	public void preUpdate(){
+		setUpdatedAt(new Date());
 	}
 
 	@Override
@@ -234,7 +239,4 @@ public class User implements Serializable{
 	public String toString() {
 		return "User [id=" + id + ", nickname=" + nickname + "]";
 	}
-
-
-
 }

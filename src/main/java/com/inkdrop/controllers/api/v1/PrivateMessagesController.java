@@ -1,4 +1,4 @@
-package com.inkdrop.controllers.api;
+package com.inkdrop.controllers.api.v1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -17,7 +17,7 @@ public class PrivateMessagesController {
 	@Autowired
 	PrivateMessageService service;
 
-	@RequestMapping(method = RequestMethod.POST, path="/private_message")
+	@RequestMapping(method = RequestMethod.POST, path="/v1/private_message")
 	public void receiveMessage(@RequestParam PrivateMessage message){
 		service.saveAndSend(message);
 	}
