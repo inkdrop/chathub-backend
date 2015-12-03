@@ -19,7 +19,7 @@ public class MessagesController {
 	@Autowired
 	MessageService service;
 
-	@RequestMapping(method = RequestMethod.POST, path="/v1/message/room")
+	@RequestMapping(method = RequestMethod.POST, path="/v1/message/{room}")
 	public void receiveMessage(@RequestBody Message message, @RequestHeader("Auth-Token") String token){
 		service.saveAndSend(message);
 	}
