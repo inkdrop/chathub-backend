@@ -30,8 +30,8 @@ public class PrivateMessageService {
 		User destination = userRepository.findByUid(uidDestination);
 		User sender = userRepository.findByBackendAccessToken(token);
 
-		partialMessage.setFrom(sender);
 		partialMessage.setTo(destination);
+		partialMessage.setFrom(sender);
 
 		return partialMessage;
 	}
