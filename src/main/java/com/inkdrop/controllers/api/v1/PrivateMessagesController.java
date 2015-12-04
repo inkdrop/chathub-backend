@@ -21,10 +21,10 @@ public class PrivateMessagesController {
 
 	@RequestMapping(method = RequestMethod.POST, path="/v1/private_message/{uid}")
 	public void receiveMessage(@RequestParam PrivateMessage message,
-			@PathVariable Integer uidDestination,
+			@PathVariable Integer uid,
 			@RequestHeader("Auth-Token") String token){
 		try {
-			PrivateMessage pm = service.buildMessage(message, uidDestination, token);
+			PrivateMessage pm = service.buildMessage(message, uid, token);
 			service.saveAndSend(pm);
 		} catch(Exception e) {
 			e.printStackTrace();
