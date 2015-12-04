@@ -1,2 +1,2 @@
-web: java -Dserver.port=$PORT -jar target/chat-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -jar target/chathub-backend-0.0.2.jar
 

@@ -53,7 +53,7 @@ public class RoomsController {
 			} else
 				return new ResponseEntity<String>("Already joined", HttpStatus.NOT_MODIFIED);
 		} catch(Exception e) {
-			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 

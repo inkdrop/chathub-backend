@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.inkdrop.domain.models.PrivateMessage;
-import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.repositories.UserRepository;
 
 public class PrivateMessageDeserializer extends JsonDeserializer<PrivateMessage> {
@@ -23,11 +22,9 @@ public class PrivateMessageDeserializer extends JsonDeserializer<PrivateMessage>
 			throws IOException, JsonProcessingException {
 		JsonNode node = parser.getCodec().readTree(parser);
 
-		User to = userRepository.findByUid(node.get("to").asInt());
 		String content = node.get("content").asText();
 
-//		return new PrivateMessage(from, to, content);
-		return null;
+		return new PrivateMessage(content);
 	}
 
 }

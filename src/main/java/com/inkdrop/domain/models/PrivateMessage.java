@@ -46,9 +46,7 @@ public class PrivateMessage implements Serializable {
 	@Column(nullable=false, unique=true, length=15)
 	private String uniqueId;
 
-	public PrivateMessage(User from, User to, String content) {
-		this.from = from;
-		this.to = to;
+	public PrivateMessage(String content) {
 		this.content = content;
 	}
 
@@ -114,7 +112,7 @@ public class PrivateMessage implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (id == null ? 0 : id.hashCode());
 		return result;
 	}
 

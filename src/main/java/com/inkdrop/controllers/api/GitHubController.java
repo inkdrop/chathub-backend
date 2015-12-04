@@ -28,7 +28,7 @@ public class GitHubController {
 			User user =  gitHubService.createOrUpdateUser(token);
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (IOException e) {
-			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 }

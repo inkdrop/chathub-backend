@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.inkdrop</groupId>
-	<artifactId>chat</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>chathub-backend</artifactId>
+	<version>0.0.2</version>
 	<packaging>jar</packaging>
 
-	<name>chat</name>
-	<description>Demo project for Spring Boot</description>
+	<name>chathub-backend</name>
+	<description>Chathub backen</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
