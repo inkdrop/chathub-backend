@@ -21,23 +21,25 @@ import com.inkdrop.helpers.UUIDHelper;
 
 @Entity
 @JsonDeserialize(using = MessageDeserializer.class)
-@Table(name="messages")
+@Table(name = "messages")
 public class Message implements Serializable {
 	private static final long serialVersionUID = -5293724621181603251L;
+
 	public Message() {}
 
 	public Message(String content) {
 		this.content = content;
 	}
 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonIgnore
 	private Long id;
 
 	@ManyToOne
 	private Room room;
 
-	@Column(nullable=false, columnDefinition="TEXT")
+	@Column(nullable = false, columnDefinition = "TEXT")
 	private String content;
 
 	@CreatedDate
@@ -46,7 +48,7 @@ public class Message implements Serializable {
 	@ManyToOne
 	private User sender;
 
-	@Column(nullable=false, unique=true, length=15)
+	@Column(nullable = false, unique = true, length = 15)
 	private String uniqueId;
 
 	public Long getId() {
@@ -98,11 +100,11 @@ public class Message implements Serializable {
 	}
 
 	@PrePersist
-	public void prePersist(){
-		if(sentAt == null)
+	public void prePersist() {
+		if (sentAt == null)
 			sentAt = new Date();
 
-		if(uniqueId == null)
+		if (uniqueId == null)
 			uniqueId = UUIDHelper.generateHash();
 	}
 

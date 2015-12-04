@@ -39,7 +39,7 @@ public class PrivateMessageRouter {
 
 		container.setConnectionFactory(cf);
 		container.setQueueNames(q.getName());
-		container.setMessageListener(new MessageListenerAdapter(){
+		container.setMessageListener(new MessageListenerAdapter() {
 			@Override
 			public void onMessage(org.springframework.amqp.core.Message message, Channel channel) throws Exception {
 				log.info(message);
@@ -65,8 +65,8 @@ public class PrivateMessageRouter {
 		addMessageListener(q);
 	}
 
-	private String getQueueName(PrivateMessage message){
-		return "pm."+message.getTo().getUid();
+	private String getQueueName(PrivateMessage message) {
+		return "pm." + message.getTo().getUid();
 	}
 
 	private void initializeConfigurations() {
@@ -74,15 +74,15 @@ public class PrivateMessageRouter {
 		admin = new RabbitAdmin(cf);
 	}
 
-	private boolean queueExists(String queue){
+	private boolean queueExists(String queue) {
 		return admin.getQueueProperties(queue) != null;
 	}
 
-	public void sendMessageToUser(PrivateMessage message){
+	public void sendMessageToUser(PrivateMessage message) {
 		initializeConfigurations();
 
 		String queueName = getQueueName(message);
-		if(!queueExists(queueName)) {
+		if (!queueExists(queueName)) {
 			log.info("Queue is null, creating!");
 			createQueue(queueName);
 		}
