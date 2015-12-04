@@ -16,6 +16,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -48,7 +49,7 @@ public class Room implements Serializable {
 	@Column(nullable=false)
 	private String login;
 
-	@CreatedDate
+	@LastModifiedDate
 	@JsonIgnore
 	private Date updatedAt;
 

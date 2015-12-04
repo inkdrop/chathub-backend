@@ -77,7 +77,7 @@ public class User implements Serializable{
 	@LastModifiedDate
 	private Date updatedAt;
 
-	@ManyToMany()
+	@ManyToMany
 	@JoinTable(name="rooms_users", joinColumns={@JoinColumn(name="user_id")},
 				  inverseJoinColumns={@JoinColumn(name="room_id")})
 	private List<Room> rooms = new ArrayList<>();

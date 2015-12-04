@@ -79,7 +79,7 @@ public class RoomRouter {
 	}
 
 	private String getRoomId(Room room){
-		return "room."+room.getId();
+		return "room."+room.getUid();
 	}
 
 	private void initializeConfigurations() {

@@ -51,8 +51,8 @@ public class RoomsController {
 				userRepostitory.save(user);
 				return new ResponseEntity<String>("Joined", HttpStatus.OK);
 			} else
-				return new ResponseEntity<String>("Already added", HttpStatus.NOT_MODIFIED);
-		}catch(Exception e){
+				return new ResponseEntity<String>("Already joined", HttpStatus.NOT_MODIFIED);
+		} catch(Exception e) {
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

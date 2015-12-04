@@ -27,7 +27,6 @@ public class Message implements Serializable {
 	public Message() {}
 
 	public Message(String content) {
-		super();
 		this.content = content;
 	}
 

@@ -48,26 +48,25 @@ public class PrivateMessageRouter {
 			}
 		});
 
-		if (!container.isRunning()) {
+		if (!container.isRunning())
 			container.start();
-		}
 	}
 
-	private void createQueue(String roomId) {
-		Queue q = new Queue(roomId, false, false, true);
+	private void createQueue(String name) {
+		Queue q = new Queue(name, false, false, true);
 		DirectExchange roomExchange = new DirectExchange(USER_DIRECT_EXCHANGE, false, true);
 
 		admin.declareExchange(roomExchange);
 
 		admin.declareQueue(q);
 
-		admin.declareBinding(BindingBuilder.bind(q).to(roomExchange).with(roomId));
+		admin.declareBinding(BindingBuilder.bind(q).to(roomExchange).with(name));
 
 		addMessageListener(q);
 	}
 
 	private String getQueueName(PrivateMessage message){
-		return "pm."+message.getTo().getId();
+		return "pm."+message.getTo().getUid();
 	}
 
 	private void initializeConfigurations() {

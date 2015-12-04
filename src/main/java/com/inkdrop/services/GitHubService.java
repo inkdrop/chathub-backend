@@ -58,7 +58,7 @@ public class GitHubService {
 		user.setName(myself.getName());
 		user.setNickname(myself.getLogin());
 		user.setUid(myself.getId());
-		user.setUpdatedAt(null); // FIXME
+		user.setUpdatedAt(null); // FIXME Find out if there is a way to call save forcing and @PreUpdate
 
 		user = userRepository.save(user);
 		createReposFor(user, gh);

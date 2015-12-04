@@ -23,11 +23,11 @@ public class PrivateMessageDeserializer extends JsonDeserializer<PrivateMessage>
 			throws IOException, JsonProcessingException {
 		JsonNode node = parser.getCodec().readTree(parser);
 
-		User from = userRepository.findByUid(node.get("from").asInt());
 		User to = userRepository.findByUid(node.get("to").asInt());
 		String content = node.get("content").asText();
 
-		return new PrivateMessage(from, to, content);
+//		return new PrivateMessage(from, to, content);
+		return null;
 	}
 
 }
