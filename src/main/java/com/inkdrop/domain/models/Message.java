@@ -24,6 +24,7 @@ public class Message extends BasePersistable {
 	}
 
 	@ManyToOne
+	@JsonIgnore
 	private Room room;
 
 	@Column(nullable = false, columnDefinition = "TEXT")
