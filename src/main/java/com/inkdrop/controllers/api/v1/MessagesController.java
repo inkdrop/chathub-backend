@@ -28,9 +28,9 @@ public class MessagesController {
 			@RequestHeader("Auth-Token") String token){
 		try{
 			Message m = messageService.buildMessage(partialMessage, room, token);
-			messageService.saveAndSend(m);
+			m = messageService.saveAndSend(m);
 
-			return new ResponseEntity<>(HttpStatus.CREATED);
+			return new ResponseEntity<>(m, HttpStatus.CREATED);
 		}catch(Exception e){
 			e.printStackTrace();
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);

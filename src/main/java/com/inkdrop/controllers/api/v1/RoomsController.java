@@ -12,27 +12,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.models.User;
-import com.inkdrop.domain.repositories.RoomRepostitory;
+import com.inkdrop.domain.repositories.RoomRepository;
 import com.inkdrop.domain.repositories.UserRepository;
 import com.inkdrop.services.GitHubService;
+import com.inkdrop.services.RoomService;
 
 @RestController
 @EnableAutoConfiguration
 public class RoomsController {
 
 	@Autowired
-	RoomRepostitory roomRepostitory;
+	RoomRepository roomRepository;
 
 	@Autowired
 	GitHubService gitHubService;
 
 	@Autowired
-	UserRepository userRepostitory;
+	UserRepository userRepository;
+
+	@Autowired
+	RoomService roomService;
 
 	@RequestMapping(method = RequestMethod.GET, path="/v1/room/{name}")
 	public ResponseEntity<?> getRoomInformation(@PathVariable String name, @RequestHeader("Auth-Token") String token){
 		try {
-			Room room = roomRepostitory.findByLoginIgnoreCase(name);
+			Room room = getRoomByLogin(name);
 			if(room == null)
 				room = gitHubService.createRoom(name, getUserByBackendToken(token).getAccessToken());
 			return new ResponseEntity<Room>(room, HttpStatus.OK);
@@ -45,19 +49,20 @@ public class RoomsController {
 	public ResponseEntity<?> joinRoom(@PathVariable String name, @RequestHeader("Auth-Token") String token){
 		try{
 			User user = getUserByBackendToken(token);
-			Room room = roomRepostitory.findByLoginIgnoreCase(name);
-			if(!user.getRooms().contains(room)) {
-				user.getRooms().add(room);
-				userRepostitory.save(user);
-				return new ResponseEntity<String>("Joined", HttpStatus.OK);
-			} else
-				return new ResponseEntity<String>("Already joined", HttpStatus.NOT_MODIFIED);
+			Room room = getRoomByLogin(name);
+
+			roomService.joinRoom(user, room);
+			return new ResponseEntity<String>("Joined", HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	private Room getRoomByLogin(String name) {
+		return roomRepository.findByLoginIgnoreCase(name);
+	}
+
 	private User getUserByBackendToken(String token) {
-		return userRepostitory.findByBackendAccessToken(token);
+		return userRepository.findByBackendAccessToken(token);
 	}
 }

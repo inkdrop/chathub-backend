@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.models.User;
-import com.inkdrop.domain.repositories.RoomRepostitory;
+import com.inkdrop.domain.repositories.RoomRepository;
 import com.inkdrop.domain.repositories.UserRepository;
 
 @Component
@@ -23,7 +23,7 @@ public class GitHubService {
 	UserRepository userRepository;
 
 	@Autowired
-	RoomRepostitory roomRepostitory;
+	RoomRepository roomRepostitory;
 
 	private Logger log = LogManager.getLogger(GitHubService.class);
 

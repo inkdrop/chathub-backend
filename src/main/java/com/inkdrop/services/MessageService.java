@@ -7,7 +7,7 @@ import com.inkdrop.domain.models.Message;
 import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.repositories.MessageRepository;
-import com.inkdrop.domain.repositories.RoomRepostitory;
+import com.inkdrop.domain.repositories.RoomRepository;
 import com.inkdrop.domain.repositories.UserRepository;
 import com.inkdrop.routers.RoomRouter;
 
@@ -18,7 +18,7 @@ public class MessageService {
 	MessageRepository repository;
 
 	@Autowired
-	RoomRepostitory roomRepostitory;
+	RoomRepository roomRepostitory;
 
 	@Autowired
 	UserRepository userRepository;
@@ -26,9 +26,10 @@ public class MessageService {
 	@Autowired
 	RoomRouter router;
 
-	public void saveAndSend(Message message){
-		repository.save(message);
+	public Message saveAndSend(Message message){
+		message = repository.save(message);
 		router.sendMessageToRoom(message);
+		return message;
 	}
 
 	public void sendToAllRooms(String message) {

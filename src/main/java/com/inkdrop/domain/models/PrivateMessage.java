@@ -1,22 +1,13 @@
 package com.inkdrop.domain.models;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.springframework.data.annotation.CreatedDate;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.inkdrop.domain.deserializers.PrivateMessageDeserializer;
 import com.inkdrop.helpers.UUIDHelper;
@@ -24,13 +15,9 @@ import com.inkdrop.helpers.UUIDHelper;
 @Entity
 @Table(name="private_messages")
 @JsonDeserialize(using = PrivateMessageDeserializer.class)
-public class PrivateMessage implements Serializable {
-	private static final long serialVersionUID = -5159381602814102159L;
+public class PrivateMessage extends BasePersistable {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@JsonIgnore
-	private Long id;
+	private static final long serialVersionUID = 2438631648733992355L;
 
 	@ManyToOne
 	@JoinColumn(name="from_id")
@@ -43,9 +30,6 @@ public class PrivateMessage implements Serializable {
 	@Lob
 	private String content;
 
-	@CreatedDate
-	private Date sentAt;
-
 	@Column(nullable=false, unique=true, length=15)
 	private String uniqueId;
 
@@ -54,14 +38,6 @@ public class PrivateMessage implements Serializable {
 	}
 
 	public PrivateMessage() {}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public User getFrom() {
 		return from;
@@ -87,14 +63,6 @@ public class PrivateMessage implements Serializable {
 		this.content = content;
 	}
 
-	public Date getSentAt() {
-		return sentAt;
-	}
-
-	public void setSentAt(Date sentAt) {
-		this.sentAt = sentAt;
-	}
-
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
 	}
@@ -103,41 +71,16 @@ public class PrivateMessage implements Serializable {
 		return uniqueId;
 	}
 
+	@Override
 	@PrePersist
 	public void prePersist(){
-		if(sentAt == null)
-			sentAt = new Date();
+		super.prePersist();
 		if(uniqueId == null)
 			uniqueId = UUIDHelper.generateHash();
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (id == null ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PrivateMessage other = (PrivateMessage) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
 	public String toString() {
-		return "PrivateMessage [id=" + id + ", from=" + from + ", to=" + to + "]";
+		return "PrivateMessage [id=" + getId() + ", from=" + from + ", to=" + to + "]";
 	}
 }

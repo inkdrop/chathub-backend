@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.inkdrop.domain.models.PrivateMessage;
 import com.inkdrop.domain.models.User;
-import com.inkdrop.domain.repositories.PrivateMessageRepostiry;
+import com.inkdrop.domain.repositories.PrivateMessageRepository;
 import com.inkdrop.domain.repositories.UserRepository;
 import com.inkdrop.routers.PrivateMessageRouter;
 
@@ -13,7 +13,7 @@ import com.inkdrop.routers.PrivateMessageRouter;
 public class PrivateMessageService {
 
 	@Autowired
-	PrivateMessageRepostiry repository;
+	PrivateMessageRepository repository;
 
 	@Autowired
 	PrivateMessageRouter router;

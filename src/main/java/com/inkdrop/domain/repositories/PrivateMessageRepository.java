@@ -4,4 +4,4 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.inkdrop.domain.models.PrivateMessage;
 
-public interface PrivateMessageRepostiry extends CrudRepository<PrivateMessage, Long> {}
+public interface PrivateMessageRepository extends CrudRepository<PrivateMessage, Long> {}

@@ -10,13 +10,13 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.inkdrop.domain.models.Message;
-import com.inkdrop.domain.repositories.RoomRepostitory;
+import com.inkdrop.domain.repositories.RoomRepository;
 import com.inkdrop.domain.repositories.UserRepository;
 
 public class MessageDeserializer extends JsonDeserializer<Message> {
 
 	@Autowired
-	RoomRepostitory roomRepository;
+	RoomRepository roomRepository;
 
 	@Autowired
 	UserRepository userRepository;

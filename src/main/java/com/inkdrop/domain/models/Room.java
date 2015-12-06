@@ -1,22 +1,13 @@
 package com.inkdrop.domain.models;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.ManyToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,12 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name="rooms", indexes = {
 		@Index(unique=true, columnList="uid")
 })
-public class Room implements Serializable {
+public class Room extends BasePersistable {
 	private static final long serialVersionUID = -7119760968529447945L;
-
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	@JsonIgnore
-	private Long id;
 
 	@Column(nullable=false)
 	private String name;
@@ -49,25 +36,9 @@ public class Room implements Serializable {
 	@Column(nullable=false)
 	private String login;
 
-	@LastModifiedDate
-	@JsonIgnore
-	private Date updatedAt;
-
-	@CreatedDate
-	@JsonIgnore
-	private Date createdAt;
-
 	@ManyToMany(mappedBy="rooms")
 	@JsonIgnore
 	private List<User> users = new ArrayList<>();
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -117,22 +88,6 @@ public class Room implements Serializable {
 		this.login = login;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
 	public List<User> getUsers() {
 		return users;
 	}
@@ -141,17 +96,9 @@ public class Room implements Serializable {
 		this.users = users;
 	}
 
-	@PrePersist
-	public void prePersist(){
-		if(createdAt == null)
-			createdAt = new Date();
-
-		updatedAt = new Date();
-	}
-
 	@Override
 	public String toString() {
-		return "Room [id=" + id + ", name=" + name + "]";
+		return "Room [id=" + getId() + ", name=" + name + "]";
 	}
 
 }
