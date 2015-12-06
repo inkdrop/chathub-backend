@@ -30,7 +30,7 @@ public class MessagesController {
 			Message m = messageService.buildMessage(partialMessage, room, token);
 			m = messageService.saveAndSend(m);
 
-			return new ResponseEntity<>(m, HttpStatus.CREATED);
+			return new ResponseEntity<>(HttpStatus.CREATED);
 		}catch(Exception e){
 			e.printStackTrace();
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);

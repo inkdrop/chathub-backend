@@ -9,7 +9,7 @@ import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.repositories.MessageRepository;
 import com.inkdrop.domain.repositories.RoomRepository;
 import com.inkdrop.domain.repositories.UserRepository;
-import com.inkdrop.routers.RoomRouter;
+import com.inkdrop.routers.MessageRouter;
 
 @Component
 public class MessageService {
@@ -24,7 +24,7 @@ public class MessageService {
 	UserRepository userRepository;
 
 	@Autowired
-	RoomRouter router;
+	MessageRouter router;
 
 	public Message saveAndSend(Message message){
 		message = repository.save(message);

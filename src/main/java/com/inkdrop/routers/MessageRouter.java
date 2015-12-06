@@ -22,7 +22,7 @@ import com.inkdrop.domain.presenters.MessagePresenter;
 import com.rabbitmq.client.Channel;
 
 @Component
-public class RoomRouter {
+public class MessageRouter {
 
 	private static final String ROOM_DIRECT_EXCHANGE = "room-direct-exchange";
 	private static final String ROOM_FANOUT_EXCHANGE = "room-fanout-exchange";
@@ -33,7 +33,7 @@ public class RoomRouter {
 	@Autowired
 	private SimpMessagingTemplate webSocket;
 
-	private Logger log = LogManager.getLogger(RoomRouter.class);
+	private Logger log = LogManager.getLogger(MessageRouter.class);
 
 	private RabbitAdmin admin;
 	private ConnectionFactory cf;
@@ -46,7 +46,7 @@ public class RoomRouter {
 		container.setMessageListener(new MessageListenerAdapter(){
 			@Override
 			public void onMessage(org.springframework.amqp.core.Message message, Channel channel) throws Exception {
-				log.info(message);
+				log.info(new String(message.getBody()));
 
 				MessageProperties props = message.getMessageProperties();
 				if(props.getReceivedExchange().equals(ROOM_FANOUT_EXCHANGE)){

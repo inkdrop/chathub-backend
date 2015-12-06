@@ -16,6 +16,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import com.inkdrop.domain.models.PrivateMessage;
+import com.inkdrop.domain.presenters.PrivateMessagePresenter;
 import com.rabbitmq.client.Channel;
 
 @Component
@@ -87,6 +88,7 @@ public class PrivateMessageRouter {
 			createQueue(queueName);
 		}
 
-		template.convertAndSend(USER_DIRECT_EXCHANGE, queueName, message);
+		String messageJson = new PrivateMessagePresenter(message).toJson();
+		template.convertAndSend(USER_DIRECT_EXCHANGE, queueName, messageJson);
 	}
 }
