@@ -7,7 +7,6 @@ import com.inkdrop.domain.presenters.jsonModels.MessageToJson;
 
 public class MessagePresenter {
 	private Message message;
-
 	public MessagePresenter(Message message) {
 		this.message = message;
 	}

@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.inkdrop.domain.deserializers.MessageDeserializer;
-import com.inkdrop.helpers.UUIDHelper;
+import com.inkdrop.helpers.TokenGeneratorHelper;
 
 @Entity
 @JsonDeserialize(using = MessageDeserializer.class)
@@ -35,7 +35,7 @@ public class Message extends BasePersistable {
 	private User sender;
 
 	@Column(nullable = false, unique = true, length = 15)
-	private String uniqueId;
+	private String uid;
 
 	public Room getRoom() {
 		return room;
@@ -61,20 +61,20 @@ public class Message extends BasePersistable {
 		this.sender = sender;
 	}
 
-	public String getUniqueId() {
-		return uniqueId;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setUniqueId(String uniqueId) {
-		this.uniqueId = uniqueId;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 	@Override
 	@PrePersist
 	public void prePersist() {
 		super.prePersist();
-		if (uniqueId == null)
-			uniqueId = UUIDHelper.generateHash();
+		if (uid == null)
+			uid = TokenGeneratorHelper.randomString(15);
 	}
 
 	@Override

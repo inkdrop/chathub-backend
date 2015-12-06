@@ -28,7 +28,7 @@ public class PrivateMessagesController {
 		try {
 			PrivateMessage pm = service.buildMessage(message, uid, token);
 			service.saveAndSend(pm);
-			return new ResponseEntity<String>("Sent", HttpStatus.CREATED);
+			return new ResponseEntity<String>(HttpStatus.CREATED);
 		} catch(Exception e) {
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

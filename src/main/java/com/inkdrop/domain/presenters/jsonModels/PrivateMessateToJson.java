@@ -10,7 +10,7 @@ public class PrivateMessateToJson {
 	private Date createdAt;
 
 	public PrivateMessateToJson(PrivateMessage message) {
-		uid = message.getUniqueId();
+		uid = message.getUid();
 		sender = new UserToJson(message.getFrom());
 		createdAt = message.getCreatedAt();
 		content = message.getContent();

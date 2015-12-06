@@ -52,7 +52,7 @@ public class RoomsController {
 			Room room = getRoomByLogin(name);
 
 			roomService.joinRoom(user, room);
-			return new ResponseEntity<String>("Joined", HttpStatus.OK);
+			return new ResponseEntity<String>(HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

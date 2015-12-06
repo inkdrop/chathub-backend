@@ -12,7 +12,7 @@ public class MessageToJson {
 	public MessageToJson(Message message) {
 		content = message.getContent();
 		user = new UserToJson(message.getSender());
-		uid = message.getUniqueId();
+		uid = message.getUid();
 		createdAt = message.getCreatedAt();
 	}
 

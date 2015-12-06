@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.inkdrop.domain.deserializers.PrivateMessageDeserializer;
-import com.inkdrop.helpers.UUIDHelper;
+import com.inkdrop.helpers.TokenGeneratorHelper;
 
 @Entity
 @Table(name="private_messages")
@@ -31,7 +31,7 @@ public class PrivateMessage extends BasePersistable {
 	private String content;
 
 	@Column(nullable=false, unique=true, length=15)
-	private String uniqueId;
+	private String uid;
 
 	public PrivateMessage(String content) {
 		this.content = content;
@@ -63,20 +63,20 @@ public class PrivateMessage extends BasePersistable {
 		this.content = content;
 	}
 
-	public void setUniqueId(String uniqueId) {
-		this.uniqueId = uniqueId;
+	public String getUid() {
+		return uid;
 	}
 
-	public String getUniqueId() {
-		return uniqueId;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 	@Override
 	@PrePersist
 	public void prePersist(){
 		super.prePersist();
-		if(uniqueId == null)
-			uniqueId = UUIDHelper.generateHash();
+		if(uid == null)
+			uid = TokenGeneratorHelper.randomString(15);
 	}
 
 	@Override
