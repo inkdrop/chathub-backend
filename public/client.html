@@ -29,6 +29,11 @@
                     messageList.append("<li>" + message + "</li>");
                 });
                 
+                stompClient.subscribe("/pm.2111892", function(data) {
+                    var message = data.body;
+                    messageList.append("<li>" + message + "</li>");
+                });
+                
             });
         });
     </script>

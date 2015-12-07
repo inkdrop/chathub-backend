@@ -45,7 +45,8 @@ public class PrivateMessageRouter {
 			public void onMessage(org.springframework.amqp.core.Message message, Channel channel) throws Exception {
 				log.info(message);
 				MessageProperties props = message.getMessageProperties();
-				webSocket.convertAndSend(props.getReceivedRoutingKey(), message);
+				String user = "/".concat(props.getReceivedRoutingKey());
+				webSocket.convertAndSend(user, new String(message.getBody()));
 			}
 		});
 
