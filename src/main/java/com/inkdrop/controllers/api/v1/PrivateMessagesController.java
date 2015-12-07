@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inkdrop.controllers.api.Params;
+import com.inkdrop.controllers.api.models.Params;
 import com.inkdrop.domain.models.PrivateMessage;
 import com.inkdrop.services.PrivateMessageService;
 

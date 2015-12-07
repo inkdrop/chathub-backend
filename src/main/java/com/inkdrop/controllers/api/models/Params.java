@@ -1,4 +1,4 @@
-package com.inkdrop.controllers.api;
+package com.inkdrop.controllers.api.models;
 
 import java.io.Serializable;
 
