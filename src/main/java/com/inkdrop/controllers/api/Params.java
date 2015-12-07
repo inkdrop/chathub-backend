@@ -2,6 +2,11 @@ package com.inkdrop.controllers.api;
 
 import java.io.Serializable;
 
+/**
+ * Class used to receive params from requests (@RequestBody)
+ * @author luizkowalski
+ *
+ */
 public class Params implements Serializable {
 	private static final long serialVersionUID = 6961393145500932303L;
 
