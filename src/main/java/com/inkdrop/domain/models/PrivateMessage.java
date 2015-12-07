@@ -3,18 +3,14 @@ package com.inkdrop.domain.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.inkdrop.domain.deserializers.PrivateMessageDeserializer;
 import com.inkdrop.helpers.TokenGeneratorHelper;
 
 @Entity
 @Table(name="private_messages")
-@JsonDeserialize(using = PrivateMessageDeserializer.class)
 public class PrivateMessage extends BasePersistable {
 
 	private static final long serialVersionUID = 2438631648733992355L;
@@ -27,7 +23,7 @@ public class PrivateMessage extends BasePersistable {
 	@JoinColumn(name="to_id")
 	private User to;
 
-	@Lob
+	@Column(nullable = false, columnDefinition = "TEXT")
 	private String content;
 
 	@Column(nullable=false, unique=true, length=15)

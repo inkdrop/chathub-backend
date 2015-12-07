@@ -26,13 +26,18 @@ public class PrivateMessageService {
 		router.sendMessageToUser(message);
 	}
 
-	public PrivateMessage buildMessage(PrivateMessage partialMessage, Integer uidDestination, String token) {
+	public PrivateMessage buildMessage(String content, Integer uidDestination, String token) throws Exception {
 		User destination = userRepository.findByUid(uidDestination);
 		User sender = userRepository.findByBackendAccessToken(token);
 
-		partialMessage.setTo(destination);
-		partialMessage.setFrom(sender);
+		if(sender.equals(destination))
+			throw new Exception("You can't send yourself a message!");
 
-		return partialMessage;
+		PrivateMessage pm = new PrivateMessage();
+		pm.setTo(destination);
+		pm.setFrom(sender);
+		pm.setContent(content);
+
+		return pm;
 	}
 }

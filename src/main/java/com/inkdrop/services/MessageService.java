@@ -36,14 +36,15 @@ public class MessageService {
 		router.sendToAllRooms(message);
 	}
 
-	public Message buildMessage(Message partialMessage, String room, String token) {
+	public Message buildMessage(String content, String room, String token) {
 		Room r = roomRepostitory.findByLoginIgnoreCase(room);
 		User u = userRepository.findByBackendAccessToken(token);
 
-		partialMessage.setRoom(r);
-		partialMessage.setSender(u);
+		Message m = new Message();
+		m.setRoom(r);
+		m.setSender(u);
+		m.setContent(content);
 
-		return partialMessage;
-
+		return m;
 	}
 }

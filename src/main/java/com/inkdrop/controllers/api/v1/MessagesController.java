@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inkdrop.controllers.api.Params;
 import com.inkdrop.domain.models.Message;
 import com.inkdrop.services.MessageService;
 
@@ -24,10 +25,10 @@ public class MessagesController {
 
 	@RequestMapping(method = RequestMethod.POST, path="/v1/message/{room}")
 	public ResponseEntity<?> receiveMessage(@PathVariable String room,
-			@RequestBody Message partialMessage,
+			@RequestBody Params params,
 			@RequestHeader("Auth-Token") String token){
 		try{
-			Message m = messageService.buildMessage(partialMessage, room, token);
+			Message m = messageService.buildMessage(params.getContent(), room, token);
 			m = messageService.saveAndSend(m);
 
 			return new ResponseEntity<>(HttpStatus.CREATED);

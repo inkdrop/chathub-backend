@@ -7,12 +7,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.inkdrop.domain.deserializers.MessageDeserializer;
 import com.inkdrop.helpers.TokenGeneratorHelper;
 
 @Entity
-@JsonDeserialize(using = MessageDeserializer.class)
 @Table(name = "messages")
 public class Message extends BasePersistable {
 	private static final long serialVersionUID = -5293724621181603251L;
