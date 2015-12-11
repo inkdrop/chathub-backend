@@ -12,8 +12,8 @@ public class PrivateMessateToJson {
 	public PrivateMessateToJson(PrivateMessage message) {
 		uid = message.getUid();
 		sender = new UserToJson(message.getFrom());
-		createdAt = message.getCreatedAt();
 		content = message.getContent();
+		createdAt = message.getCreatedAt();
 	}
 
 	public String getContent() {

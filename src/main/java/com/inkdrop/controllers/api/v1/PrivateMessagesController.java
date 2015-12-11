@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.controllers.api.models.Params;
-import com.inkdrop.domain.models.PrivateMessage;
 import com.inkdrop.services.PrivateMessageService;
 
 @RestController
@@ -27,8 +26,7 @@ public class PrivateMessagesController {
 			@PathVariable Integer uid,
 			@RequestHeader("Auth-Token") String token){
 		try {
-			PrivateMessage pm = service.buildMessage(param.getContent(), uid, token);
-			service.saveAndSend(pm);
+			service.saveAndSend(service.buildMessage(param.getContent(), uid, token));
 			return new ResponseEntity<String>(HttpStatus.CREATED);
 		} catch(Exception e) {
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
