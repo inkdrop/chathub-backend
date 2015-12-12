@@ -5,6 +5,7 @@ import com.inkdrop.domain.models.User;
 public class UserToJson {
 	private String avatar, login, name;
 	private Integer uid;
+
 	public String getAvatar() {
 		return avatar;
 	}
@@ -36,5 +37,4 @@ public class UserToJson {
 		name = user.getName();
 		uid = user.getUid();
 	}
-
 }

@@ -12,12 +12,12 @@ public class RoomToJson {
 	private List<String> users;
 
 	public RoomToJson(Room room) {
-		name = room.getName();
-		avatar = room.getAvatar();
-		login = room.getLogin();
-		company = room.getCompany();
-		blog = room.getBlog();
 		uid = room.getUid();
+		login = room.getLogin();
+		avatar = room.getAvatar();
+		name = room.getName();
+		blog = room.getBlog();
+		company = room.getCompany();
 		users = room.getUsers().stream().map(u -> u.getNickname()).collect(Collectors.toList());
 	}
 
@@ -76,5 +76,4 @@ public class RoomToJson {
 	public void setUsers(List<String> users) {
 		this.users = users;
 	}
-
 }
