@@ -23,7 +23,7 @@
             var stompClient = Stomp.over(socket);
 
             stompClient.connect({ }, function(frame) {
-                // subscribe to the /topic/message endpoint
+                // subscribe to the /room.uid endpoint
                 stompClient.subscribe("/room.1247016", function(data) {
                     var message = data.body;
                     messageList.append("<li>" + message + "</li>");
