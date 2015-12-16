@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ConfigurationProperties(prefix = "params.datasource")
-public class JpaConfig extends HikariConfig {
+public class DataSourceConfiguration extends HikariConfig {
 
     @Bean
     public DataSource dataSource() throws SQLException {

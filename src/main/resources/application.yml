@@ -15,6 +15,7 @@ params:
     username: postgres
     password: postgres
     maximumPoolSize: 10
+    poolName: hikari_pool
 
 spring.jpa:
   show-sql: true
