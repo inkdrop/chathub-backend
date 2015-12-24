@@ -61,11 +61,11 @@ public class GitHubService {
 		user.setUpdatedAt(null); // FIXME Find out if there is a way to call save forcing and @PreUpdate
 
 		user = userRepository.save(user);
-		createReposFor(user, gh);
+		createOrgsFor(user, gh);
 		return user;
 	}
 
-	private void createReposFor(User user, GitHub gh) throws IOException {
+	private void createOrgsFor(User user, GitHub gh) throws IOException {
 		user.getRooms().clear();
 		for(GHOrganization org : gh.getMyself().getAllOrganizations()){
 			Room room = roomRepostitory.findByUid(org.getId());

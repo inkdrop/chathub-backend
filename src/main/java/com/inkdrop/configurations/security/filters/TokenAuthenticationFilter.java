@@ -1,4 +1,4 @@
-package com.inkdrop.security.filters;
+package com.inkdrop.configurations.security.filters;
 
 import java.io.IOException;
 
@@ -39,7 +39,7 @@ public class TokenAuthenticationFilter implements Filter {
 
 		if(backendToken == null){
 			log.info("Token is null");
-			servletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
+			servletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "No token given");
 			return;
 		}
 		if(userRepository.findByBackendAccessToken(backendToken) == null){
@@ -47,6 +47,7 @@ public class TokenAuthenticationFilter implements Filter {
 			servletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
 			return;
 		}
+
 		chain.doFilter(request, response);
 	}
 
