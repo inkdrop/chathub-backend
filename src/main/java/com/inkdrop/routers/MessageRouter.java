@@ -23,7 +23,6 @@ import com.rabbitmq.client.Channel;
 
 @Component
 public class MessageRouter {
-
 	private static final String ROOM_DIRECT_EXCHANGE = "room-direct-exchange";
 	private static final String ROOM_FANOUT_EXCHANGE = "room-fanout-exchange";
 
