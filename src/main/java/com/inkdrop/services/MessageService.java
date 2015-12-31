@@ -32,10 +32,6 @@ public class MessageService {
 		return message;
 	}
 
-	public void sendToAllRooms(String message) {
-		router.sendToAllRooms(message);
-	}
-
 	public Message buildMessage(String content, String room, String token) {
 		Room r = roomRepostitory.findByLoginIgnoreCase(room);
 		User u = userRepository.findByBackendAccessToken(token);

@@ -102,8 +102,4 @@ public class MessageRouter {
 		String json = new MessagePresenter(message).toJson();
 		template.convertAndSend(ROOM_DIRECT_EXCHANGE, rid, json);
 	}
-
-	public void sendToAllRooms(String message){
-		template.convertAndSend(ROOM_FANOUT_EXCHANGE, "", message);
-	}
 }

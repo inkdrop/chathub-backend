@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.controllers.api.models.Params;
@@ -23,20 +22,15 @@ public class MessagesController {
 	MessageService messageService;
 
 	@RequestMapping(method = RequestMethod.POST, path="/v1/message/{room}")
-	public ResponseEntity<?> receiveMessage(@PathVariable String room,
+	public ResponseEntity<?> sendMessageToRoom(@PathVariable String room,
 			@RequestBody Params params,
 			@RequestHeader("Auth-Token") String token){
 		try{
 			messageService.saveAndSend(messageService.buildMessage(params.getContent(), room, token));
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		}catch(Exception e){
-			e.printStackTrace();
+			e.printStackTrace(); // TODO fix this
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-	}
-
-	@RequestMapping(method = RequestMethod.POST, path="/v1/message/rooms")
-	public void receiveMessageAll(@RequestParam String message, @RequestHeader("Auth-Token") String token){
-		messageService.sendToAllRooms(message);
 	}
 }
