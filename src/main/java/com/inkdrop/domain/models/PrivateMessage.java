@@ -15,11 +15,11 @@ public class PrivateMessage extends BasePersistable {
 
 	private static final long serialVersionUID = 2438631648733992355L;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name="from_id")
 	private User from;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name="to_id")
 	private User to;
 

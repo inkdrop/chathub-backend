@@ -20,14 +20,14 @@ public class Message extends BasePersistable {
 		this.content = content;
 	}
 
-	@ManyToOne
+	@ManyToOne(optional=false)
 	@JsonIgnore
 	private Room room;
 
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String content;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JsonIgnore
 	private User sender;
 
