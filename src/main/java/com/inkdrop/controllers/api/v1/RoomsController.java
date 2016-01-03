@@ -76,7 +76,7 @@ public class RoomsController {
 	public ResponseEntity<?> findLast10Messages(@PathVariable String name){
 		try{
 			Room room = getRoomByLogin(name);
-			List<Message> messages = messageRepository.findLast10ByRoom(room);
+			List<Message> messages = messageRepository.findLast10ByRoomOrderByIdAsc(room);
 			List<MessageToJson> response = formatMessages(messages);
 
 			return new ResponseEntity<List<MessageToJson>>(response, HttpStatus.OK);

@@ -9,5 +9,5 @@ import com.inkdrop.domain.models.Room;
 
 public interface MessageRepository extends CrudRepository<Message, Long> {
 	List<Message> findByRoom(Room room);
-	List<Message> findLast10ByRoom(Room room);
+	List<Message> findLast10ByRoomOrderByIdAsc(Room room);
 }
