@@ -1,4 +1,4 @@
-package com.inkdrop.configurations;
+package com.inkdrop.configurations.datasource;
 
 import java.sql.SQLException;
 
