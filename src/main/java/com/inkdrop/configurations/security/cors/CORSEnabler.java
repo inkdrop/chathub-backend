@@ -11,6 +11,8 @@ public class CORSEnabler extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/v1/**").allowedOrigins("http://127.0.0.1:3000");
+		registry
+		.addMapping("/v1/**")
+		.allowedOrigins("http://127.0.0.1:3000", "http://usechathub.herokuapp.com");
 	}
 }

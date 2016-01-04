@@ -10,6 +10,7 @@ public class RoomToJson {
 	private String name, avatar, login, company, blog;
 	private Integer uid;
 	private List<String> users;
+	private Integer count = 0;
 
 	public RoomToJson(Room room) {
 		uid = room.getUid();
@@ -19,6 +20,7 @@ public class RoomToJson {
 		blog = room.getBlog();
 		company = room.getCompany();
 		users = room.getUsers().stream().map(u -> u.getNickname()).collect(Collectors.toList());
+		count = room.getMessages().size();
 	}
 
 	public String getName() {
@@ -75,5 +77,13 @@ public class RoomToJson {
 
 	public void setUsers(List<String> users) {
 		this.users = users;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
 	}
 }

@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,6 +40,10 @@ public class Room extends BasePersistable {
 	@ManyToMany(mappedBy="rooms")
 	@JsonIgnore
 	private List<User> users = new ArrayList<>();
+
+	@OneToMany(mappedBy="room")
+	@JsonIgnore
+	private List<Message> messages = new ArrayList<>();
 
 	public String getName() {
 		return name;
@@ -94,6 +99,14 @@ public class Room extends BasePersistable {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.presenters.RoomPresenter;
 import com.inkdrop.domain.presenters.jsonModels.MessageToJson;
+import com.inkdrop.domain.presenters.jsonModels.RoomToJson;
 import com.inkdrop.domain.repositories.MessageRepository;
 import com.inkdrop.domain.repositories.RoomRepository;
 import com.inkdrop.domain.repositories.UserRepository;
@@ -50,9 +51,21 @@ public class RoomsController {
 			if(room == null)
 				room = gitHubService.createRoom(name, getUserByBackendToken(token).getAccessToken());
 			String roomJson = new RoomPresenter(room).toJson();
+			joinRoom(room.getLogin(), token);
 
 			return new ResponseEntity<String>(roomJson, HttpStatus.OK);
 		} catch (Exception e) {
+			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms")
+	public ResponseEntity<?> getRoomsFromUser(@RequestHeader("Auth-Token") String token){
+		try{
+			User user = getUserByBackendToken(token);
+			List<RoomToJson> rooms = roomService.mapToJson(user.getRooms());
+			return new ResponseEntity<List<RoomToJson>>(rooms, HttpStatus.OK);
+		} catch (Exception e){
 			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}

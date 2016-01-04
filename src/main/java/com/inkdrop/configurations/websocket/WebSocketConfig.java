@@ -14,7 +14,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// the endpoint for websocket connections
 		registry.addEndpoint("/stomp")
-		.setAllowedOrigins("http://127.0.0.1:3000")
+		.setAllowedOrigins("http://127.0.0.1:3000", "http://usechathub.herokuapp.com")
 		.withSockJS();
 	}
 
