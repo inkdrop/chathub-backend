@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.controllers.api.models.Params;
+import com.inkdrop.domain.models.PrivateMessage;
 import com.inkdrop.services.PrivateMessageService;
+import com.inkdrop.services.UserService;
 
 @RestController
 @EnableAutoConfiguration
@@ -21,12 +23,20 @@ public class PrivateMessagesController {
 	@Autowired
 	PrivateMessageService service;
 
+	@Autowired
+	UserService userService;
+
 	@RequestMapping(method = RequestMethod.POST, path="/v1/private_message/{uid}")
 	public ResponseEntity<?> receiveMessage(@RequestBody Params param,
 			@PathVariable Integer uid,
 			@RequestHeader("Auth-Token") String token){
 		try {
-			service.saveAndSend(service.buildMessage(param.getContent(), uid, token));
+			PrivateMessage privateMessage = service.buildMessage(param.getContent(),
+					userService.findByUid(uid),
+					userService.findByBackendToken(token));
+
+			service.saveAndSend(privateMessage);
+
 			return new ResponseEntity<String>(HttpStatus.CREATED);
 		} catch(Exception e) {
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);

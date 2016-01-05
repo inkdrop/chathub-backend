@@ -10,6 +10,7 @@ import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.presenters.jsonModels.RoomToJson;
 import com.inkdrop.domain.repositories.MessageRepository;
+import com.inkdrop.domain.repositories.RoomRepository;
 import com.inkdrop.domain.repositories.UserRepository;
 
 @Component
@@ -20,6 +21,13 @@ public class RoomService {
 
 	@Autowired
 	MessageRepository messageRepository;
+
+	@Autowired
+	RoomRepository roomRepository;
+
+	public Room findByLogin(String login){
+		return roomRepository.findByLoginIgnoreCase(login);
+	}
 
 	public void joinRoom(User user, Room room){
 		if(!user.getRooms().contains(room)) {

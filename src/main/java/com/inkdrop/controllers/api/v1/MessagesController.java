@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.controllers.api.models.Params;
+import com.inkdrop.domain.models.Message;
 import com.inkdrop.services.MessageService;
+import com.inkdrop.services.RoomService;
+import com.inkdrop.services.UserService;
 
 @RestController
 @EnableAutoConfiguration
@@ -21,12 +24,23 @@ public class MessagesController {
 	@Autowired
 	MessageService messageService;
 
+	@Autowired
+	RoomService roomService;
+
+	@Autowired
+	UserService userService;
+
 	@RequestMapping(method = RequestMethod.POST, path="/v1/message/{room}")
 	public ResponseEntity<?> sendMessageToRoom(@PathVariable String room,
 			@RequestBody Params params,
 			@RequestHeader("Auth-Token") String token){
 		try{
-			messageService.saveAndSend(messageService.buildMessage(params.getContent(), room, token));
+			Message m = messageService.buildMessage(params.getContent(),
+					roomService.findByLogin(room),
+					userService.findByBackendToken(token));
+
+			messageService.saveAndSend(m);
+
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		}catch(Exception e){
 			e.printStackTrace(); // TODO fix this
