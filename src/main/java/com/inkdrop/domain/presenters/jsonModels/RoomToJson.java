@@ -20,7 +20,6 @@ public class RoomToJson {
 		blog = room.getBlog();
 		company = room.getCompany();
 		users = room.getUsers().stream().map(u -> u.getNickname()).collect(Collectors.toList());
-		count = room.getMessages().size();
 	}
 
 	public String getName() {

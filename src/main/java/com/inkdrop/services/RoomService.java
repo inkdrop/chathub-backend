@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.presenters.jsonModels.RoomToJson;
+import com.inkdrop.domain.repositories.MessageRepository;
 import com.inkdrop.domain.repositories.UserRepository;
 
 @Component
@@ -16,6 +17,9 @@ public class RoomService {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	MessageRepository messageRepository;
 
 	public void joinRoom(User user, Room room){
 		if(!user.getRooms().contains(room)) {
@@ -26,8 +30,12 @@ public class RoomService {
 
 	public List<RoomToJson> mapToJson(List<Room> rooms) {
 		List<RoomToJson> roomsJson = new ArrayList<>();
-		for (Room r : rooms)
-			roomsJson.add(new RoomToJson(r));
+		for (Room r : rooms) {
+			RoomToJson rjs = new RoomToJson(r);
+			rjs.setCount(messageRepository.countByRoom(r)); // Using SQL to count instead count on list
+
+			roomsJson.add(rjs);
+		}
 
 		return roomsJson;
 	}
