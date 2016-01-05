@@ -14,7 +14,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="rooms", indexes = {
-		@Index(unique=true, columnList="uid")
+		@Index(unique=true, columnList="uid"),
+		@Index(columnList="uid"),
+		@Index(columnList="login")
 })
 public class Room extends BasePersistable {
 	private static final long serialVersionUID = -7119760968529447945L;
