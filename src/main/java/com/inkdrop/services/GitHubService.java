@@ -66,7 +66,6 @@ public class GitHubService {
 	}
 
 	private void createOrgsFor(User user, GitHub gh) throws IOException {
-		user.getRooms().clear();
 		for(GHOrganization org : gh.getMyself().getAllOrganizations()){
 			Room room = roomRepostitory.findByUid(org.getId());
 			if(room == null)
