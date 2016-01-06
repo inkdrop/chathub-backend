@@ -19,30 +19,26 @@ import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.presenters.RoomPresenter;
 import com.inkdrop.domain.presenters.jsonModels.MessageToJson;
 import com.inkdrop.domain.presenters.jsonModels.RoomToJson;
-import com.inkdrop.domain.repositories.MessageRepository;
-import com.inkdrop.domain.repositories.RoomRepository;
-import com.inkdrop.domain.repositories.UserRepository;
 import com.inkdrop.services.GitHubService;
+import com.inkdrop.services.MessageService;
 import com.inkdrop.services.RoomService;
+import com.inkdrop.services.UserService;
 
 @RestController
 @EnableAutoConfiguration
 public class RoomsController {
 
 	@Autowired
-	RoomRepository roomRepository;
-
-	@Autowired
 	GitHubService gitHubService;
 
 	@Autowired
-	UserRepository userRepository;
+	UserService userService;
 
 	@Autowired
 	RoomService roomService;
 
 	@Autowired
-	MessageRepository messageRepository;
+	MessageService messageService;
 
 	@RequestMapping(method = RequestMethod.GET, path="/v1/room/{name}")
 	public ResponseEntity<?> getRoomInformation(@PathVariable String name, @RequestHeader("Auth-Token") String token){
@@ -87,7 +83,7 @@ public class RoomsController {
 	public ResponseEntity<?> findLast10Messages(@PathVariable String name){
 		try{
 			Room room = getRoomByLogin(name);
-			List<Message> messages = messageRepository.findLast10ByRoomOrderByIdAsc(room);
+			List<Message> messages = messageService.findLast10(room);
 			List<MessageToJson> response = formatMessages(messages);
 
 			return new ResponseEntity<List<MessageToJson>>(response, HttpStatus.OK);
@@ -106,10 +102,10 @@ public class RoomsController {
 	}
 
 	private Room getRoomByLogin(String name) {
-		return roomRepository.findByLoginIgnoreCase(name);
+		return roomService.findByLogin(name);
 	}
 
 	private User getUserByBackendToken(String token) {
-		return userRepository.findByBackendAccessToken(token);
+		return userService.findByBackendToken(token);
 	}
 }

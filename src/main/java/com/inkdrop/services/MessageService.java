@@ -1,5 +1,7 @@
 package com.inkdrop.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,5 +34,9 @@ public class MessageService {
 		m.setContent(content);
 
 		return m;
+	}
+
+	public List<Message> findLast10(Room room) {
+		return repository.findLast10ByRoomOrderByIdAsc(room);
 	}
 }
