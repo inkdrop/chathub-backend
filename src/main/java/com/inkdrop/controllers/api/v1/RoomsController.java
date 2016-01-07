@@ -102,7 +102,6 @@ public class RoomsController {
 			return new ResponseEntity<List<MessageToJson>>(response, HttpStatus.OK);
 		} catch(Exception e){
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
-
 		}
 	}
 
