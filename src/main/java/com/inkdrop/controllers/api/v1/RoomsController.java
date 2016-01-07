@@ -79,6 +79,19 @@ public class RoomsController {
 		}
 	}
 
+	@RequestMapping(method = RequestMethod.POST, path="/v1/room/{name}/leave")
+	public ResponseEntity<?> leaveRoom(@PathVariable String name, @RequestHeader("Auth-Token") String token){
+		try{
+			User user = getUserByBackendToken(token);
+			Room room = getRoomByLogin(name);
+
+			roomService.leave(user, room);
+			return new ResponseEntity<String>(HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+
 	@RequestMapping(method = RequestMethod.GET, path="/v1/room/{name}/messages")
 	public ResponseEntity<?> findLast10Messages(@PathVariable String name){
 		try{

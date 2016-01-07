@@ -47,4 +47,9 @@ public class RoomService {
 
 		return roomsJson;
 	}
+
+	public void leave(User user, Room room) {
+		user.getRooms().remove(room);
+		userRepository.save(user);
+	}
 }
