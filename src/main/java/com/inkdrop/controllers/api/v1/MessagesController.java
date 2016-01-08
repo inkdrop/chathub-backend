@@ -30,7 +30,7 @@ public class MessagesController {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping(method = RequestMethod.POST, path="/v1/message/{room}")
+	@RequestMapping(method = RequestMethod.POST, path="/v1/messages/{room}")
 	public ResponseEntity<?> sendMessageToRoom(@PathVariable String room,
 			@RequestBody Params params,
 			@RequestHeader("Auth-Token") String token){

@@ -40,7 +40,7 @@ public class RoomsController {
 	@Autowired
 	MessageService messageService;
 
-	@RequestMapping(method = RequestMethod.GET, path="/v1/room/{name}")
+	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{name}")
 	public ResponseEntity<?> getRoomInformation(@PathVariable String name, @RequestHeader("Auth-Token") String token){
 		try {
 			Room room = getRoomByLogin(name);
@@ -66,7 +66,7 @@ public class RoomsController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, path="/v1/room/{name}/join")
+	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{name}/join")
 	public ResponseEntity<?> joinRoom(@PathVariable String name, @RequestHeader("Auth-Token") String token){
 		try{
 			User user = getUserByBackendToken(token);
@@ -79,7 +79,7 @@ public class RoomsController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, path="/v1/room/{name}/leave")
+	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{name}/leave")
 	public ResponseEntity<?> leaveRoom(@PathVariable String name, @RequestHeader("Auth-Token") String token){
 		try{
 			User user = getUserByBackendToken(token);
@@ -92,7 +92,7 @@ public class RoomsController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, path="/v1/room/{name}/messages")
+	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{name}/messages")
 	public ResponseEntity<?> findLast10Messages(@PathVariable String name){
 		try{
 			Room room = getRoomByLogin(name);
