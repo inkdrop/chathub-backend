@@ -24,7 +24,7 @@ public class Room extends BasePersistable {
 	@Column(nullable=false)
 	private String name;
 
-	@Column(nullable=false)
+	@Column(nullable=false, unique = true)
 	private Integer uid;
 
 	@Column

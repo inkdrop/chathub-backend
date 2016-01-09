@@ -13,8 +13,7 @@ import com.inkdrop.helpers.TokenGeneratorHelper;
 @Entity
 @Table(name = "messages", indexes={
 		@Index(columnList="room_id", name="room_index"),
-		@Index(columnList="sender_id", name="sender_index"),
-		@Index(columnList="uid", name="uid_index", unique=true),
+		@Index(columnList="sender_id", name="sender_index")
 })
 public class Message extends BasePersistable {
 	private static final long serialVersionUID = -5293724621181603251L;

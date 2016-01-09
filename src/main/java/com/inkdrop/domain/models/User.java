@@ -33,7 +33,7 @@ public class User extends BasePersistable {
 	@Column(nullable=false)
 	private Integer uid;
 
-	@Column(nullable=false, columnDefinition="TEXT")
+	@Column(nullable=false)
 	private String backendAccessToken;
 
 	@Column
