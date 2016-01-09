@@ -1,7 +1,6 @@
 package com.inkdrop.services;
 
 import java.io.IOException;
-import java.time.Instant;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -15,6 +14,7 @@ import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.repositories.RoomRepository;
 import com.inkdrop.domain.repositories.UserRepository;
+import com.inkdrop.helpers.InstantHelper;
 
 @Component
 public class GitHubService {
@@ -36,10 +36,7 @@ public class GitHubService {
 			user = createOrUpdateUser(user);
 		} else {
 			log.info("User exists...checking if need to update...");
-			Instant updated = user.getUpdatedAt().toInstant();
-			Instant sixHours = Instant.now().minusSeconds(6*60*60);
-
-			if(updated.isBefore(sixHours)){
+			if(InstantHelper.biggerThanSixHours(user.getUpdatedAt())){
 				log.info("Last update bigger than 6 hours. Updating...");
 				user = createOrUpdateUser(user);
 			}
@@ -98,15 +95,21 @@ public class GitHubService {
 //		return GitHub.connectAnonymously();
 //	}
 
-	public Room createRoom(String name, String token) throws IOException {
+	public Room createOrUpdateRoom(String name, String token) throws IOException {
+		Room room = roomRepostitory.findByLoginIgnoreCase(name);
+		if(room == null)
+			room = new Room();
+
 		GHOrganization ghOrganization = getGitHubConnection(token).getOrganization(name);
-		Room room = new Room();
+
 		room.setAvatar(ghOrganization.getAvatarUrl());
 		room.setBlog(ghOrganization.getBlog());
 		room.setName(ghOrganization.getName());
 		room.setCompany(ghOrganization.getCompany());
 		room.setLogin(ghOrganization.getLogin());
 		room.setUid(ghOrganization.getId());
+		room.setLocation(ghOrganization.getLocation());
+		room.setUpdatedAt(null);
 
 		return roomRepostitory.save(room);
 	}

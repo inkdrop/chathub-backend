@@ -47,6 +47,8 @@ public class Room extends BasePersistable {
 	@JsonIgnore
 	private List<Message> messages = new ArrayList<>();
 
+	private String location;
+
 	public String getName() {
 		return name;
 	}
@@ -109,6 +111,14 @@ public class Room extends BasePersistable {
 
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	@Override
