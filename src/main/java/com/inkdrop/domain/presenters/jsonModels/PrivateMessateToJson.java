@@ -1,19 +1,17 @@
 package com.inkdrop.domain.presenters.jsonModels;
 
-import java.util.Date;
-
 import com.inkdrop.domain.models.PrivateMessage;
 
 public class PrivateMessateToJson {
 	private String content, uid;
 	private UserToJson sender;
-	private Date createdAt;
+	private Integer createdAt;
 
 	public PrivateMessateToJson(PrivateMessage message) {
 		uid = message.getUid();
 		sender = new UserToJson(message.getFrom());
 		content = message.getContent();
-		createdAt = message.getCreatedAt();
+		createdAt = (int) (message.getCreatedAt().getTime() / 1000);
 	}
 
 	public String getContent() {
@@ -40,11 +38,11 @@ public class PrivateMessateToJson {
 		this.sender = sender;
 	}
 
-	public Date getCreatedAt() {
+	public Integer getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Integer createdAt) {
 		this.createdAt = createdAt;
 	}
 }
