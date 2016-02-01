@@ -1,5 +1,7 @@
 package com.inkdrop.controllers.api.v1;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.controllers.api.models.Params;
 import com.inkdrop.domain.models.Message;
+import com.inkdrop.exceptions.ChathubBackendException;
 import com.inkdrop.services.MessageService;
 import com.inkdrop.services.RoomService;
 import com.inkdrop.services.UserService;
@@ -20,6 +23,8 @@ import com.inkdrop.services.UserService;
 @RestController
 @EnableAutoConfiguration
 public class MessagesController {
+
+	private Logger log = LogManager.getLogger(MessagesController.class);
 
 	@Autowired
 	MessageService messageService;
@@ -42,9 +47,9 @@ public class MessagesController {
 			messageService.saveAndSend(m);
 
 			return new ResponseEntity<>(HttpStatus.CREATED);
-		}catch(Exception e){
-			e.printStackTrace(); // TODO fix this
-			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+		}catch(ChathubBackendException e){
+			log.error(e);
+			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

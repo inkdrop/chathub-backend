@@ -14,6 +14,7 @@ import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.repositories.RoomRepository;
 import com.inkdrop.domain.repositories.UserRepository;
+import com.inkdrop.exceptions.ChathubBackendException;
 import com.inkdrop.helpers.InstantHelper;
 
 @Component
@@ -95,22 +96,27 @@ public class GitHubService {
 //		return GitHub.connectAnonymously();
 //	}
 
-	public Room createOrUpdateRoom(String name, String token) throws IOException {
-		Room room = roomRepostitory.findByLoginIgnoreCase(name);
-		if(room == null)
-			room = new Room();
+	public Room createOrUpdateRoom(String name, String token) throws ChathubBackendException {
+		try{
+			Room room = roomRepostitory.findByLoginIgnoreCase(name);
+			if(room == null)
+				room = new Room();
 
-		GHOrganization ghOrganization = getGitHubConnection(token).getOrganization(name);
+			GHOrganization ghOrganization = getGitHubConnection(token).getOrganization(name);
 
-		room.setAvatar(ghOrganization.getAvatarUrl());
-		room.setBlog(ghOrganization.getBlog());
-		room.setName(ghOrganization.getName());
-		room.setCompany(ghOrganization.getCompany());
-		room.setLogin(ghOrganization.getLogin());
-		room.setUid(ghOrganization.getId());
-		room.setLocation(ghOrganization.getLocation());
-		room.setUpdatedAt(null);
+			room.setAvatar(ghOrganization.getAvatarUrl());
+			room.setBlog(ghOrganization.getBlog());
+			room.setName(ghOrganization.getName());
+			room.setCompany(ghOrganization.getCompany());
+			room.setLogin(ghOrganization.getLogin());
+			room.setUid(ghOrganization.getId());
+			room.setLocation(ghOrganization.getLocation());
+			room.setUpdatedAt(null);
 
-		return roomRepostitory.save(room);
+			return roomRepostitory.save(room);
+		}catch(IOException e){
+			throw new ChathubBackendException(e.getMessage());
+		}
+
 	}
 }

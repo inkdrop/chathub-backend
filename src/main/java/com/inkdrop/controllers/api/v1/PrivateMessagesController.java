@@ -16,6 +16,11 @@ import com.inkdrop.domain.models.PrivateMessage;
 import com.inkdrop.services.PrivateMessageService;
 import com.inkdrop.services.UserService;
 
+/**
+ * Not implenented on the front-end yet
+ * @author luizkowalski
+ *
+ */
 @RestController
 @EnableAutoConfiguration
 public class PrivateMessagesController {

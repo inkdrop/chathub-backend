@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import com.inkdrop.domain.models.Message;
 import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.presenters.MessagePresenter;
+import com.inkdrop.exceptions.ChathubBackendException;
 import com.rabbitmq.client.Channel;
 
 @Component
@@ -90,7 +91,7 @@ public class MessageRouter {
 		return admin.getQueueProperties(queue) != null;
 	}
 
-	public void sendMessageToRoom(Message message){
+	public void sendMessageToRoom(Message message) throws ChathubBackendException {
 		initializeConfigurations();
 
 		String rid = getRoomId(message.getRoom());

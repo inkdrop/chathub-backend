@@ -39,12 +39,10 @@ public class RoomService {
 	public List<RoomToJson> mapToJson(List<Room> rooms) {
 		List<RoomToJson> roomsJson = new ArrayList<>();
 		for (Room r : rooms) {
-			RoomToJson rjs = new RoomToJson(r);
-			rjs.setCount(messageRepository.countByRoom(r)); // Using SQL to count instead count on list
-
-			roomsJson.add(rjs);
+			RoomToJson roomJson = new RoomToJson(r);
+			roomJson.setCount(messageRepository.countByRoom(r)); // Using SQL to count instead count on list
+			roomsJson.add(roomJson);
 		}
-
 		return roomsJson;
 	}
 

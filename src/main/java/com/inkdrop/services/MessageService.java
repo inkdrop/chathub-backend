@@ -11,6 +11,7 @@ import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.presenters.jsonModels.MessageToJson;
 import com.inkdrop.domain.repositories.MessageRepository;
+import com.inkdrop.exceptions.ChathubBackendException;
 import com.inkdrop.routers.MessageRouter;
 
 @Component
@@ -22,10 +23,9 @@ public class MessageService {
 	@Autowired
 	MessageRouter router;
 
-	public Message saveAndSend(Message message){
+	public void saveAndSend(Message message) throws ChathubBackendException{
 		message = repository.save(message);
 		router.sendMessageToRoom(message);
-		return message;
 	}
 
 	public Message buildMessage(String content, Room room, User user) {

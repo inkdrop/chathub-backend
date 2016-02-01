@@ -2,6 +2,8 @@ package com.inkdrop.controllers.api.v1;
 
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import com.inkdrop.domain.models.User;
 import com.inkdrop.domain.presenters.RoomPresenter;
 import com.inkdrop.domain.presenters.jsonModels.MessageToJson;
 import com.inkdrop.domain.presenters.jsonModels.RoomToJson;
+import com.inkdrop.exceptions.ChathubBackendException;
 import com.inkdrop.helpers.InstantHelper;
 import com.inkdrop.services.GitHubService;
 import com.inkdrop.services.MessageService;
@@ -27,6 +30,8 @@ import com.inkdrop.services.UserService;
 @RestController
 @EnableAutoConfiguration
 public class RoomsController {
+
+	private Logger log = LogManager.getLogger(RoomsController.class);
 
 	@Autowired
 	GitHubService gitHubService;
@@ -53,7 +58,8 @@ public class RoomsController {
 			joinRoom(room.getLogin(), token);
 
 			return new ResponseEntity<String>(roomJson, HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (ChathubBackendException e) {
+			log.error(e);
 			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
