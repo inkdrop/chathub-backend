@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.app.domain.formatter.FormatterFactory;
 import com.inkdrop.app.domain.formatter.jsonModels.MessageJson;
+import com.inkdrop.app.domain.formatter.jsonModels.RoomJson;
 import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;
@@ -69,9 +70,9 @@ public class RoomsController {
 	public ResponseEntity<?> getRoomsFromUser(@RequestHeader("Auth-Token") String token){
 		try{
 			User user = userRepository.findByBackendAccessToken(token);
-//			List<RoomJson> rooms = roomService.mapToJson(user.getRooms());
-//			return new ResponseEntity<List<RoomJson>>(rooms, HttpStatus.OK);
-			return null;
+			List<RoomJson> rooms = mapToJson(user.getRooms());
+
+			return new ResponseEntity<List<RoomJson>>(rooms, HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.NOT_FOUND);
 		}
@@ -123,5 +124,16 @@ public class RoomsController {
 			m.add(new MessageJson(message));
 
 		return m;
+	}
+
+	private List<RoomJson> mapToJson(List<Room> rooms) {
+		List<RoomJson> roomsJson = new ArrayList<>();
+		for (Room r : rooms) {
+			RoomJson roomJson = new RoomJson(r);
+			roomJson.setCount(messageRepository.countByRoom(r)); // Using SQL to count instead count on list
+			roomsJson.add(roomJson);
+		}
+
+		return roomsJson;
 	}
 }
