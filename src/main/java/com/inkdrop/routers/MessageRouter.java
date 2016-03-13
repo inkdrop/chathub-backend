@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-import com.inkdrop.domain.models.Message;
-import com.inkdrop.domain.models.Room;
-import com.inkdrop.domain.presenters.MessagePresenter;
-import com.inkdrop.exceptions.ChathubBackendException;
+import com.inkdrop.app.domain.formatter.FormatterFactory;
+import com.inkdrop.app.domain.models.Message;
+import com.inkdrop.app.domain.models.Room;
+import com.inkdrop.app.exceptions.ChathubBackendException;
 import com.rabbitmq.client.Channel;
 
 @Component
@@ -100,7 +100,7 @@ public class MessageRouter {
 			createQueue(rid);
 		}
 
-		String json = new MessagePresenter(message).toJson();
+		String json = FormatterFactory.getFormatter(Message.class).toJson(message);
 		template.convertAndSend(ROOM_DIRECT_EXCHANGE, rid, json);
 	}
 }

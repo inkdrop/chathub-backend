@@ -11,7 +11,7 @@ spring:
 params:
   datasource:
     driverClassName: org.postgresql.Driver
-    jdbcUrl: jdbc:postgresql://localhost:5432/chatroom
+    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub
     username: postgres
     password: postgres
     maximumPoolSize: 10

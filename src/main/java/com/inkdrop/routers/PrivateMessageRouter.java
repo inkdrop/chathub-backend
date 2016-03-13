@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-import com.inkdrop.domain.models.PrivateMessage;
-import com.inkdrop.domain.presenters.PrivateMessagePresenter;
+import com.inkdrop.app.domain.formatter.FormatterFactory;
+import com.inkdrop.app.domain.models.PrivateMessage;
 import com.rabbitmq.client.Channel;
 
 @Component
@@ -89,7 +89,7 @@ public class PrivateMessageRouter {
 			createQueue(queueName);
 		}
 
-		String messageJson = new PrivateMessagePresenter(message).toJson();
+		String messageJson = FormatterFactory.getFormatter(PrivateMessage.class).toJson(message);
 		template.convertAndSend(USER_DIRECT_EXCHANGE, queueName, messageJson);
 	}
 }
