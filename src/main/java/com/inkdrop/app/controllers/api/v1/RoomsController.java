@@ -24,7 +24,6 @@ import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.MessageRepository;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
-import com.inkdrop.app.services.GitHubService;
 import com.inkdrop.app.services.RoomService;
 
 @RestController
@@ -32,9 +31,6 @@ import com.inkdrop.app.services.RoomService;
 public class RoomsController {
 
 	private Logger log = LogManager.getLogger(RoomsController.class);
-
-	@Autowired
-	GitHubService gitHubService;
 
 	@Autowired
 	UserRepository userRepository;
@@ -129,9 +125,9 @@ public class RoomsController {
 	private List<RoomJson> mapToJson(List<Room> rooms) {
 		List<RoomJson> roomsJson = new ArrayList<>();
 		for (Room r : rooms) {
-			RoomJson roomJson = new RoomJson(r);
-			roomJson.setCount(messageRepository.countByRoom(r)); // Using SQL to count instead count on list
-			roomsJson.add(roomJson);
+			RoomJson json = new RoomJson(r);
+			json.setCount(messageRepository.countByRoom(r)); // Using SQL to count instead count on list
+			roomsJson.add(json);
 		}
 
 		return roomsJson;
