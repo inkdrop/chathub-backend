@@ -44,6 +44,7 @@ public class MessageRouter {
 		container.setConnectionFactory(cf);
 		container.setQueueNames(q.getName());
 		container.setMessageListener(new MessageListenerAdapter(){
+
 			@Override
 			public void onMessage(org.springframework.amqp.core.Message message, Channel channel) throws Exception {
 				log.info(new String(message.getBody()));
@@ -51,13 +52,12 @@ public class MessageRouter {
 				MessageProperties props = message.getMessageProperties();
 				if(props.getReceivedExchange().equals(ROOM_FANOUT_EXCHANGE)){
 					// TODO Sent to all rooms
-				}else {
+				} else {
 					String room = "/".concat(props.getReceivedRoutingKey());
 					webSocket.convertAndSend(room, new String(message.getBody()));
 				}
 			}
 		});
-
 		if (!container.isRunning())
 			container.start();
 	}
