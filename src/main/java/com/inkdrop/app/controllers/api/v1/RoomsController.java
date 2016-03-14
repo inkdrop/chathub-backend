@@ -48,16 +48,13 @@ public class RoomsController {
 	public ResponseEntity<?> getRoomInformation(@PathVariable String name, @RequestHeader("Auth-Token") String token){
 		try {
 			Room room = roomRepository.findByLoginIgnoreCase(name);
-//			User user = userService.findByBackendToken(token);
-
-//			if(room == null || InstantHelper.biggerThanSixHours(room.getUpdatedAt()))
-//				room = gitHubService.createOrUpdateRoom(name, user.getAccessToken());
 
 			String json = FormatterFactory.getFormatter(Room.class).toJson(room);
 
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error(e);
+			e.printStackTrace();
 			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
