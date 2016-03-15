@@ -43,7 +43,7 @@ public class RoomControllerAspect {
 
 		if(room == null || InstantHelper.biggerThanSixHours(room.getUpdatedAt())) {
 			logger.info("Room needs to be created or updated");
-			room = githubService.createOrUpdateRoom(roomName, accessToken);
+			githubService.createOrUpdateRoom(roomName, accessToken);
 		}
 	}
 

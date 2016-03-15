@@ -12,6 +12,7 @@ public class RoomJson {
 	private List<String> users;
 	private Integer count = 0;
 	private String location;
+	private Boolean joined;
 
 	public RoomJson(Room room) {
 		uid = room.getUid();
@@ -21,7 +22,8 @@ public class RoomJson {
 		blog = room.getBlog();
 		company = room.getCompany();
 		users = room.getUsers().stream().map(u -> u.getNickname()).collect(Collectors.toList());
-		setLocation(room.getLocation());
+		location = room.getLocation();
+		joined = room.isJoined();
 	}
 
 	public String getName() {
@@ -94,5 +96,13 @@ public class RoomJson {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public Boolean getJoined() {
+		return joined;
+	}
+
+	public void setJoined(Boolean joined) {
+		this.joined = joined;
 	}
 }

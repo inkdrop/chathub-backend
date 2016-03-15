@@ -29,7 +29,7 @@ public class PrivateMessageService {
 
 	private PrivateMessage buildMessage(String content, User destination, User sender) throws ChathubBackendException {
 		if(sender.equals(destination))
-			throw new ChathubBackendException("You can't send yourself a message!");
+			throw new ChathubBackendException("You can't send yourself a message");
 
 		PrivateMessage pm = new PrivateMessage();
 		pm.setTo(destination);

@@ -48,6 +48,8 @@ public class RoomsController {
 	public ResponseEntity<?> getRoomInformation(@PathVariable String name, @RequestHeader("Auth-Token") String token){
 		try {
 			Room room = roomRepository.findByLoginIgnoreCase(name);
+			User user = userRepository.findByBackendAccessToken(token);
+			room.setJoined(user.getRooms().contains(room)); // TODO fix
 
 			String json = FormatterFactory.getFormatter(Room.class).toJson(room);
 

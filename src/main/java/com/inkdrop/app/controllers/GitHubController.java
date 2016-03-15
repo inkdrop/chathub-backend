@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.app.domain.models.User;
+import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.services.GitHubService;
 
 @RestController
@@ -22,11 +23,14 @@ public class GitHubController {
 	@Autowired
 	GitHubService gitHubService;
 
+	@Autowired
+	UserRepository userRepository;
+
 	@RequestMapping(method = RequestMethod.POST, path="/github")
 	public ResponseEntity<?> createUser(@PathParam("token") String token){
 		try {
-			User user =  gitHubService.createOrUpdateUser(token);
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+			gitHubService.createOrUpdateUser(token);
+			return new ResponseEntity<User>(userRepository.findByAccessToken(token), HttpStatus.OK);
 		} catch (IOException e) {
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

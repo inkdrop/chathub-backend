@@ -9,6 +9,7 @@ import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -47,7 +48,11 @@ public class Room extends BasePersistable {
 	@JsonIgnore
 	private List<Message> messages = new ArrayList<>();
 
+	@Column(nullable=false)
 	private String location;
+
+	@Transient
+	private boolean joined = false;
 
 	public String getName() {
 		return name;
@@ -119,6 +124,14 @@ public class Room extends BasePersistable {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public void setJoined(boolean joined) {
+		this.joined = joined;
+	}
+
+	public boolean isJoined() {
+		return joined;
 	}
 
 	@Override
