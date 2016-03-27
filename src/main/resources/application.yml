@@ -14,7 +14,7 @@ params:
     jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub
     username: postgres
     password: postgres
-    maximumPoolSize: 10
+    maximumPoolSize: 5
     poolName: hikari_pool
 
 spring.jpa:

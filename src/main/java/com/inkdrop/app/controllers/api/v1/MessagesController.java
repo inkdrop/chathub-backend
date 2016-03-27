@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inkdrop.app.controllers.api.models.Params;
 import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.RoomRepository;
@@ -23,7 +22,7 @@ import com.inkdrop.app.services.MessageService;
 
 @RestController
 @EnableAutoConfiguration
-public class MessagesController {
+public class MessagesController extends BasicController{
 
 	private Logger log = LogManager.getLogger(MessagesController.class);
 
@@ -35,6 +34,8 @@ public class MessagesController {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	Params p = new Params();
 
 	@RequestMapping(method = RequestMethod.POST, path="/v1/messages/{room}")
 	public ResponseEntity<?> sendMessageToRoom(@PathVariable String room,

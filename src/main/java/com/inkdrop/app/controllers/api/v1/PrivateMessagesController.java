@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inkdrop.app.controllers.api.models.Params;
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.services.PrivateMessageService;
@@ -23,7 +22,7 @@ import com.inkdrop.app.services.PrivateMessageService;
  */
 @RestController
 @EnableAutoConfiguration
-public class PrivateMessagesController {
+public class PrivateMessagesController extends BasicController{
 
 	@Autowired
 	PrivateMessageService service;
