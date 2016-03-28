@@ -1,11 +1,11 @@
-package com.inkdrop.app.controllers.api.v1;
+package com.inkdrop.app.controllers.api.v2;
 
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-class BasicController {
+class BasicV2Controller {
 
 	static class Params implements Serializable {
 		private static final long serialVersionUID = 6961393145500932303L;

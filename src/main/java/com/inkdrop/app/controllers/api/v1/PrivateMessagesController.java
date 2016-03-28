@@ -16,7 +16,7 @@ import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.services.PrivateMessageService;
 
 /**
- * Not implenented on the front-end yet
+ * Not implemented on the front-end yet
  * @author luizkowalski
  *
  */

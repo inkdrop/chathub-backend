@@ -11,7 +11,8 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer
+public class WebSocketConfiguration 
+	extends AbstractWebSocketMessageBrokerConfigurer
 	implements ApplicationListener<SessionConnectedEvent> {
 
 	@Override

@@ -26,7 +26,7 @@ public class GitHubController {
 	@Autowired
 	UserRepository userRepository;
 
-	@RequestMapping(method = RequestMethod.POST, path="/github")
+	@RequestMapping(method = RequestMethod.POST, path="/auth/github")
 	public ResponseEntity<?> createUser(@PathParam("token") String token){
 		try {
 			gitHubService.createOrUpdateUser(token);
