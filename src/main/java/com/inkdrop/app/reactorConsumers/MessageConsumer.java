@@ -1,4 +1,4 @@
-package com.inkdrop.app.reactor;
+package com.inkdrop.app.reactorConsumers;
 
 import javax.annotation.PostConstruct;
 
@@ -15,7 +15,7 @@ import reactor.event.selector.Selectors;
 import reactor.function.Consumer;
 
 @Component
-public class MessageReactor {
+public class MessageConsumer {
 
 	@Autowired
    private Reactor r;
