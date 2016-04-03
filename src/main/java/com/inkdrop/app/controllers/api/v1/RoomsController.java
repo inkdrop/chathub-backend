@@ -3,10 +3,16 @@ package com.inkdrop.app.controllers.api.v1;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.app.domain.formatter.FormatterFactory;
-import com.inkdrop.app.domain.formatter.jsonModels.MessageJson;
+import com.inkdrop.app.domain.formatter.jsonModels.MessagesPageJson;
 import com.inkdrop.app.domain.formatter.jsonModels.RoomJson;
 import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.domain.models.Room;
@@ -99,26 +105,27 @@ public class RoomsController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{name}/messages")
-	public ResponseEntity<?> findLast10Messages(@PathVariable String name){
+	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{name}/messages", produces="application/json; charset=UTF-8")
+	public ResponseEntity<?> findLast10Messages(@PathVariable String name, @PathParam("page") Integer page){
 		try{
 			Room room = roomRepository.findByLoginIgnoreCase(name);
+			page = page == null ? 0 : page;
+			Page<Message> pageResult = messageRepository.findByRoom(room, getPageable(page));
+			MessagesPageJson result = formatResult(pageResult);
 
-			List<Message> messages = messageRepository.findLast10ByRoomOrderByIdAsc(room);
-			List<MessageJson> response = formatMessages(messages);
-
-			return new ResponseEntity<List<MessageJson>>(response, HttpStatus.OK);
+			return new ResponseEntity<MessagesPageJson>(result, HttpStatus.OK);
 		} catch(Exception e){
+			e.printStackTrace();
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	private List<MessageJson> formatMessages(List<Message> messages) {
-		List<MessageJson> m = new ArrayList<>();
-		for (Message message : messages)
-			m.add(new MessageJson(message));
+	private MessagesPageJson formatResult(Page<Message> pageResult) {
+		return new MessagesPageJson(pageResult);
+	}
 
-		return m;
+	private Pageable getPageable(Integer page) {
+		return new PageRequest(page, 50, Sort.Direction.DESC, "createdAt");
 	}
 
 	private List<RoomJson> mapToJson(List<Room> rooms) {
