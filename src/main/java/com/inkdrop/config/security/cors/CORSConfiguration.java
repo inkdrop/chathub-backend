@@ -14,5 +14,9 @@ public class CORSConfiguration extends WebMvcConfigurerAdapter {
 		registry
 		.addMapping("/v1/**")
 		.allowedOrigins("http://127.0.0.1:3000", "http://usechathub.herokuapp.com");
+		
+		registry
+		.addMapping("/v2/**")
+		.allowedOrigins("*");
 	}
 }

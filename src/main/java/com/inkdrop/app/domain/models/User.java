@@ -22,7 +22,7 @@ import com.inkdrop.app.helpers.TokenGeneratorHelper;
 @Table(name="users", indexes = {
 		@Index(unique=true, columnList="uid"),
 		@Index(unique=true, columnList="backendAccessToken"),
-		@Index(columnList="backendAccessToken")
+		@Index(columnList="backendAccessToken", name="idx_backend")
 })
 public class User extends BasePersistable {
 	private static final long serialVersionUID = 1492535311821424305L;

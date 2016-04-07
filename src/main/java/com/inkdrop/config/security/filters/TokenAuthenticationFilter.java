@@ -36,17 +36,18 @@ public class TokenAuthenticationFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String backendToken = httpRequest.getHeader("Auth-Token");
 		HttpServletResponse servletResponse = (HttpServletResponse) response;
-
+		
 		if(backendToken == null){
 			log.info("Token is null");
 			servletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "No token given");
 			return;
 		}
+		
 		if(userRepository.findByBackendAccessToken(backendToken) == null){
 			log.info("Invalid token: "+backendToken);
 			servletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
 			return;
-		}
+		} 
 
 		chain.doFilter(request, response);
 	}

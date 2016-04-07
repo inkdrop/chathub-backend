@@ -17,6 +17,10 @@ params:
     maximumPoolSize: 5
     poolName: hikari_pool
 
+redis: 
+  host: localhost
+  port: 6379
+
 spring.jpa:
   show-sql: true
   hibernate:
