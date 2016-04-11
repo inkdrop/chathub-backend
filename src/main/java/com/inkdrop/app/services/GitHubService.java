@@ -6,12 +6,15 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHOrganization;
+import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inkdrop.app.domain.models.Organization;
 import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;
+import com.inkdrop.app.domain.repositories.OrganizationRepository;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.exceptions.ChathubBackendException;
@@ -20,11 +23,11 @@ import com.inkdrop.app.helpers.InstantHelper;
 @Service
 public class GitHubService {
 
-	@Autowired
-	UserRepository userRepository;
+	@Autowired UserRepository userRepository;
 
-	@Autowired
-	RoomRepository roomRepostitory;
+	@Autowired OrganizationRepository organizationRepo;
+
+	@Autowired RoomRepository roomRespository;
 
 	private Logger log = LogManager.getLogger(GitHubService.class);
 
@@ -44,24 +47,24 @@ public class GitHubService {
 		}
 	}
 
-	public void createOrUpdateRoom(String name, String token) throws ChathubBackendException {
+	public void createOrUpdateOrg(String name, String token) throws ChathubBackendException {
 		try{
-			Room room = roomRepostitory.findByLoginIgnoreCase(name);
-			if(room == null)
-				room = new Room();
+			Organization org = organizationRepo.findByLoginIgnoreCase(name);
+			if(org == null)
+				org = new Organization();
 
 			GHOrganization ghOrganization = getGitHubConnection(token).getOrganization(name);
 
-			room.setAvatar(ghOrganization.getAvatarUrl());
-			room.setBlog(ghOrganization.getBlog());
-			room.setName(ghOrganization.getName());
-			room.setCompany(ghOrganization.getCompany());
-			room.setLogin(ghOrganization.getLogin());
-			room.setUid(ghOrganization.getId());
-			room.setLocation(ghOrganization.getLocation());
-			room.setUpdatedAt(null);
+			org.setAvatar(ghOrganization.getAvatarUrl());
+			org.setBlog(ghOrganization.getBlog());
+			org.setName(ghOrganization.getName());
+			org.setCompany(ghOrganization.getCompany());
+			org.setLogin(ghOrganization.getLogin());
+			org.setUid(ghOrganization.getId());
+			org.setLocation(ghOrganization.getLocation());
+			org.setUpdatedAt(null);
 
-			roomRepostitory.save(room);
+			organizationRepo.save(org);
 		}catch(IOException e){
 			throw new ChathubBackendException(e.getMessage());
 		}
@@ -81,13 +84,13 @@ public class GitHubService {
 		user.setUpdatedAt(null); // FIXME Find out if there is a way to call save forcing @PreUpdate
 
 		user = userRepository.save(user);
-		createOrgsFor(user, gh);
+		createOrganizations(user, gh);
 		return user;
 	}
 
-	private void addRoomToUser(User user, Room room) {
-		if(!user.getRooms().contains(room))
-			user.getRooms().add(room);
+	private void addRoomToUser(User user, Room repo) {
+		if(!user.getRooms().contains(repo))
+			user.getRooms().add(repo);
 		userRepository.save(user);
 	}
 
@@ -95,21 +98,43 @@ public class GitHubService {
 		return GitHub.connectUsingOAuth(token);
 	}
 
-	private void createOrgsFor(User user, GitHub gh) throws IOException {
+	private void createOrganizations(User user, GitHub gh) throws IOException {
 		for(GHOrganization org : gh.getMyself().getAllOrganizations()){
-			Room room = roomRepostitory.findByUid(org.getId());
-			if(room == null)
-				room = new Room();
+			Organization organization = organizationRepo.findByUid(org.getId());
+			if(organization == null)
+				organization = new Organization();
 
-			room.setAvatar(org.getAvatarUrl());
-			room.setBlog(org.getBlog());
-			room.setCompany(org.getCompany());
-			room.setName(org.getName());
-			room.setUid(org.getId());
-			room.setLogin(org.getLogin());
+			organization.setAvatar(org.getAvatarUrl());
+			organization.setBlog(org.getBlog());
+			organization.setCompany(org.getCompany());
+			organization.setName(org.getName());
+			organization.setUid(org.getId());
+			organization.setLogin(org.getLogin());
 
-			room = roomRepostitory.save(room);
-			addRoomToUser(user, room);
+			organization = organizationRepo.save(organization);
+			for(GHRepository repo : org.getRepositories().values()) {
+				Room r = findOrCreateRepository(repo, organization);
+				addRoomToUser(user, r);
+			}
 		}
+	}
+
+	private Room findOrCreateRepository(GHRepository repoGh, Organization org) throws IOException {
+		Room repo = roomRespository.findByUid(repoGh.getId());
+		if(repo == null){
+			repo = new Room();
+			repo.set_private(repoGh.isPrivate());
+			repo.setCreatedAt(repoGh.getCreatedAt());
+			repo.setDescription(repoGh.getDescription());
+			repo.setHomepage(repoGh.getHomepage());
+			repo.setFullName(repoGh.getFullName());
+			repo.setName(repoGh.getName());
+			repo.setOrganization(org);
+			repo.setUid(repoGh.getId());
+
+		}
+		repo.setOwner(repoGh.getOwner().getLogin());
+		repo.setUpdatedAt(repoGh.getUpdatedAt());
+		return repo;
 	}
 }

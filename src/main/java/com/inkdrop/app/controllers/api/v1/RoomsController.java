@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.app.domain.formatter.FormatterFactory;
 import com.inkdrop.app.domain.formatter.jsonModels.MessagesPageJson;
-import com.inkdrop.app.domain.formatter.jsonModels.RoomJson;
 import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;
@@ -50,12 +49,10 @@ public class RoomsController {
 	@Autowired
 	RoomService roomService;
 
-	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{name}")
-	public ResponseEntity<?> getRoomInformation(@PathVariable String name, @RequestHeader("Auth-Token") String token){
+	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}")
+	public ResponseEntity<?> getRoomInformation(@PathVariable Integer uid){
 		try {
-			Room room = roomRepository.findByLoginIgnoreCase(name);
-			User user = userRepository.findByBackendAccessToken(token);
-			room.setJoined(user.getRooms().contains(room)); // TODO fix
+			Room room = roomRepository.findByUid(uid);
 
 			String json = FormatterFactory.getFormatter(Room.class).toJson(room);
 
@@ -71,19 +68,19 @@ public class RoomsController {
 	public ResponseEntity<?> getRoomsFromUser(@RequestHeader("Auth-Token") String token){
 		try{
 			User user = userRepository.findByBackendAccessToken(token);
-			List<RoomJson> rooms = mapToJson(user.getRooms());
+			List<Room> rooms = mapToJson(user.getRooms());
 
-			return new ResponseEntity<List<RoomJson>>(rooms, HttpStatus.OK);
+			return new ResponseEntity<List<?>>(rooms, HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{name}/join")
-	public ResponseEntity<?> joinRoom(@PathVariable String name, @RequestHeader("Auth-Token") String token){
+	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{uid}/join")
+	public ResponseEntity<?> joinRoom(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try{
 			User user = userRepository.findByBackendAccessToken(token);
-			Room room = roomRepository.findByLoginIgnoreCase(name);
+			Room room = roomRepository.findByUid(uid);
 
 			roomService.joinRoom(user, room);
 			return new ResponseEntity<String>(HttpStatus.OK);
@@ -92,11 +89,11 @@ public class RoomsController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{name}/leave")
-	public ResponseEntity<?> leaveRoom(@PathVariable String name, @RequestHeader("Auth-Token") String token){
+	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{uid}/leave")
+	public ResponseEntity<?> leaveRoom(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try{
 			User user = userRepository.findByBackendAccessToken(token);
-			Room room = roomRepository.findByLoginIgnoreCase(name);
+			Room room = roomRepository.findByUid(uid);
 
 			roomService.leave(user, room);
 			return new ResponseEntity<String>(HttpStatus.OK);
@@ -105,10 +102,10 @@ public class RoomsController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{name}/messages", produces="application/json; charset=UTF-8")
-	public ResponseEntity<?> findLast10Messages(@PathVariable String name, @PathParam("page") Integer page){
+	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}/messages", produces="application/json; charset=UTF-8")
+	public ResponseEntity<?> findLast10Messages(@PathVariable Integer uid, @PathParam("page") Integer page){
 		try{
-			Room room = roomRepository.findByLoginIgnoreCase(name);
+			Room room = roomRepository.findByUid(uid);
 			page = page == null ? 0 : page;
 			Page<Message> pageResult = messageRepository.findByRoom(room, getPageable(page));
 			MessagesPageJson result = formatResult(pageResult);
@@ -128,14 +125,14 @@ public class RoomsController {
 		return new PageRequest(page, 50, Sort.Direction.DESC, "createdAt");
 	}
 
-	private List<RoomJson> mapToJson(List<Room> rooms) {
-		List<RoomJson> roomsJson = new ArrayList<>();
-		for (Room r : rooms) {
-			RoomJson json = new RoomJson(r);
-			json.setCount(messageRepository.countByRoom(r)); // Using SQL to count instead count on list
-			roomsJson.add(json);
-		}
+	private List<Room> mapToJson(List<Room> rooms) {
+//		List<Repo> roomsJson = new ArrayList<>();
+//		for (Organization r : rooms) {
+//			OrganizationJson json = new OrganizationJson(r);
+//			json.setCount(messageRepository.countByRoom(r)); // Using SQL to count instead count on list
+//			roomsJson.add(json);
+//		}
 
-		return roomsJson;
+		return new ArrayList<>();
 	}
 }

@@ -35,20 +35,20 @@ public class MessagesController extends BasicController{
 	@Autowired
 	UserRepository userRepository;
 	
-	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{room}/messages/new")
-	public ResponseEntity<?> sendMessageToRoom(@PathVariable String room,
+	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{uid}/messages/new")
+	public ResponseEntity<?> sendMessageToRoom(@PathVariable Integer uid,
 			@RequestBody Params params,
 			@RequestHeader("Auth-Token") String token){
 		try{
 			User sender = userRepository.findByBackendAccessToken(token);
-			Room roomDestination = roomRepository.findByLoginIgnoreCase(room);
+			Room roomDestination = roomRepository.findByUid(uid);
 			String message = params.getContent();
 
 			messageService.send(sender, roomDestination, message);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		}catch(ChathubBackendException e){
 			log.error(e);
-			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 }

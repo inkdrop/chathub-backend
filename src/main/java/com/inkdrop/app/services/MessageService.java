@@ -23,7 +23,7 @@ public class MessageService {
 		saveAndSend(buildMessage(message, room, sender));
 	}
 
-	private void saveAndSend(Message message) throws ChathubBackendException{
+	private void saveAndSend(Message message) throws ChathubBackendException {
 		message = repository.save(message);
 		router.sendMessageToRoom(message);
 	}

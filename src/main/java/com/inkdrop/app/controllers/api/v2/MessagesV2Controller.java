@@ -41,13 +41,13 @@ public class MessagesV2Controller extends BasicV2Controller {
 	@Autowired
 	private Reactor r;
 	
-	@RequestMapping(method = RequestMethod.POST, path="/v2/rooms/{room}/messages/new")
-	public ResponseEntity<?> sendMessageToRoom(@PathVariable String room,
+	@RequestMapping(method = RequestMethod.POST, path="/v2/rooms/{uid}/messages/new")
+	public ResponseEntity<?> sendMessageToRoom(@PathVariable Integer uid,
 			@RequestBody Params params,
 			@RequestHeader("Auth-Token") String token){
 		try{
 			User sender = userRepository.findByBackendAccessToken(token);
-			Room roomDestination = roomRepository.findByLoginIgnoreCase(room);
+			Room roomDestination = roomRepository.findByUid(uid);
 			String content = params.getContent();
 			
 			Message m = buildMessage(content, roomDestination, sender);

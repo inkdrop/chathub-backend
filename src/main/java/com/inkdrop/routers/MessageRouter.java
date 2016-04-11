@@ -78,8 +78,8 @@ public class MessageRouter {
 		addMessageListener(q);
 	}
 
-	private String getRoomId(Room room){
-		return "room."+room.getUid();
+	private String getRoomId(Room repo){
+		return "room."+repo.getUid();
 	}
 
 	private void initializeConfigurations() {

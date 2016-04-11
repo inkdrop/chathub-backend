@@ -1,4 +1,4 @@
-package com.inkdrop.app.reactorConsumers;
+package com.inkdrop.app.consumers;
 
 import javax.annotation.PostConstruct;
 
@@ -18,15 +18,15 @@ import reactor.function.Consumer;
 public class MessageConsumer {
 
 	@Autowired
-   private Reactor r;
-	
+	private Reactor r;
+
 	@Autowired
 	private SimpMessagingTemplate webSocket;
-	
+
 	@PostConstruct
-   public void onStartUp() {
-       r.on(Selectors.R("message.created"), pushToWebsocket());
-   }
+	public void onStartUp() {
+		r.on(Selectors.R("message.created"), pushToWebsocket());
+	}
 
 	private Consumer<Event<Message>> pushToWebsocket() {
 		return messageEvent -> send(messageEvent);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
@@ -59,9 +60,11 @@ public class User extends BasePersistable {
 	@CreationTimestamp
 	private Date memberSince;
 
-	@ManyToMany
-	@JoinTable(name="rooms_users", joinColumns={@JoinColumn(name="user_id")},
-				  inverseJoinColumns={@JoinColumn(name="room_id")})
+	@ManyToMany(targetEntity=Room.class, cascade={ CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name="room_users",
+				joinColumns={ @JoinColumn(name="user_id") },
+				inverseJoinColumns={ @JoinColumn(name="room_id") })
+	@JsonIgnore
 	private List<Room> rooms = new ArrayList<>();
 
 	public String getNickname() {

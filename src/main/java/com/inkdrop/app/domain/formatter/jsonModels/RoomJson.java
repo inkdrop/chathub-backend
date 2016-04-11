@@ -1,69 +1,47 @@
 package com.inkdrop.app.domain.formatter.jsonModels;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inkdrop.app.domain.models.Room;
 
-public class RoomJson {
+public class RoomJson implements Serializable {
 
-	private String name, avatar, login, company, blog;
+	@JsonIgnore
+	private static final long serialVersionUID = -8406181809215797861L;
+	
+	private String fullName;
+	private String homepage;
 	private Integer uid;
+	private String name;
+	private String owner;
 	private List<String> users;
-	private Integer count = 0;
-	private String location;
-	private Boolean joined;
 
 	public RoomJson(Room room) {
+		fullName = room.getFullName();
+		homepage = room.getHomepage();
 		uid = room.getUid();
-		login = room.getLogin();
-		avatar = room.getAvatar();
 		name = room.getName();
-		blog = room.getBlog();
-		company = room.getCompany();
+		owner = room.getOwner();
 		users = room.getUsers().stream().map(u -> u.getNickname()).collect(Collectors.toList());
-		location = room.getLocation();
-		joined = room.isJoined();
 	}
 
-	public String getName() {
-		return name;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
-	public String getAvatar() {
-		return avatar;
+	public String getHomepage() {
+		return homepage;
 	}
 
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getCompany() {
-		return company;
-	}
-
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	public String getBlog() {
-		return blog;
-	}
-
-	public void setBlog(String blog) {
-		this.blog = blog;
+	public void setHomepage(String homepage) {
+		this.homepage = homepage;
 	}
 
 	public Integer getUid() {
@@ -74,6 +52,22 @@ public class RoomJson {
 		this.uid = uid;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
 	public List<String> getUsers() {
 		return users;
 	}
@@ -81,28 +75,5 @@ public class RoomJson {
 	public void setUsers(List<String> users) {
 		this.users = users;
 	}
-
-	public Integer getCount() {
-		return count;
-	}
-
-	public void setCount(Integer count) {
-		this.count = count;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public Boolean getJoined() {
-		return joined;
-	}
-
-	public void setJoined(Boolean joined) {
-		this.joined = joined;
-	}
+	
 }

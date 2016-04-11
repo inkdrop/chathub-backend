@@ -7,60 +7,53 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="rooms", indexes = {
 		@Index(unique=true, columnList="uid"),
-		@Index(columnList="uid"),
-		@Index(columnList="login")
+		@Index(columnList="uid", name="uid_room_idx"),
+		@Index(columnList="fullName", name="full_name_idx")
 })
 public class Room extends BasePersistable {
-	private static final long serialVersionUID = -7119760968529447945L;
 
+	private static final long serialVersionUID = 1L;
+	
+	@Column(nullable=false)
+	private Integer uid;
+	
 	@Column(nullable=false)
 	private String name;
-
-	@Column(nullable=false, unique = true)
-	private Integer uid;
-
-	@Column
-	private String avatar;
-
-	@Column
-	private String blog;
-
-	@Column
-	private String company;
-
+	
+	@Column(nullable=true)
+	private String fullName;
+	
+	@Column(nullable=false, length=500)
+	private String description;
+	
+	@Column(nullable=true)
+	private String homepage;
+	
 	@Column(nullable=false)
-	private String login;
-
-	@ManyToMany(mappedBy="rooms")
-	@JsonIgnore
-	private List<User> users = new ArrayList<>();
-
+	private String owner;
+	
+	@ManyToOne
+	private Organization organization;
+	
 	@OneToMany(mappedBy="room")
 	@JsonIgnore
 	private List<Message> messages = new ArrayList<>();
-
-	@Column(nullable=false)
-	private String location;
-
-	@Transient
-	private boolean joined = false;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	
+	@ManyToMany(mappedBy="rooms", targetEntity=User.class)
+	@JsonIgnore
+	private List<User> users = new ArrayList<>();
+	
+	@Column(name="private")
+	private Boolean _private = false;
 
 	public Integer getUid() {
 		return uid;
@@ -70,44 +63,52 @@ public class Room extends BasePersistable {
 		this.uid = uid;
 	}
 
-	public String getAvatar() {
-		return avatar;
+	public String getName() {
+		return name;
 	}
 
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getBlog() {
-		return blog;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setBlog(String blog) {
-		this.blog = blog;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
-	public String getCompany() {
-		return company;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setCompany(String company) {
-		this.company = company;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getHomepage() {
+		return homepage;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setHomepage(String homepage) {
+		this.homepage = homepage;
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public String getOwner() {
+		return owner;
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	public List<Message> getMessages() {
@@ -118,25 +119,19 @@ public class Room extends BasePersistable {
 		this.messages = messages;
 	}
 
-	public String getLocation() {
-		return location;
+	public List<User> getUsers() {
+		return users;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
-	public void setJoined(boolean joined) {
-		this.joined = joined;
+	public Boolean get_private() {
+		return _private;
 	}
 
-	public boolean isJoined() {
-		return joined;
+	public void set_private(Boolean _private) {
+		this._private = _private;
 	}
-
-	@Override
-	public String toString() {
-		return "Room [id=" + getId() + ", name=" + name + "]";
-	}
-
 }

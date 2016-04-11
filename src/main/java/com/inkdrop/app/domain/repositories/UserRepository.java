@@ -8,5 +8,5 @@ import com.inkdrop.app.domain.models.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	User findByAccessToken(String token);
  	User findByUid(Integer uid);
-	@Cacheable("users") User findByBackendAccessToken(String token);
+	@Cacheable(cacheNames="users") User findByBackendAccessToken(String token);
 }

@@ -24,7 +24,7 @@
 
             stompClient.connect({ }, function(frame) {
                 // subscribe to the /room.uid endpoint
-                stompClient.subscribe("/room.1247016", function(data) {
+                stompClient.subscribe("/room.46563411", function(data) {
                     var message = data.body;
                     messageList.append("<li>" + message + "</li>");
                 });

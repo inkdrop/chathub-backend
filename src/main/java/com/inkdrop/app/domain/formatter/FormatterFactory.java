@@ -7,6 +7,8 @@ public final class FormatterFactory {
 			return new RoomFormatter();
 		if(clazz.getSimpleName().equals("Message"))
 			return new MessageFormatter();
+		if(clazz.getSimpleName().equals("Organization"))
+			return new OrganizationFormatter();
 
 		return null;
 	}
