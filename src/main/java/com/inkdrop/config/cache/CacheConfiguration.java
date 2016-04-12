@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
 @EnableCaching
-public class CacheConfig {
+public class CacheConfiguration {
 	
 	private @Value("${redis.host}") String redisHost;
    private @Value("${redis.port}") int redisPort;

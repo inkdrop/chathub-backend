@@ -32,7 +32,7 @@ public class Room extends BasePersistable {
 	@Column(nullable=true)
 	private String fullName;
 	
-	@Column(nullable=false, length=500)
+	@Column(nullable=true, length=500)
 	private String description;
 	
 	@Column(nullable=true)

@@ -38,10 +38,10 @@ public class OrgControllerAspect {
 		String orgLogin = (String) joinPoint.getArgs()[0];
 		String token = (String) joinPoint.getArgs()[1];
 
-		Organization room = orgRepository.findByLoginIgnoreCase(orgLogin);
+		Organization org = orgRepository.findByLoginIgnoreCase(orgLogin);
 		String accessToken = getUserByBackendToken(token).getAccessToken();
 
-		if(room == null || InstantHelper.biggerThanSixHours(room.getUpdatedAt())) {
+		if(org == null || InstantHelper.biggerThanSixHours(org.getUpdatedAt())) {
 			logger.info("Org needs to be created or updated");
 			githubService.createOrUpdateOrg(orgLogin, accessToken);
 		}

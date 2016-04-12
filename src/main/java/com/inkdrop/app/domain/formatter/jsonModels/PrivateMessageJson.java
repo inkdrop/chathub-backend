@@ -1,8 +1,11 @@
 package com.inkdrop.app.domain.formatter.jsonModels;
 
+import java.io.Serializable;
+
 import com.inkdrop.app.domain.models.PrivateMessage;
 
-public class PrivateMessageJson {
+public class PrivateMessageJson implements Serializable {
+	private static final long serialVersionUID = 7451652654450043099L;
 	private String content, uid;
 	private UserJson sender;
 	private Integer createdAt;

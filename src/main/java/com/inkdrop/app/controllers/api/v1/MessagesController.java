@@ -22,7 +22,7 @@ import com.inkdrop.app.services.MessageService;
 
 @RestController
 @EnableAutoConfiguration
-public class MessagesController extends BasicController{
+public class MessagesController extends BasicController {
 
 	private Logger log = LogManager.getLogger(MessagesController.class);
 

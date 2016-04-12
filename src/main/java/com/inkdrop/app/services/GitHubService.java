@@ -10,6 +10,7 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.inkdrop.app.domain.models.Organization;
 import com.inkdrop.app.domain.models.Room;
@@ -31,6 +32,7 @@ public class GitHubService {
 
 	private Logger log = LogManager.getLogger(GitHubService.class);
 
+	@Transactional
 	public void createOrUpdateUser(String token) throws IOException {
 		log.info("Token: "+token);
 		User user = userRepository.findByAccessToken(token);
@@ -47,6 +49,7 @@ public class GitHubService {
 		}
 	}
 
+	@Transactional
 	public void createOrUpdateOrg(String name, String token) throws ChathubBackendException {
 		try{
 			Organization org = organizationRepo.findByLoginIgnoreCase(name);
@@ -65,6 +68,8 @@ public class GitHubService {
 			org.setUpdatedAt(null);
 
 			organizationRepo.save(org);
+			for(GHRepository repo : ghOrganization.getRepositories().values()) 
+				findOrCreateRepository(repo, org);
 		}catch(IOException e){
 			throw new ChathubBackendException(e.getMessage());
 		}
@@ -88,7 +93,7 @@ public class GitHubService {
 		return user;
 	}
 
-	private void addRoomToUser(User user, Room repo) {
+	private void addUserToRoom(User user, Room repo) {
 		if(!user.getRooms().contains(repo))
 			user.getRooms().add(repo);
 		userRepository.save(user);
@@ -114,7 +119,7 @@ public class GitHubService {
 			organization = organizationRepo.save(organization);
 			for(GHRepository repo : org.getRepositories().values()) {
 				Room r = findOrCreateRepository(repo, organization);
-				addRoomToUser(user, r);
+				addUserToRoom(user, r);
 			}
 		}
 	}
@@ -135,6 +140,8 @@ public class GitHubService {
 		}
 		repo.setOwner(repoGh.getOwner().getLogin());
 		repo.setUpdatedAt(repoGh.getUpdatedAt());
+		
+		roomRespository.save(repo);
 		return repo;
 	}
 }

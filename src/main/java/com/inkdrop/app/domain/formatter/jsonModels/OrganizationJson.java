@@ -1,12 +1,14 @@
 package com.inkdrop.app.domain.formatter.jsonModels;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.inkdrop.app.domain.models.Organization;
 
-public class OrganizationJson {
+public class OrganizationJson implements Serializable {
 
+	private static final long serialVersionUID = 8975713326033129690L;
 	private String name, avatar, login, company, blog;
 	private Integer uid;
 	private Integer count = 0;

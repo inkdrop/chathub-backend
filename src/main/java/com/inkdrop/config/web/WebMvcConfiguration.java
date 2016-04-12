@@ -6,4 +6,4 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
-public class Web extends WebMvcAutoConfiguration{}
+public class WebMvcConfiguration extends WebMvcAutoConfiguration{}

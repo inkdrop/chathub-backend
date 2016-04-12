@@ -1,8 +1,11 @@
 package com.inkdrop.app.domain.formatter.jsonModels;
 
+import java.io.Serializable;
+
 import com.inkdrop.app.domain.models.User;
 
-public class UserJson {
+public class UserJson implements Serializable {
+	private static final long serialVersionUID = -1144457684378296182L;
 	private String avatar, login, name;
 	private Integer uid;
 
