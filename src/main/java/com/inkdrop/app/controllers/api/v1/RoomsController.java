@@ -30,6 +30,7 @@ import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.MessageRepository;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
+import com.inkdrop.app.eventEmitter.LogEventEmitter;
 import com.inkdrop.app.services.RoomService;
 
 @RestController
@@ -49,6 +50,8 @@ public class RoomsController extends BasicController {
 
 	@Autowired
 	RoomService roomService;
+	
+	@Autowired LogEventEmitter emitter;
 
 	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}")
 	public ResponseEntity<?> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
@@ -84,6 +87,7 @@ public class RoomsController extends BasicController {
 			Room room = roomRepository.findByUid(uid);
 
 			roomService.joinRoom(user, room);
+			emitter.joinRoom(user, room);
 			return new ResponseEntity<String>(HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -98,6 +102,7 @@ public class RoomsController extends BasicController {
 			Room room = roomRepository.findByUid(uid);
 
 			roomService.leave(user, room);
+			emitter.leaveRoom(user, room);
 			return new ResponseEntity<String>(HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);

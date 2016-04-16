@@ -17,6 +17,7 @@ import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
+import com.inkdrop.app.eventEmitter.LogEventEmitter;
 import com.inkdrop.app.exceptions.ChathubBackendException;
 import com.inkdrop.app.services.MessageService;
 
@@ -35,6 +36,8 @@ public class MessagesController extends BasicController {
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired LogEventEmitter emitter;
+	
 	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{uid}/messages/new")
 	public ResponseEntity<?> sendMessageToRoom(@PathVariable Integer uid,
 			@RequestBody Params params,
@@ -45,6 +48,7 @@ public class MessagesController extends BasicController {
 			String message = params.getContent();
 
 			messageService.send(sender, roomDestination, message);
+			emitter.messageSent(sender, roomDestination);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		}catch(ChathubBackendException e){
 			log.error(e);

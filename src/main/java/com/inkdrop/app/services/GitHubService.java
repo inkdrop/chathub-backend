@@ -19,6 +19,7 @@ import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.OrganizationRepository;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
+import com.inkdrop.app.eventEmitter.LogEventEmitter;
 import com.inkdrop.app.exceptions.ChathubBackendException;
 import com.inkdrop.app.helpers.InstantHelper;
 
@@ -30,6 +31,8 @@ public class GitHubService {
 	@Autowired OrganizationRepository organizationRepo;
 
 	@Autowired RoomRepository roomRespository;
+	
+	@Autowired LogEventEmitter emitter;
 
 	private Logger log = LogManager.getLogger(GitHubService.class);
 
@@ -41,6 +44,7 @@ public class GitHubService {
 			user = new User();
 			user.setAccessToken(token);
 			user = loadUserFromGithub(user);
+			emitter.newUser(user);
 		} else {
 			log.info("User exists...checking if need to update...");
 			if(InstantHelper.biggerThanSixHours(user.getUpdatedAt())){
