@@ -60,7 +60,7 @@ public class User extends BasePersistable {
 	@CreationTimestamp
 	private Date memberSince;
 
-	@ManyToMany(targetEntity=Room.class, cascade={ CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(targetEntity=Room.class, cascade = CascadeType.ALL)
 	@JoinTable(name="room_users",
 				joinColumns={ @JoinColumn(name="user_id") },
 				inverseJoinColumns={ @JoinColumn(name="room_id") })

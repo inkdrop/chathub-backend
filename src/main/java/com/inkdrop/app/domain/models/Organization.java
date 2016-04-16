@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name="organizations", indexes = {
@@ -42,9 +41,6 @@ public class Organization extends BasePersistable {
 	
 	@OneToMany(mappedBy="organization")
 	private List<Room> repos = new ArrayList<>();
-
-	@Transient
-	private boolean joined = false;
 
 	public String getName() {
 		return name;
@@ -102,14 +98,6 @@ public class Organization extends BasePersistable {
 		this.location = location;
 	}
 
-	public void setJoined(boolean joined) {
-		this.joined = joined;
-	}
-
-	public boolean isJoined() {
-		return joined;
-	}
-	
 	public List<Room> getRepos() {
 		return repos;
 	}

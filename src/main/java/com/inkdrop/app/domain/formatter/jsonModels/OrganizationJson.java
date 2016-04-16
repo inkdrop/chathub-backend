@@ -13,7 +13,6 @@ public class OrganizationJson implements Serializable {
 	private Integer uid;
 	private Integer count = 0;
 	private String location;
-	private Boolean joined;
 	private List<RoomJson> rooms;
 
 	public OrganizationJson(Organization org) {
@@ -25,7 +24,6 @@ public class OrganizationJson implements Serializable {
 		company = org.getCompany();
 		rooms = createRooms(org);
 		location = org.getLocation();
-		joined = org.isJoined();
 	}
 
 	private List<RoomJson> createRooms(Organization org) {
@@ -105,13 +103,5 @@ public class OrganizationJson implements Serializable {
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	public Boolean getJoined() {
-		return joined;
-	}
-
-	public void setJoined(Boolean joined) {
-		this.joined = joined;
 	}
 }

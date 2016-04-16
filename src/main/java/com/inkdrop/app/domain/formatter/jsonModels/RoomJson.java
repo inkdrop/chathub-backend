@@ -18,6 +18,7 @@ public class RoomJson implements Serializable {
 	private String name;
 	private String owner;
 	private List<String> users;
+	private Boolean joined;
 
 	public RoomJson(Room room) {
 		fullName = room.getFullName();
@@ -26,6 +27,7 @@ public class RoomJson implements Serializable {
 		name = room.getName();
 		owner = room.getOwner();
 		users = room.getUsers().stream().map(u -> u.getNickname()).collect(Collectors.toList());
+		joined = room.isJoined();
 	}
 
 	public String getFullName() {
@@ -74,6 +76,14 @@ public class RoomJson implements Serializable {
 
 	public void setUsers(List<String> users) {
 		this.users = users;
+	}
+	
+	public Boolean getJoined() {
+		return joined;
+	}
+	
+	public void setJoined(Boolean joined) {
+		this.joined = joined;
 	}
 	
 }

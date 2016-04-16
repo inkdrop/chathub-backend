@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.inkdrop.app.domain.models.User;
+import com.inkdrop.app.domain.repositories.UserRepository;
 
 class BasicController {
 
@@ -38,5 +40,13 @@ class BasicController {
 	
 	protected ResponseEntity<String> createErrorResponse(Exception response){
 		return new ResponseEntity<String>(response.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+	
+	protected User findByBackendToken(String token, UserRepository userRepository){
+		return userRepository.findByBackendAccessToken(token);
+	}
+	
+	protected String exception(Exception e){
+		return "{'error': '"+e.getMessage()+"' }";
 	}
 }

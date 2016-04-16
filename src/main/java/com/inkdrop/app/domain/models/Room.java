@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -48,12 +50,15 @@ public class Room extends BasePersistable {
 	@JsonIgnore
 	private List<Message> messages = new ArrayList<>();
 	
-	@ManyToMany(mappedBy="rooms", targetEntity=User.class)
+	@ManyToMany(mappedBy="rooms", targetEntity=User.class, fetch=FetchType.EAGER)
 	@JsonIgnore
 	private List<User> users = new ArrayList<>();
 	
 	@Column(name="private")
 	private Boolean _private = false;
+	
+	@Transient
+	private boolean joined = false;
 
 	public Integer getUid() {
 		return uid;
@@ -134,4 +139,14 @@ public class Room extends BasePersistable {
 	public void set_private(Boolean _private) {
 		this._private = _private;
 	}
+	
+	public void setJoined(boolean joined) {
+		this.joined = joined;
+	}
+	
+	public boolean isJoined() {
+		return joined;
+	}
+	
+	
 }

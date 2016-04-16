@@ -33,7 +33,7 @@ import com.inkdrop.app.services.RoomService;
 
 @RestController
 @EnableAutoConfiguration
-public class RoomsController {
+public class RoomsController extends BasicController {
 
 	private Logger log = LogManager.getLogger(RoomsController.class);
 
@@ -50,17 +50,17 @@ public class RoomsController {
 	RoomService roomService;
 
 	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}")
-	public ResponseEntity<?> getRoomInformation(@PathVariable Integer uid){
+	public ResponseEntity<?> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try {
 			Room room = roomRepository.findByUid(uid);
+			room.setJoined(room.getUsers().contains(findByBackendToken(token, userRepository)));
 
 			String json = FormatterFactory.getFormatter(Room.class).toJson(room);
 
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error(e);
-			e.printStackTrace();
-			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(exception(e), HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -79,13 +79,14 @@ public class RoomsController {
 	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{uid}/join")
 	public ResponseEntity<?> joinRoom(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try{
-			User user = userRepository.findByBackendAccessToken(token);
+			User user = findByBackendToken(token, userRepository);
 			Room room = roomRepository.findByUid(uid);
 
 			roomService.joinRoom(user, room);
 			return new ResponseEntity<String>(HttpStatus.OK);
 		} catch(Exception e) {
-			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<String>(exception(e), HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 
