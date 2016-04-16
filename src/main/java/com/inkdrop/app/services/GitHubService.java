@@ -67,6 +67,7 @@ public class GitHubService {
 			org.setUid(ghOrganization.getId());
 			org.setLocation(ghOrganization.getLocation());
 			org.setUpdatedAt(null);
+			org.setMembers(ghOrganization.listMembers().asList().stream().map(u -> u.getLogin()).collect(Collectors.toSet()));
 
 			organizationRepo.save(org);
 			for(GHRepository repo : ghOrganization.getRepositories().values()) 

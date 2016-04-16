@@ -29,8 +29,12 @@ public class RoomService {
 		userRepository.save(user);
 	}
 
+	@Transactional
 	public void leave(User user, Room room) {
-		room.getUsers().remove(user);
-		roomRepository.save(room);
+		user = userRepository.findOne(user.getId());
+		room = roomRepository.findOne(room.getId());
+		user.getRooms().remove(room);
+		
+		userRepository.save(user);
 	}
 }

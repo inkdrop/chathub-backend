@@ -3,6 +3,7 @@ package com.inkdrop.app.domain.formatter.jsonModels;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.inkdrop.app.domain.models.Organization;
 
@@ -14,6 +15,7 @@ public class OrganizationJson implements Serializable {
 	private Integer count = 0;
 	private String location;
 	private List<RoomJson> rooms;
+	private Set<String> members;
 
 	public OrganizationJson(Organization org) {
 		uid = org.getUid();
@@ -24,6 +26,7 @@ public class OrganizationJson implements Serializable {
 		company = org.getCompany();
 		rooms = createRooms(org);
 		location = org.getLocation();
+		members = org.getMembers();
 	}
 
 	private List<RoomJson> createRooms(Organization org) {
@@ -103,5 +106,13 @@ public class OrganizationJson implements Serializable {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	
+	public Set<String> getMembers() {
+		return members;
+	}
+	
+	public void setMembers(Set<String> members) {
+		this.members = members;
 	}
 }

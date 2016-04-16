@@ -94,7 +94,7 @@ public class RoomsController extends BasicController {
 	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{uid}/leave")
 	public ResponseEntity<?> leaveRoom(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try{
-			User user = userRepository.findByBackendAccessToken(token);
+			User user = findByBackendToken(token, userRepository);
 			Room room = roomRepository.findByUid(uid);
 
 			roomService.leave(user, room);
