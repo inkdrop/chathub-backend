@@ -2,6 +2,7 @@ package com.inkdrop.app.controllers.api.v1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.websocket.server.PathParam;
 
@@ -126,7 +127,7 @@ public class RoomsController extends BasicController {
 		return new PageRequest(page, 50, Sort.Direction.DESC, "createdAt");
 	}
 
-	private List<Room> mapToJson(List<Room> rooms) {
+	private List<Room> mapToJson(Set<Room> rooms) {
 //		List<Repo> roomsJson = new ArrayList<>();
 //		for (Organization r : rooms) {
 //			OrganizationJson json = new OrganizationJson(r);

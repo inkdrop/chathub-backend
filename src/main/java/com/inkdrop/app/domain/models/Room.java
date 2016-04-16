@@ -1,7 +1,9 @@
 package com.inkdrop.app.domain.models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,7 +54,7 @@ public class Room extends BasePersistable {
 	
 	@ManyToMany(mappedBy="rooms", targetEntity=User.class, fetch=FetchType.EAGER)
 	@JsonIgnore
-	private List<User> users = new ArrayList<>();
+	private Set<User> users = new HashSet<>();
 	
 	@Column(name="private")
 	private Boolean _private = false;
@@ -124,11 +126,11 @@ public class Room extends BasePersistable {
 		this.messages = messages;
 	}
 
-	public List<User> getUsers() {
+	public Set<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<User> users) {
+	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 

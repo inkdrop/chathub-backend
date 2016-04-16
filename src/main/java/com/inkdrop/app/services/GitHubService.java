@@ -1,6 +1,7 @@
 package com.inkdrop.app.services;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -115,6 +116,7 @@ public class GitHubService {
 			organization.setName(org.getName());
 			organization.setUid(org.getId());
 			organization.setLogin(org.getLogin());
+			organization.setMembers(org.listMembers().asList().stream().map(u -> u.getLogin()).collect(Collectors.toSet()));
 
 			organization = organizationRepo.save(organization);
 			for(GHRepository repo : org.getRepositories().values()) {
@@ -136,8 +138,8 @@ public class GitHubService {
 			repo.setName(repoGh.getName());
 			repo.setOrganization(org);
 			repo.setUid(repoGh.getId());
-
 		}
+		
 		repo.setOwner(repoGh.getOwner().getLogin());
 		repo.setUpdatedAt(repoGh.getUpdatedAt());
 		

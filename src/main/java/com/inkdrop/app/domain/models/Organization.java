@@ -1,9 +1,12 @@
 package com.inkdrop.app.domain.models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
@@ -41,6 +44,10 @@ public class Organization extends BasePersistable {
 	
 	@OneToMany(mappedBy="organization")
 	private List<Room> repos = new ArrayList<>();
+	
+	@ElementCollection
+	@Column
+	private Set<String> members = new HashSet<>();
 
 	public String getName() {
 		return name;
@@ -104,6 +111,14 @@ public class Organization extends BasePersistable {
 	
 	public void setRepos(List<Room> repos) {
 		this.repos = repos;
+	}
+	
+	public Set<String> getMembers() {
+		return members;
+	}
+	
+	public void setMembers(Set<String> members) {
+		this.members = members;
 	}
 
 	@Override

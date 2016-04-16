@@ -1,8 +1,8 @@
 package com.inkdrop.app.domain.models;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -65,7 +65,7 @@ public class User extends BasePersistable {
 				joinColumns={ @JoinColumn(name="user_id") },
 				inverseJoinColumns={ @JoinColumn(name="room_id") })
 	@JsonIgnore
-	private List<Room> rooms = new ArrayList<>();
+	private Set<Room> rooms = new HashSet<>();
 
 	public String getNickname() {
 		return nickname;
@@ -139,11 +139,11 @@ public class User extends BasePersistable {
 		this.memberSince = memberSince;
 	}
 
-	public List<Room> getRooms() {
+	public Set<Room> getRooms() {
 		return rooms;
 	}
 
-	public void setRooms(List<Room> rooms) {
+	public void setRooms(Set<Room> rooms) {
 		this.rooms = rooms;
 	}
 
