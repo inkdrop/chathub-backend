@@ -1,5 +1,5 @@
 build:
-  image: oracle-java8
+  image: williamyeh/java8
   commands:
     - mvn install
     - mvn test
