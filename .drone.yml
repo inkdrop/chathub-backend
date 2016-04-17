@@ -1,2 +1,5 @@
-mvn install -q -DskipTests=true
-mvn test
+build:
+  image: java:oracle-java8
+  commands:
+    - mvn install
+    - mvn test
