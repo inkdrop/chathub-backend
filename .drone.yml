@@ -1,5 +1,4 @@
-build:
-  image: williamyeh/java8
-  commands:
-    - mvn install
-    - mvn test
+image: williamyeh/java8
+commands:
+  - mvn install
+  - mvn test
