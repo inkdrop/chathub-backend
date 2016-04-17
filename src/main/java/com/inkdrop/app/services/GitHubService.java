@@ -43,13 +43,13 @@ public class GitHubService {
 		if(user == null) {
 			user = new User();
 			user.setAccessToken(token);
-			user = loadUserFromGithub(user);
+			user = loadUserFromGithub(user, true);
 			emitter.newUser(user);
 		} else {
 			log.info("User exists...checking if need to update...");
 			if(InstantHelper.biggerThanSixHours(user.getUpdatedAt())){
 				log.info("Last update bigger than 6 hours. Updating...");
-				user = loadUserFromGithub(user);
+				user = loadUserFromGithub(user, false);
 			}
 		}
 	}
@@ -81,7 +81,7 @@ public class GitHubService {
 		}
 	}
 
-	private User loadUserFromGithub(User user) throws IOException {
+	private User loadUserFromGithub(User user, boolean newUser) throws IOException {
 		GitHub gh = getGitHubConnection(user.getAccessToken());
 		GHMyself myself = gh.getMyself();
 		user.setAvatar(myself.getAvatarUrl());
@@ -95,7 +95,8 @@ public class GitHubService {
 		user.setUpdatedAt(null); // FIXME Find out if there is a way to call save forcing @PreUpdate
 
 		user = userRepository.save(user);
-		createOrganizations(user, gh);
+		if(newUser)
+			createOrganizations(user, gh);
 		return user;
 	}
 
@@ -105,7 +106,7 @@ public class GitHubService {
 		userRepository.save(user);
 	}
 
-	private GitHub getGitHubConnection(String token) throws IOException{
+	private GitHub getGitHubConnection(String token) throws IOException {
 		return GitHub.connectUsingOAuth(token);
 	}
 
