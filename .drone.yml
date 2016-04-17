@@ -1,0 +1,2 @@
+mvn install -q -DskipTests=true
+mvn test
