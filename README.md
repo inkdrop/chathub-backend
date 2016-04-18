@@ -9,6 +9,7 @@ Java backend for Chathub project
 * Java 8
 * PostgreSQL 9.3 or superior
 * RabbitMQ (for calling v1 messages API)
+* Redis >= 3
 
 **Installation**
 
