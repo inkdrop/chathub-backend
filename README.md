@@ -15,7 +15,7 @@ Java backend for Chathub project
 
 1. Install Maven if needed
 2. Clone the project
-3. Create a database called `chatroom` on Postgres
+3. Create a database called `chatroom` on PostgreSQL
 
 ## Running
 ```
@@ -23,11 +23,10 @@ mvn spring-boot:run
 ```
 
 ## Usage*
-The following endpoints are fully funcitonal by now
 
-```
+
 Due to latest changes on API, this is part of documentation is pending
-```
+
 
 Private messages are not fully implemented yet.  
 * All API calls require the header `Auth-Token` with the token given on by application when calling `/auth/github`
