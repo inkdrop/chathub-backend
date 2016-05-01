@@ -29,7 +29,7 @@ public class GitHubController {
 	@RequestMapping(method = RequestMethod.POST, path="/auth/github")
 	public ResponseEntity<?> createUser(@PathParam("token") String token){
 		try {
-			gitHubService.createOrUpdateUser(token);
+			gitHubService.createFromGithub(token);
 			return new ResponseEntity<User>(userRepository.findByAccessToken(token), HttpStatus.OK);
 		} catch (IOException e) {
 			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -19,7 +19,7 @@ implements ApplicationListener<SessionConnectedEvent> {
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// the endpoint for websocket connections
 		registry.addEndpoint("/stomp")
-		.setAllowedOrigins("http://127.0.0.1:3000", "http://usechathub.herokuapp.com")
+//		.setAllowedOrigins("http://127.0.0.1:3000", "http://usechathub.herokuapp.com")
 		.addInterceptors(new HttpSessionHandshakeInterceptor())
 		.withSockJS();
 	}

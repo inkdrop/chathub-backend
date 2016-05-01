@@ -8,7 +8,8 @@ Java backend for Chathub project
 
 * Java 8
 * PostgreSQL 9.3 or superior
-* RabbitMQ (for calling v1 messages API)
+* RabbitMQ
+* Redis (3.x)
 
 **Installation**
 
@@ -24,16 +25,9 @@ mvn spring-boot:run
 ## Usage*
 The following endpoints are fully funcitonal by now
 
-| Endpoint                          | Param             | Body                                 | Return                                                       |
-| --------------------------------- | ----------------- | ------------------------------------ | ------------------------------------------------------------ |
-| `/auth/github?token=X`            | token  from gitub |                                      | chathub user                                                 |
-| `/v1/rooms/{name}`                | room's name       |                                      | room information                                             |
-| `/v1/rooms`                       |                   |                                      | user's rooms                                                 |
-| `/v1/rooms/{name}/join`           | room's name       |                                      |                                                              |
-| `/v1/rooms/{name}/leave`          | room's name       |                                      | leave a room                                                 |
-| `/v1/rooms/{name}/messages`       | room's name       |                                      |                                                              |
-| `/v1/rooms/{room}/messages/new`   | room's name       | `{ "content": "message content" }`   | send a new message                                           |
-| `/v2/rooms/{room}/messages/new`   | room's name       | `{ "content": "message content" }`   | send a new message using the v2 api (don't require RabbitMQ) |
+```
+Due to latest changes on API, this is part of documentation is pending
+```
 
 Private messages are not fully implemented yet.  
 * All API calls require the header `Auth-Token` with the token given on by application when calling `/auth/github`

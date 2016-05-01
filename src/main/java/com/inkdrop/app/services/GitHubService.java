@@ -21,7 +21,6 @@ import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.eventEmitter.LogEventEmitter;
 import com.inkdrop.app.exceptions.ChathubBackendException;
-import com.inkdrop.app.helpers.InstantHelper;
 
 @Service
 public class GitHubService {
@@ -37,7 +36,7 @@ public class GitHubService {
 	private Logger log = LogManager.getLogger(GitHubService.class);
 
 	@Transactional
-	public void createOrUpdateUser(String token) throws IOException {
+	public void createFromGithub(String token) throws IOException {
 		log.info("Token: "+token);
 		User user = userRepository.findByAccessToken(token);
 		if(user == null) {
@@ -45,12 +44,6 @@ public class GitHubService {
 			user.setAccessToken(token);
 			user = loadUserFromGithub(user, true);
 			emitter.newUser(user);
-		} else {
-			log.info("User exists...checking if need to update...");
-			if(InstantHelper.biggerThanSixHours(user.getUpdatedAt())){
-				log.info("Last update bigger than 6 hours. Updating...");
-				user = loadUserFromGithub(user, false);
-			}
 		}
 	}
 
@@ -86,7 +79,7 @@ public class GitHubService {
 		GHMyself myself = gh.getMyself();
 		user.setAvatar(myself.getAvatarUrl());
 		user.setCompany(myself.getCompany());
-		user.setEmail(myself.getEmail());
+		user.setEmail(myself.getEmails2().get(0).getEmail());
 		user.setLocation(myself.getLocation());
 		user.setMemberSince(myself.getCreatedAt());
 		user.setName(myself.getName());
