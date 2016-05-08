@@ -10,10 +10,10 @@
   </parent>
   <groupId>com.inkdrop</groupId>
   <artifactId>chathub-backend</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <packaging>jar</packaging>
   <name>chathub-backend</name>
-  <description>Chathub backen</description>
+  <description>Chathub Backend</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>

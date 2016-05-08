@@ -1,56 +1,56 @@
 spring:
   profiles.active: default
 
----
 server:
   compression.enabled: true
+  
+params:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    maximumPoolSize: 5
+    poolName: hikari_pool
+
+spring.jpa:
+  show-sql: true
+  hibernate:
+    ddl-auto: update
+    
+---
 
 spring:
   profiles: default
 
 params:
   datasource:
-    driverClassName: org.postgresql.Driver
     jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub
-    username: postgres
-    password: postgres
-    maximumPoolSize: 5
-    poolName: hikari_pool
-
-redis: 
-  host: localhost
-  port: 6379
-
-spring.jpa:
-  show-sql: true
-  hibernate:
-    ddl-auto: update
 
 spring.rabbitmq:
   host: 127.0.0.1
   port: 5672
   username: test
   password: test
+ 
+redis: 
+  host: localhost
+  port: 6379
   
 ---
-server:
-  compression.enabled: true
 
 spring:
-  profiles: production
+  profiles: docker
   
 params:
   datasource:
-    driverClassName: org.postgresql.Driver
-    jdbcUrl: ${JDBC_URL}
-    username:  ${JDBC_USER}
-    password: ${JDBC_PASSWORD}
-    maximumPoolSize: 10
-
-spring.jpa:
-  show-sql: false
-  hibernate:
-    ddl-auto: update
+    jdbcUrl: jdbc:postgresql://postgres/chathub
     
+redis: 
+  host: redis
+  port: 6379
+
 spring.rabbitmq:
-  addresses: ${RABBITMQ_BIGWIG_URL}
+  host: ${RABBITMQ_1_PORT_5671_TCP_ADDR}
+  port: 5672
+  username: docker
+  password: docker

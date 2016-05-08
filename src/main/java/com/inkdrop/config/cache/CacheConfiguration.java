@@ -13,8 +13,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 @EnableCaching
 public class CacheConfiguration {
 	
-	private @Value("${redis.host}") String redisHost;
-   private @Value("${redis.port}") int redisPort;
+//	private @Value("${redis.host}") 
+	String redisHost = "redis";
+	
+//   private @Value("${redis.port}") 
+   int redisPort = 6379;
 	
 	@Bean
    JedisConnectionFactory jedisConnectionFactory() {
