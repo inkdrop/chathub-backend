@@ -5,19 +5,21 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
 @EnableCaching
+@Profile(value="default")
 public class CacheConfiguration {
 	
-//	private @Value("${redis.host}") 
-	String redisHost = "redis";
+	@Value("${redis.host}") 
+	String redisHost;
 	
-//   private @Value("${redis.port}") 
-   int redisPort = 6379;
+   @Value("${redis.port}") 
+   int redisPort;
 	
 	@Bean
    JedisConnectionFactory jedisConnectionFactory() {

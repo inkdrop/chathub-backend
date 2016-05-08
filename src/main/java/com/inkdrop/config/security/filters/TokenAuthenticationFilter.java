@@ -19,7 +19,7 @@ import org.springframework.http.HttpStatus;
 
 import com.inkdrop.app.domain.repositories.UserRepository;
 
-@WebFilter(urlPatterns={"/v1/messages/*","/v1/private_message", "/v1/rooms/*", "/v2/**"})
+@WebFilter(urlPatterns={"/v1/messages/*","/v1/private_message", "/v1/rooms/*", "/v1/orgs/*","/v2/**"})
 public class TokenAuthenticationFilter implements Filter {
 
 	@Autowired

@@ -64,6 +64,7 @@ public class RoomsController extends BasicController {
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error(e);
+			e.printStackTrace();
 			return new ResponseEntity<>(exception(e), HttpStatus.NOT_FOUND);
 		}
 	}
