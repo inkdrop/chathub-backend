@@ -44,10 +44,6 @@ spring:
 params:
   datasource:
     jdbcUrl: jdbc:postgresql://postgres/chathub
-    
-redis: 
-  host: redis
-  port: 6379
 
 spring.rabbitmq:
   host: ${RABBITMQ_1_PORT_5671_TCP_ADDR}
