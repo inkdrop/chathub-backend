@@ -3,6 +3,7 @@ spring:
 
 server:
   compression.enabled: true
+  port: 8080
 
 params:
   datasource:
