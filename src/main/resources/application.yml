@@ -3,7 +3,7 @@ spring:
 
 server:
   compression.enabled: true
-  
+
 params:
   datasource:
     driverClassName: org.postgresql.Driver
@@ -16,7 +16,7 @@ spring.jpa:
   show-sql: true
   hibernate:
     ddl-auto: update
-    
+
 ---
 
 spring:
@@ -31,22 +31,28 @@ spring.rabbitmq:
   port: 5672
   username: test
   password: test
- 
-redis: 
+
+cache:
   host: localhost
   port: 6379
-  
+
 ---
 
 spring:
   profiles: docker
-  
+
+cache:
+  host: redis
+  port: 6379
+
 params:
   datasource:
     jdbcUrl: jdbc:postgresql://postgres/chathub
+    # jdbcUrl: jdbc:postgresql://${POSTGRES_ENV_DOCKERCLOUD_CONTAINER_FQDN}/chathub
 
 spring.rabbitmq:
-  host: ${RABBITMQ_1_PORT_5671_TCP_ADDR}
+  host: rabbitmq
+  # host: ${RABBITMQ_ENV_DOCKERCLOUD_CONTAINER_FQDN}
   port: 5672
   username: docker
   password: docker
