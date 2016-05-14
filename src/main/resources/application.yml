@@ -49,11 +49,9 @@ cache:
 params:
   datasource:
     jdbcUrl: jdbc:postgresql://postgres/chathub
-    # jdbcUrl: jdbc:postgresql://${POSTGRES_ENV_DOCKERCLOUD_CONTAINER_FQDN}/chathub
 
 spring.rabbitmq:
   host: rabbitmq
-  # host: ${RABBITMQ_ENV_DOCKERCLOUD_CONTAINER_FQDN}
   port: 5672
   username: docker
   password: docker

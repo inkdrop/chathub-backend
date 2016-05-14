@@ -12,7 +12,7 @@ postgres:
 rabbitmq:
   image: rabbitmq:3-management
   ports:
-    - "5672:5672"
+    - "5672"
     - "15672:15672"
   volumes:
     - /var/lib/rabbitmq/
@@ -21,24 +21,26 @@ rabbitmq:
     RABBITMQ_DEFAULT_PASS: docker
 
 redis:
-  image: redis:3
+  image: redis
   ports:
     - "6379:6379"
   volumes:
-    - /src/main/resources/redis.conf:/usr/local/etc/redis/redis.conf
     - /data
 
 chathub:
-  build: .
+  image: luizkowalski/chathub
   ports:
-    - "8080:8080"
+    - "8080"
   links:
     - redis
     - postgres
     - rabbitmq
+
 lb:
-  image: 'dockercloud/haproxy:1.2.1'
+  image: 'dockercloud/haproxy:latest'
   links:
     - chathub
   ports:
     - '80:80'
+  roles:
+    - global
