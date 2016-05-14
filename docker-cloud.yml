@@ -23,7 +23,7 @@ rabbitmq:
 redis:
   image: redis
   ports:
-    - "6379:6379"
+    - "6379"
   volumes:
     - /data
 
@@ -37,7 +37,7 @@ chathub:
     - rabbitmq
 
 lb:
-  image: 'dockercloud/haproxy:latest'
+  image: 'dockercloud/haproxy:1.2.1'
   links:
     - chathub
   ports:
