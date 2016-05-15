@@ -48,7 +48,9 @@ cache:
 
 params:
   datasource:
-    jdbcUrl: jdbc:postgresql://postgres/chathub
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    jdbcUrl: ${DATABASE_URL}
 
 spring.rabbitmq:
   host: rabbitmq

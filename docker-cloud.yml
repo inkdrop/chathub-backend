@@ -27,7 +27,7 @@ redis:
   volumes:
     - /data
 
-chathub:
+api:
   image: luizkowalski/chathub
   ports:
     - "8080"
@@ -39,7 +39,7 @@ chathub:
 lb:
   image: 'dockercloud/haproxy:1.2.1'
   links:
-    - chathub
+    - api
   ports:
     - '80:80'
   roles:
