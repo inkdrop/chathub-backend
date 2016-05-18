@@ -11,15 +11,14 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfiguration 
-extends AbstractWebSocketMessageBrokerConfigurer
-implements ApplicationListener<SessionConnectedEvent> {
+public class WebSocketConfiguration
+extends AbstractWebSocketMessageBrokerConfigurer implements ApplicationListener<SessionConnectedEvent> {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// the endpoint for websocket connections
 		registry.addEndpoint("/stomp")
-//		.setAllowedOrigins("http://127.0.0.1:3000", "http://usechathub.herokuapp.com")
+		.setAllowedOrigins("*")
 		.addInterceptors(new HttpSessionHandshakeInterceptor())
 		.withSockJS();
 	}
