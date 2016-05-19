@@ -34,6 +34,11 @@ public class TokenAuthenticationFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		if(httpRequest.getHeader("Access-Control-Request-Method") != null && "OPTIONS".equals(httpRequest.getMethod())){
+			chain.doFilter(httpRequest, response);
+			return;
+		}
+		
 		String backendToken = httpRequest.getHeader("Auth-Token");
 		HttpServletResponse servletResponse = (HttpServletResponse) response;
 		
