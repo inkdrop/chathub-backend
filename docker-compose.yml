@@ -31,7 +31,7 @@ redis:
 chathub:
   build: .
   ports:
-    - "8080:8080"
+    - "8080"
   links:
     - redis
     - postgres

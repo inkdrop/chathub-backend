@@ -7,7 +7,7 @@ Java backend for Chathub project
 **Dependencies**
 
 * Java 8
-* PostgreSQL 9.3 or superior
+* PostgreSQL 9.5 or superior
 * RabbitMQ
 * Redis (3.x)
 
@@ -22,11 +22,18 @@ Java backend for Chathub project
 mvn spring-boot:run
 ```
 
+or you can run with Docker with the following commands
+
+```
+./build.sh
+docker-compose build
+docker-compose up
+```
+
 ## Usage*
 
 
 Due to latest changes on API, this is part of documentation is pending
 
 
-Private messages are not fully implemented yet.  
 * All API calls require the header `Auth-Token` with the token given on by application when calling `/auth/github`
