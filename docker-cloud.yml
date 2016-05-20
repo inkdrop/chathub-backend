@@ -22,7 +22,6 @@ api:
     - "8080"
   links:
     - redis
-    - postgres
     - rabbitmq
 
 lb:
