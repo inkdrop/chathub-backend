@@ -4,13 +4,13 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.3.4.RELEASE</version>
+    <version>1.3.5.RELEASE</version>
     <relativePath></relativePath>
     <!-- lookup parent from repository -->
   </parent>
   <groupId>com.inkdrop</groupId>
   <artifactId>chathub-backend</artifactId>
-  <version>0.0.3</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
   <name>chathub-backend</name>
   <description>Chathub Backend</description>
@@ -118,7 +118,7 @@
         <artifactId>docker-maven-plugin</artifactId>
         <version>0.4.9</version>
         <configuration>
-           <serverId>docker-hub</serverId>
+          <serverId>docker-hub</serverId>
           <imageName>${docker.image.prefix}/chathub</imageName>
           <dockerDirectory>.</dockerDirectory>
           <resources>

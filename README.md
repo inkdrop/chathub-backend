@@ -7,15 +7,14 @@ Java backend for Chathub project
 **Dependencies**
 
 * Java 8
-* PostgreSQL 9.5 or superior
-* RabbitMQ
-* Redis (3.x)
+* PostgreSQL 9.4 or superior
+* RabbitMQ 3
+* Redis
 
 **Installation**
 
-1. Install Maven if needed
-2. Clone the project
-3. Create a database called `chatroom` on PostgreSQL
+1. Clone the project
+2. Create a database called `chatroom` on PostgreSQL
 
 ## Running
 ```
