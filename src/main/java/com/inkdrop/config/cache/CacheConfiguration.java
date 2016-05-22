@@ -30,7 +30,7 @@ public class CacheConfiguration {
 
 	@Bean
 	RedisTemplate<Object, Object> redisTemplate() {
-		RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<Object, Object>();
+		RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(jedisConnectionFactory());
 		return redisTemplate;
 	}

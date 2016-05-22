@@ -38,25 +38,25 @@ public class EventConsumer {
 	}
 	
 	private Consumer<Event<LogEvent>> saveEvent() {
-		return event -> saveEventToDatabase(event);
+		return event -> saveEventToDatabase(event.getData());
 	}
 
 	private void push(Message data) {
 		sendMessage(data);
 	}
 
-	private void saveEventToDatabase(Event<LogEvent> event) {
-		logEventRepo.save(event.getData());
+	private void saveEventToDatabase(LogEvent log) {
+		logEventRepo.save(log);
 	}
 	
 	private DatabaseReference getDatabase(Message message) {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
-		DatabaseReference ref = database.getReference("/messages");
-		return ref.child(message.getRoom().getFullName());
+		DatabaseReference db = database.getReference("/messages");
+		return db.child(message.getRoom().getFullName());
 	}
 	
 	private void sendMessage(Message message){
-		DatabaseReference ref = getDatabase(message);
-		ref.child(message.getUid()).setValue(FormatterFactory.getFormatter(Message.class).toJson(message));
+		DatabaseReference db = getDatabase(message);
+		db.child(message.getUid()).setValue(FormatterFactory.getFormatter(Message.class).toJson(message));
 	}
 }

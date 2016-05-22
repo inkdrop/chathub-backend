@@ -10,11 +10,10 @@ postgres:
     - /var/lib/postgresql
 
 redis:
-  image: redis:3
+  image: luizkowalski/redis-cache
   ports:
     - "6379:6379"
   volumes:
-    - /src/main/resources/redis.conf:/usr/local/etc/redis/redis.conf
     - /data
 
 chathub:

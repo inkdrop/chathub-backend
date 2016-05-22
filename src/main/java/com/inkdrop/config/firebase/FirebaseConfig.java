@@ -29,6 +29,5 @@ public class FirebaseConfig {
 			exception.printStackTrace();
 			return null;
 		}
-
 	}
 }

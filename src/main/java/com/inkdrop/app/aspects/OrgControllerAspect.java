@@ -31,7 +31,9 @@ public class OrgControllerAspect {
 	GitHubService githubService;
 
 	@Pointcut("execution(* getOrgInfo*(..))")
-	public void getOrgInfo() {}
+	public void getOrgInfo() {
+		//
+	}
 
 	@Before("com.inkdrop.app.aspects.OrgControllerAspect.getOrgInfo()")
 	public void checkRoomExists(JoinPoint joinPoint) throws ChathubBackendException {
