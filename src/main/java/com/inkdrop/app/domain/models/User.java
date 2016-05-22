@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -66,6 +67,9 @@ public class User extends BasePersistable {
 				inverseJoinColumns={ @JoinColumn(name="room_id") })
 	@JsonIgnore
 	private Set<Room> rooms = new HashSet<>();
+	
+	@Transient
+	private String firebaseJwt = "";
 
 	public String getNickname() {
 		return nickname;
@@ -153,6 +157,14 @@ public class User extends BasePersistable {
 
 	public void setBackendAccessToken(String backendAccessToken) {
 		this.backendAccessToken = backendAccessToken;
+	}
+	
+	public String getFirebaseJwt() {
+		return firebaseJwt;
+	}
+	
+	public void setFirebaseJwt(String firebaseJwt) {
+		this.firebaseJwt = firebaseJwt;
 	}
 
 	@Override

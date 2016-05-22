@@ -30,7 +30,7 @@ import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.MessageRepository;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
-import com.inkdrop.app.eventEmitter.LogEventEmitter;
+import com.inkdrop.app.eventnotifier.EventNotifier;
 import com.inkdrop.app.services.RoomService;
 
 @RestController
@@ -51,17 +51,16 @@ public class RoomsController extends BasicController {
 	@Autowired
 	RoomService roomService;
 	
-	@Autowired LogEventEmitter emitter;
+	@Autowired EventNotifier emitter;
 
 	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}")
-	public ResponseEntity<?> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
+	public ResponseEntity<String> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try {
 			Room room = roomRepository.findByUid(uid);
 			room.setJoined(room.getUsers().contains(findByBackendToken(token, userRepository)));
-
 			String json = FormatterFactory.getFormatter(Room.class).toJson(room);
-
-			return new ResponseEntity<String>(json, HttpStatus.OK);
+			
+			return new ResponseEntity<>(json, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error(e);
 			e.printStackTrace();

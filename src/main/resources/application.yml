@@ -10,8 +10,8 @@ params:
     driverClassName: org.postgresql.Driver
     username: postgres
     password: postgres
-    maximumPoolSize: 5
-    poolName: hikari_pool
+    maximumPoolSize: 10
+    poolName: chathub_conn_pool
 
 spring.jpa:
   show-sql: true
@@ -26,12 +26,6 @@ spring:
 params:
   datasource:
     jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub
-
-spring.rabbitmq:
-  host: 127.0.0.1
-  port: 5672
-  username: test
-  password: test
 
 cache:
   host: localhost
@@ -51,9 +45,3 @@ params:
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
     jdbcUrl: ${DATABASE_URL}
-
-spring.rabbitmq:
-  host: rabbitmq
-  port: 5672
-  username: docker
-  password: docker

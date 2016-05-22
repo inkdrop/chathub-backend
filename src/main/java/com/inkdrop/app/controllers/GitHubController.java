@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.services.GitHubService;
@@ -30,9 +31,15 @@ public class GitHubController {
 	public ResponseEntity<?> createUser(@PathParam("token") String token){
 		try {
 			gitHubService.createFromGithub(token);
-			return new ResponseEntity<User>(userRepository.findByAccessToken(token), HttpStatus.OK);
+			User user = userRepository.findByAccessToken(token);
+			user.setFirebaseJwt(getFirebaseJwtToken(user.getUid()));
+			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (IOException e) {
-			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	private String getFirebaseJwtToken(Integer uid) {
+		return FirebaseAuth.getInstance().createCustomToken(uid.toString());
 	}
 }

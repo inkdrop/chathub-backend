@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;
+import com.inkdrop.app.domain.repositories.MessageRepository;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
-import com.inkdrop.app.eventEmitter.LogEventEmitter;
-import com.inkdrop.app.exceptions.ChathubBackendException;
-import com.inkdrop.app.services.MessageService;
+import com.inkdrop.app.eventnotifier.EventNotifier;
 
 @RestController
 @EnableAutoConfiguration
@@ -27,32 +27,41 @@ public class MessagesController extends BasicController {
 
 	private Logger log = LogManager.getLogger(MessagesController.class);
 
-	@Autowired
-	MessageService messageService;
+	@Autowired MessageRepository messageRepository;
 
-	@Autowired
-	RoomRepository roomRepository;
+	@Autowired RoomRepository roomRepository;
 
-	@Autowired
-	UserRepository userRepository;
+	@Autowired UserRepository userRepository;
 	
-	@Autowired LogEventEmitter emitter;
+	@Autowired EventNotifier eventNotifier;
 	
 	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{uid}/messages/new")
-	public ResponseEntity<?> sendMessageToRoom(@PathVariable Integer uid,
+	public ResponseEntity<String> sendMessageToRoom(@PathVariable Integer uid,
 			@RequestBody Params params,
 			@RequestHeader("Auth-Token") String token){
 		try{
 			User sender = userRepository.findByBackendAccessToken(token);
-			Room roomDestination = roomRepository.findByUid(uid);
+			Room room = roomRepository.findByUid(uid);
 			String message = params.getContent();
+			
+			Message m = messageRepository.save(buildMessage(message, room, sender));
 
-			messageService.send(sender, roomDestination, message);
-			emitter.messageSent(sender, roomDestination);
+			eventNotifier.messageSaved(m);
 			return new ResponseEntity<>(HttpStatus.CREATED);
-		}catch(ChathubBackendException e){
+		}catch(Exception e){
 			log.error(e);
-			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>(exception(e), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	private Message buildMessage(String content, Room room, User user) {
+		Message m = new Message();
+
+		m.setRoom(room);
+		m.setSender(user);
+		m.setContent(content);
+
+		return m;
 	}
 }

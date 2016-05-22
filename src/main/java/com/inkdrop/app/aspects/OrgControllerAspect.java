@@ -34,7 +34,7 @@ public class OrgControllerAspect {
 	public void getOrgInfo() {}
 
 	@Before("com.inkdrop.app.aspects.OrgControllerAspect.getOrgInfo()")
-	public void checkRoomExists(JoinPoint joinPoint) throws ChathubBackendException{
+	public void checkRoomExists(JoinPoint joinPoint) throws ChathubBackendException {
 		String orgLogin = (String) joinPoint.getArgs()[0];
 		String token = (String) joinPoint.getArgs()[1];
 

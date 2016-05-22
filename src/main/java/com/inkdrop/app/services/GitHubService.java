@@ -19,7 +19,7 @@ import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.OrganizationRepository;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
-import com.inkdrop.app.eventEmitter.LogEventEmitter;
+import com.inkdrop.app.eventnotifier.EventNotifier;
 import com.inkdrop.app.exceptions.ChathubBackendException;
 
 @Service
@@ -31,7 +31,7 @@ public class GitHubService {
 
 	@Autowired RoomRepository roomRespository;
 	
-	@Autowired LogEventEmitter emitter;
+	@Autowired EventNotifier notifier;
 
 	private Logger log = LogManager.getLogger(GitHubService.class);
 
@@ -43,7 +43,7 @@ public class GitHubService {
 			user = new User();
 			user.setAccessToken(token);
 			user = loadUserFromGithub(user, true);
-			emitter.newUser(user);
+			notifier.newUser(user);
 		}
 	}
 

@@ -15,15 +15,17 @@ class BasicController {
 	static class Params implements Serializable {
 		private static final long serialVersionUID = 6961393145500932303L;
 		
-		public Params() {}
+		private String content;
+		
+		public Params() {
+			// Default
+		}
 		
 		@JsonCreator
 		public Params(@JsonProperty("content") String content) {
 			super();
 			this.content = content;
 		}
-
-		private String content;
 
 		public String getContent() {
 			return content;
@@ -34,12 +36,12 @@ class BasicController {
 		}
 	}
 	
-	protected ResponseEntity<?> createSuccessfulResponse(Object response){
+	protected ResponseEntity<Object> createSuccessfulResponse(Object response){
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	protected ResponseEntity<String> createErrorResponse(Exception response){
-		return new ResponseEntity<String>(response.getMessage(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(response.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 	
 	protected User findByBackendToken(String token, UserRepository userRepository){

@@ -2,6 +2,6 @@
 
 set -e
 
-mvn clean package -DskipTests=true;
+mvn clean package -DskipTests;
 
 find . -name *chathub*.jar -exec du -h {} \;

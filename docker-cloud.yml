@@ -1,14 +1,3 @@
-rabbitmq:
-  image: rabbitmq:3-management
-  ports:
-    - "5672"
-    - "15672:15672"
-  volumes:
-    - /var/lib/rabbitmq/
-  environment:
-    RABBITMQ_DEFAULT_USER: docker
-    RABBITMQ_DEFAULT_PASS: docker
-
 redis:
   image: redis
   ports:

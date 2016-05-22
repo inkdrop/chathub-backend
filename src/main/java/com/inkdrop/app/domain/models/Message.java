@@ -19,12 +19,6 @@ import com.inkdrop.app.helpers.TokenGeneratorHelper;
 public class Message extends BasePersistable {
 	private static final long serialVersionUID = -5293724621181603251L;
 
-	public Message() {}
-
-	public Message(String content) {
-		this.content = content;
-	}
-
 	@ManyToOne(optional=false)
 	@JsonIgnore
 	private Room room;
@@ -76,7 +70,7 @@ public class Message extends BasePersistable {
 	public void prePersist() {
 		super.prePersist();
 		if (uid == null)
-			uid = TokenGeneratorHelper.randomString(15);
+			uid = TokenGeneratorHelper.randomString(20);
 	}
 
 	@Override
