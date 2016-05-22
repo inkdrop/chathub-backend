@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.app.domain.formatter.FormatterFactory;
-import com.inkdrop.app.domain.formatter.jsonModels.MessagesPageJson;
+import com.inkdrop.app.domain.formatter.models.MessagesPageJson;
 import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;

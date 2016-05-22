@@ -2,7 +2,7 @@ package com.inkdrop.app.domain.formatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inkdrop.app.domain.formatter.jsonModels.RoomJson;
+import com.inkdrop.app.domain.formatter.models.RoomJson;
 import com.inkdrop.app.domain.models.Room;
 
 class RoomFormatter implements Formatter {

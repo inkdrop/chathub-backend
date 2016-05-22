@@ -1,4 +1,4 @@
-package com.inkdrop.app.domain.formatter.jsonModels;
+package com.inkdrop.app.domain.formatter.models;
 
 import java.io.Serializable;
 import java.util.List;

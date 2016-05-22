@@ -1,4 +1,4 @@
-package com.inkdrop.app.domain.formatter.jsonModels;
+package com.inkdrop.app.domain.formatter.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,11 +23,9 @@ public class MessagesPageJson implements Serializable {
 	}
 
 	private List<MessageJson> formatMessages(List<Message> messages) {
-		List<MessageJson> m = new ArrayList<>();
-		for (Message message : messages)
-			m.add(new MessageJson(message));
-
-		return m;
+		List<MessageJson> formattedMessages = new ArrayList<>();
+		messages.forEach(message -> formattedMessages.add(new MessageJson(message)));
+		return formattedMessages;
 	}
 
 	public Integer getPage() {

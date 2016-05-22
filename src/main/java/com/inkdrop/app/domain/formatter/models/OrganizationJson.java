@@ -1,4 +1,4 @@
-package com.inkdrop.app.domain.formatter.jsonModels;
+package com.inkdrop.app.domain.formatter.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,9 +30,9 @@ public class OrganizationJson implements Serializable {
 	}
 
 	private List<RoomJson> createRooms(Organization org) {
-		List<RoomJson> rooms = new ArrayList<>();
-		org.getRepos().forEach(r -> rooms.add(new RoomJson(r)));
-		return rooms;
+		List<RoomJson> formattedRooms = new ArrayList<>();
+		org.getRepos().forEach(r -> formattedRooms.add(new RoomJson(r)));
+		return formattedRooms;
 			
 	}
 
