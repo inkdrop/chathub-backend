@@ -22,8 +22,8 @@ chathub:
     - "8080"
   links:
     - redis
-    - postgres
-    - rabbitmq
+    - postgres  
+
 lb:
   image: 'dockercloud/haproxy:1.2.1'
   links:
