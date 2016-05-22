@@ -32,6 +32,3 @@ docker-compose up
 
 
 Check the wiki for more info
-
-
-* All API calls require the header `Auth-Token` with the token given on by application when calling `/auth/github`
