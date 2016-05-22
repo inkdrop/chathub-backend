@@ -8,7 +8,6 @@ Java backend for Chathub project
 
 * Java 8
 * PostgreSQL 9.4 or superior
-* RabbitMQ 3
 * Redis
 
 **Installation**
@@ -32,7 +31,7 @@ docker-compose up
 ## Usage*
 
 
-Due to latest changes on API, this is part of documentation is pending
+Check the wiki for more info
 
 
 * All API calls require the header `Auth-Token` with the token given on by application when calling `/auth/github`
