@@ -15,7 +15,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name="rooms", indexes = {
@@ -45,7 +50,9 @@ public class Room extends BasePersistable {
 	@Column(nullable=false)
 	private String owner;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
+	@Fetch(FetchMode.JOIN)
+	@JsonIgnoreProperties({"repos", "members"})
 	private Organization organization;
 	
 	@OneToMany(mappedBy="room")
@@ -53,10 +60,11 @@ public class Room extends BasePersistable {
 	private List<Message> messages = new ArrayList<>();
 	
 	@ManyToMany(mappedBy="rooms", targetEntity=User.class, fetch=FetchType.EAGER)
-	@JsonIgnore
+	@JsonIgnoreProperties({"backendAccessToken", "email", "memberSince", "firebaseJwt", "rooms", "location", "company"})
 	private Set<User> users = new HashSet<>();
 	
 	@Column(name="private")
+	@JsonProperty(value="private")
 	private Boolean _private = false;
 	
 	@Transient
@@ -127,6 +135,8 @@ public class Room extends BasePersistable {
 	}
 
 	public Set<User> getUsers() {
+		if (users == null)
+				return new HashSet<>();
 		return users;
 	}
 

@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inkdrop.app.domain.formatter.FormatterFactory;
 import com.inkdrop.app.domain.formatter.models.MessagesPageJson;
 import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.domain.models.Room;
@@ -54,13 +53,12 @@ public class RoomsController extends BasicController {
 	@Autowired EventNotifier emitter;
 
 	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}")
-	public ResponseEntity<String> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
+	public ResponseEntity<?> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try {
 			Room room = roomRepository.findByUid(uid);
 			room.setJoined(room.getUsers().contains(findByBackendToken(token, userRepository)));
-			String json = FormatterFactory.getFormatter(Room.class).toJson(room);
 			
-			return new ResponseEntity<>(json, HttpStatus.OK);
+			return new ResponseEntity<>(room, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error(e);
 			e.printStackTrace();
@@ -81,31 +79,31 @@ public class RoomsController extends BasicController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{uid}/join")
-	public ResponseEntity<?> joinRoom(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
+	public ResponseEntity<String> joinRoom(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try{
 			User user = findByBackendToken(token, userRepository);
 			Room room = roomRepository.findByUid(uid);
 
 			roomService.joinRoom(user, room);
 			emitter.joinRoom(user, room);
-			return new ResponseEntity<String>(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<String>(exception(e), HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(exception(e), HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path="/v1/rooms/{uid}/leave")
-	public ResponseEntity<?> leaveRoom(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
+	public ResponseEntity<String> leaveRoom(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try{
 			User user = findByBackendToken(token, userRepository);
 			Room room = roomRepository.findByUid(uid);
 
 			roomService.leave(user, room);
 			emitter.leaveRoom(user, room);
-			return new ResponseEntity<String>(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch(Exception e) {
-			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 

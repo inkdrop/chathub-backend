@@ -42,7 +42,7 @@ public class GitHubService {
 		if(user == null) {
 			user = new User();
 			user.setAccessToken(token);
-			user = loadUserFromGithub(user, true);
+			user = loadUserFromGithub(user);
 			notifier.newUser(user);
 		}
 	}
@@ -74,7 +74,7 @@ public class GitHubService {
 		}
 	}
 
-	private User loadUserFromGithub(User user, boolean newUser) throws IOException {
+	private User loadUserFromGithub(User user) throws IOException {
 		GitHub gh = getGitHubConnection(user.getAccessToken());
 		GHMyself myself = gh.getMyself();
 		user.setAvatar(myself.getAvatarUrl());
@@ -85,12 +85,11 @@ public class GitHubService {
 		user.setName(myself.getName());
 		user.setNickname(myself.getLogin());
 		user.setUid(myself.getId());
-		user.setUpdatedAt(null); // FIXME Find out if there is a way to call save forcing @PreUpdate
+		user.setUpdatedAt(null);
 
-		user = userRepository.save(user);
-		if(newUser)
-			createOrganizations(user, gh);
-		return user;
+		User savedUser = userRepository.save(user);
+		createOrganizations(savedUser, gh);
+		return savedUser;
 	}
 
 	private void addUserToRoom(User user, Room repo) {

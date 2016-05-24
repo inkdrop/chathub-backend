@@ -65,7 +65,6 @@ public class User extends BasePersistable {
 	@JoinTable(name="room_users",
 				joinColumns={ @JoinColumn(name="user_id") },
 				inverseJoinColumns={ @JoinColumn(name="room_id") })
-	@JsonIgnore
 	private Set<Room> rooms = new HashSet<>();
 	
 	@Transient

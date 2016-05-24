@@ -8,9 +8,13 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="organizations", indexes = {
@@ -42,10 +46,12 @@ public class Organization extends BasePersistable {
 	@Column(nullable=true)
 	private String location;
 	
-	@OneToMany(mappedBy="organization")
+	@OneToMany(mappedBy="organization", fetch=FetchType.EAGER)
+	@Fetch(FetchMode.JOIN)
 	private List<Room> repos = new ArrayList<>();
 	
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.EAGER)
+	@Fetch(FetchMode.JOIN)
 	@Column
 	private Set<String> members = new HashSet<>();
 
