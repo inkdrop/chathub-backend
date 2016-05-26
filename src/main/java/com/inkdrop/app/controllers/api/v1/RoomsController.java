@@ -57,7 +57,6 @@ public class RoomsController extends BasicController {
 		try {
 			Room room = roomRepository.findByUid(uid);
 			room.setJoined(room.getUsers().contains(findByBackendToken(token, userRepository)));
-			
 			return new ResponseEntity<>(room, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error(e);

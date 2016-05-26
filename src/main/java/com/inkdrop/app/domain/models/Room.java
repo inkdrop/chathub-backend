@@ -59,7 +59,7 @@ public class Room extends BasePersistable {
 	@JsonIgnore
 	private List<Message> messages = new ArrayList<>();
 	
-	@ManyToMany(mappedBy="rooms", targetEntity=User.class, fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy="rooms", targetEntity=User.class)
 	@JsonIgnoreProperties({"backendAccessToken", "email", "memberSince", "firebaseJwt", "rooms", "location", "company"})
 	private Set<User> users = new HashSet<>();
 	

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inkdrop.app.domain.formatter.FormatterFactory;
 import com.inkdrop.app.domain.models.Organization;
 import com.inkdrop.app.domain.repositories.OrganizationRepository;
 
@@ -27,9 +26,7 @@ public class OrgsController extends BasicController {
 	public ResponseEntity<?> getOrgInfo(@PathVariable String login, @RequestHeader("Auth-Token") String token){
 		try{
 			Organization org = organizatioRepository.findByLoginIgnoreCase(login);
-			String resp = FormatterFactory.getFormatter(Organization.class).toJson(org);
-			
-			return createSuccessfulResponse(resp);
+			return createSuccessfulResponse(org);
 		} catch(Exception e) {
 			log.error(e);
 			return createErrorResponse(e);

@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="organizations", indexes = {
 		@Index(unique=true, columnList="uid"),
@@ -46,8 +48,8 @@ public class Organization extends BasePersistable {
 	@Column(nullable=true)
 	private String location;
 	
-	@OneToMany(mappedBy="organization", fetch=FetchType.EAGER)
-	@Fetch(FetchMode.JOIN)
+	@OneToMany(mappedBy="organization")
+	@JsonIgnoreProperties({"users", "joined", "organization"})
 	private List<Room> repos = new ArrayList<>();
 	
 	@ElementCollection(fetch=FetchType.EAGER)
