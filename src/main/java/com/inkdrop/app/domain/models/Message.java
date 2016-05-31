@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.inkdrop.app.helpers.TokenGeneratorHelper;
 
 @Entity
@@ -20,14 +20,14 @@ public class Message extends BasePersistable {
 	private static final long serialVersionUID = -5293724621181603251L;
 
 	@ManyToOne(optional=false)
-	@JsonIgnore
+	@JsonIgnoreProperties({"description", "homepage", "owner", "organization", "messages", "users", "_private", "joined"})
 	private Room room;
 
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String content;
 
 	@ManyToOne(optional = false)
-	@JsonIgnore
+	@JsonIgnoreProperties({"backendAccessToken", "email", "memberSince", "firebaseJwt", "rooms", "location", "company"})
 	private User sender;
 
 	@Column(nullable = false, unique = true, length = 15)
@@ -70,7 +70,7 @@ public class Message extends BasePersistable {
 	public void prePersist() {
 		super.prePersist();
 		if (uid == null)
-			uid = TokenGeneratorHelper.randomString(20);
+			uid = TokenGeneratorHelper.randomString(15);
 	}
 
 	@Override

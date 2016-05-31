@@ -4,6 +4,9 @@ spring:
 server:
   compression.enabled: true
   port: 8080
+  
+mixpanel: 
+  token: ${MIXPANEL_TOKEN}
 
 params:
   datasource:

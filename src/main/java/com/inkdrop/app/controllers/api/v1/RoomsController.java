@@ -1,19 +1,9 @@
 package com.inkdrop.app.controllers.api.v1;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.websocket.server.PathParam;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,21 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inkdrop.app.domain.formatter.models.MessagesPageJson;
-import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.MessageRepository;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
-import com.inkdrop.app.eventnotifier.EventNotifier;
 import com.inkdrop.app.services.RoomService;
 
 @RestController
 @EnableAutoConfiguration
 public class RoomsController extends BasicController {
 
-	private Logger log = LogManager.getLogger(RoomsController.class);
+	private Logger logger = LogManager.getLogger(RoomsController.class);
 
 	@Autowired
 	UserRepository userRepository;
@@ -50,29 +37,27 @@ public class RoomsController extends BasicController {
 	@Autowired
 	RoomService roomService;
 	
-	@Autowired EventNotifier emitter;
-
 	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}")
-	public ResponseEntity<?> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
+	public ResponseEntity<Object> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try {
 			Room room = roomRepository.findByUid(uid);
 			room.setJoined(room.getUsers().contains(findByBackendToken(token, userRepository)));
 			return new ResponseEntity<>(room, HttpStatus.OK);
 		} catch (Exception e) {
-			log.error(e);
-			e.printStackTrace();
+			logger.error(e);
 			return new ResponseEntity<>(exception(e), HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms")
-	public ResponseEntity<?> getRoomsFromUser(@RequestHeader("Auth-Token") String token){
+	public ResponseEntity<Object> getRoomsFromUser(@RequestHeader("Auth-Token") String token){
 		try{
+			logger.info("Loading rooms from user");
 			User user = userRepository.findByBackendAccessToken(token);
-			List<Room> rooms = mapToJson(user.getRooms());
-
-			return new ResponseEntity<List<?>>(rooms, HttpStatus.OK);
+			logger.info("User loaded");
+			return createSuccessfulResponse(jsonWithExclusions(user.getRooms(), "users", "organization"));
 		} catch (Exception e){
+			logger.error(e);
 			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
@@ -84,10 +69,9 @@ public class RoomsController extends BasicController {
 			Room room = roomRepository.findByUid(uid);
 
 			roomService.joinRoom(user, room);
-			emitter.joinRoom(user, room);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch(Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return new ResponseEntity<>(exception(e), HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
@@ -99,44 +83,33 @@ public class RoomsController extends BasicController {
 			Room room = roomRepository.findByUid(uid);
 
 			roomService.leave(user, room);
-			emitter.leaveRoom(user, room);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch(Exception e) {
+			logger.error(e);
 			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}/messages", produces="application/json; charset=UTF-8")
-	public ResponseEntity<?> findLast10Messages(@PathVariable Integer uid, @PathParam("page") Integer page){
-		try{
-			Room room = roomRepository.findByUid(uid);
-			page = page == null ? 0 : page;
-			Page<Message> pageResult = messageRepository.findByRoom(room, getPageable(page));
-			MessagesPageJson result = formatResult(pageResult);
-
-			return new ResponseEntity<MessagesPageJson>(result, HttpStatus.OK);
-		} catch(Exception e){
-			e.printStackTrace();
-			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	private MessagesPageJson formatResult(Page<Message> pageResult) {
-		return new MessagesPageJson(pageResult);
-	}
-
-	private Pageable getPageable(Integer page) {
-		return new PageRequest(page, 50, Sort.Direction.DESC, "createdAt");
-	}
-
-	private List<Room> mapToJson(Set<Room> rooms) {
-//		List<Repo> roomsJson = new ArrayList<>();
-//		for (Organization r : rooms) {
-//			OrganizationJson json = new OrganizationJson(r);
-//			json.setCount(messageRepository.countByRoom(r)); // Using SQL to count instead count on list
-//			roomsJson.add(json);
+	//	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}/messages", produces="application/json; charset=UTF-8")
+//	public ResponseEntity<?> findLast10Messages(@PathVariable Integer uid, @PathParam("page") Integer page){
+//		try{
+//			Room room = roomRepository.findByUid(uid);
+//			page = page == null ? 0 : page;
+//			Page<Message> pageResult = messageRepository.findByRoom(room, getPageable(page));
+//			MessagesPageJson result = formatResult(pageResult);
+//
+//			return new ResponseEntity<MessagesPageJson>(result, HttpStatus.OK);
+//		} catch(Exception e){
+//			e.printStackTrace();
+//			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 //		}
-
-		return new ArrayList<>();
-	}
+//	}
+//
+//	private MessagesPageJson formatResult(Page<Message> pageResult) {
+//		return new MessagesPageJson(pageResult);
+//	}
+//
+//	private Pageable getPageable(Integer page) {
+//		return new PageRequest(page, 50, Sort.Direction.DESC, "createdAt");
+//	}
 }

@@ -7,16 +7,12 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -50,8 +46,7 @@ public class Room extends BasePersistable {
 	@Column(nullable=false)
 	private String owner;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@Fetch(FetchMode.JOIN)
+	@ManyToOne
 	@JsonIgnoreProperties({"repos", "members"})
 	private Organization organization;
 	
@@ -159,6 +154,4 @@ public class Room extends BasePersistable {
 	public boolean isJoined() {
 		return joined;
 	}
-	
-	
 }

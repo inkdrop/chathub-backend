@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -61,7 +62,7 @@ public class User extends BasePersistable {
 	@CreationTimestamp
 	private Date memberSince;
 
-	@ManyToMany(targetEntity=Room.class, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity=Room.class, cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name="room_users",
 				joinColumns={ @JoinColumn(name="user_id") },
 				inverseJoinColumns={ @JoinColumn(name="room_id") })
