@@ -16,6 +16,8 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -24,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 		@Index(columnList="uid", name="uid_room_idx"),
 		@Index(columnList="fullName", name="full_name_idx")
 })
+@JsonInclude(content=Include.NON_NULL)
 public class Room extends BasePersistable {
 
 	private static final long serialVersionUID = 1L;

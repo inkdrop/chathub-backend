@@ -2,6 +2,7 @@ package com.inkdrop.app.consumers;
 
 import javax.annotation.PostConstruct;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,15 +31,18 @@ public class EventConsumer {
 	@PostConstruct
 	public void onStartUp() {
 		r.on(Selectors.R(MESSAGE_SAVED), createEventAndPush());
+		r.on(Selectors.R(EVENT), pushToMixpanel());
 	}
 
 	public Consumer<Event<Message>> createEventAndPush() {
 		return event -> push(event.getData());
 	}
 	
-
+	public Consumer<Event<JSONObject>> pushToMixpanel() {
+		return event -> mixpanelApi.sendEvent(event.getData());
+	}
+	
 	private void push(Message m) {
-		mixpanelApi.sendEvent(m.getUid(), "message_sent");
 		sendMessage(m);
 	}
 

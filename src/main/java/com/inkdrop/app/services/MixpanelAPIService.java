@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.JsonObject;
 import com.mixpanel.mixpanelapi.ClientDelivery;
 import com.mixpanel.mixpanelapi.MessageBuilder;
 import com.mixpanel.mixpanelapi.MixpanelAPI;
@@ -17,19 +18,26 @@ public class MixpanelAPIService {
 	
 	@Value("${mixpanel.token}")
 	String mixpanelToken;
+
+	private MessageBuilder mbuilder;
 	
-	public void sendEvent(String id, String eventName){
+	public MixpanelAPIService() {
+		mbuilder = new MessageBuilder(mixpanelToken);
+	}
+	
+	public void sendEvent(JSONObject event){
 		try{
-			MessageBuilder messages = new MessageBuilder(mixpanelToken);
-			JSONObject event = messages.event(id, eventName, null);
-			
 			ClientDelivery delivery = new ClientDelivery();
 			delivery.addMessage(event);
 			
 			 new MixpanelAPI().deliver(delivery);
 		} catch(Exception e){
+			e.printStackTrace();
 			logger.error(e);
 		}
-		
+	}
+	
+	public MessageBuilder getMessageBuilder() {
+		return mbuilder;
 	}
 }

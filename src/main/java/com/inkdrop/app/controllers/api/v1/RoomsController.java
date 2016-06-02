@@ -1,5 +1,8 @@
 package com.inkdrop.app.controllers.api.v1;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;
-import com.inkdrop.app.domain.repositories.MessageRepository;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.services.RoomService;
@@ -32,10 +34,19 @@ public class RoomsController extends BasicController {
 	RoomRepository roomRepository;
 
 	@Autowired
-	MessageRepository messageRepository;
-
-	@Autowired
 	RoomService roomService;
+	
+	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms")
+	public ResponseEntity<?> getRoomsFromUser(@RequestHeader("Auth-Token") String token){
+		try{
+			User user = userRepository.findByBackendAccessToken(token);
+			Set<Room> rooms = formatRooms(user.getRooms());
+			return new ResponseEntity<>(rooms, HttpStatus.OK);
+		} catch (Exception e){
+			logger.error(e);
+			return createErrorResponse(e);
+		}
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}")
 	public ResponseEntity<Object> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
@@ -46,19 +57,6 @@ public class RoomsController extends BasicController {
 		} catch (Exception e) {
 			logger.error(e);
 			return new ResponseEntity<>(exception(e), HttpStatus.NOT_FOUND);
-		}
-	}
-
-	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms")
-	public ResponseEntity<Object> getRoomsFromUser(@RequestHeader("Auth-Token") String token){
-		try{
-			logger.info("Loading rooms from user");
-			User user = userRepository.findByBackendAccessToken(token);
-			logger.info("User loaded");
-			return createSuccessfulResponse(jsonWithExclusions(user.getRooms(), "users", "organization"));
-		} catch (Exception e){
-			logger.error(e);
-			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -89,7 +87,12 @@ public class RoomsController extends BasicController {
 			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-
+	
+	private Set<Room> formatRooms(Set<Room> rooms) {
+		Set<Room> formattedRooms = new HashSet<>();
+		rooms.forEach(room -> formattedRooms.add((Room) excludeFieldsFromObject(room, new String[]{"users"})));
+		return formattedRooms;
+	}
 	//	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}/messages", produces="application/json; charset=UTF-8")
 //	public ResponseEntity<?> findLast10Messages(@PathVariable Integer uid, @PathParam("page") Integer page){
 //		try{

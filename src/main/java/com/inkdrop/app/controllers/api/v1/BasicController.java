@@ -1,19 +1,15 @@
 package com.inkdrop.app.controllers.api.v1;
 
-import static com.monitorjbl.json.Match.match;
-
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.UserRepository;
-import com.monitorjbl.json.JsonResult;
-import com.monitorjbl.json.JsonView;
 
 class BasicController {
 
@@ -41,9 +37,23 @@ class BasicController {
 		}
 	}
 	
-	protected Object jsonWithExclusions(Object object, String... fields) throws JsonProcessingException{
-		JsonResult json = JsonResult.instance();
-		return json.use(JsonView.with(object).onClass(object.getClass(), match().exclude(fields))).returnValue();
+	protected Object excludeFieldsFromObject(Object object, String[] ignoredFields){
+		try {
+			for (String string : ignoredFields) {
+				Field f = object.getClass().getDeclaredField(string);
+				if(f == null)
+					continue;
+				
+				f.setAccessible(true);
+				f.set(object, null);
+			}
+			
+			return object;
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 	
 	protected ResponseEntity<Object> createSuccessfulResponse(Object response){
