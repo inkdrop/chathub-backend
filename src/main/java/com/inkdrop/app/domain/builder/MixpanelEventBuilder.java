@@ -1,5 +1,7 @@
 package com.inkdrop.app.domain.builder;
 
+import java.util.Map;
+
 import javax.annotation.Nonnull;
 
 import org.json.JSONObject;
@@ -12,7 +14,7 @@ public class MixpanelEventBuilder {
 	private EventType type;
 	private MessageBuilder messageBuilder;
 	private String id;
-//	private Map<String, String> props;
+	private Map<String, String> props;
 	
 	private MixpanelEventBuilder(MessageBuilder messageBuilder) {
 		this.messageBuilder = messageBuilder;
@@ -31,10 +33,10 @@ public class MixpanelEventBuilder {
 		return this;
  	}
 	
-//	public MixpanelEventBuilder withProperties(Map<String, String> props){
-//		this.props = props;
-//		return this;
-//	}
+	public MixpanelEventBuilder andProperties(Map<String, String> props){
+		this.props = props;
+		return this;
+	}
 	
 	public JSONObject build(){
 		 return messageBuilder.event(id, type.getKey(), null);

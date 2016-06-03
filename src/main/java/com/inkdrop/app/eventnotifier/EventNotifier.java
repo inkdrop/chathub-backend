@@ -8,7 +8,7 @@ import com.inkdrop.app.domain.builder.MixpanelEventBuilder;
 import com.inkdrop.app.domain.models.EventType;
 import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.domain.models.User;
-import com.inkdrop.app.services.MixpanelAPIService;
+import com.mixpanel.mixpanelapi.MessageBuilder;
 
 import reactor.core.Reactor;
 import reactor.event.Event;
@@ -18,13 +18,13 @@ public class EventNotifier {
 	
 	@Autowired Reactor r;
 	
-	@Autowired MixpanelAPIService mixpanelAPIService;
+	@Autowired MessageBuilder mbuilder;
 	
 	public void messageSaved(Message m){
 		r.notify(EventConsumer.MESSAGE_SAVED, Event.wrap(m));
 		r.notify(EventConsumer.EVENT, Event.wrap(
 				MixpanelEventBuilder
-				.newEvent(mixpanelAPIService.getMessageBuilder())
+				.newEvent(mbuilder)
 				.ofType(EventType.MESSAGE_SENT)
 				.withDistinctId(m.getUid())
 				.build()));
