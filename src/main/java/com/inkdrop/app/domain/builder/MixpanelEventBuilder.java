@@ -39,6 +39,6 @@ public class MixpanelEventBuilder {
 	}
 	
 	public JSONObject build(){
-		 return messageBuilder.event(id, type.getKey(), null);
+		 return messageBuilder.event(id, type.getKey(), this.props != null ? new JSONObject(props) : null);
 	}
 }
