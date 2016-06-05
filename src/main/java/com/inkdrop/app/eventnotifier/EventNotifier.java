@@ -35,7 +35,13 @@ public class EventNotifier {
 	}
 	
 	public void newUser(User user){
-		
+		r.notify(EventConsumer.EVENT, Event.wrap(
+				MixpanelEventBuilder
+				.newEvent(mbuilder)
+				.ofType(EventType.NEW_USER)
+				.withDistinctId(user.getUid().toString())
+//				.andProperties(getProperties(m))
+				.build()));
 	}
 	
 	private Map<String, String> getProperties(Message m){

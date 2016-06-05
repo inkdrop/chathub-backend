@@ -2,6 +2,8 @@
 
 set -e
 
-mvn clean package -DskipTests;
+mvn clean package docker:build -DskipTests -DpushImage;
 
 find . -name *chathub*.jar -exec du -h {} \;
+
+mvn clean;

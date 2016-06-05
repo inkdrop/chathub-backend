@@ -2,15 +2,14 @@ package com.inkdrop.app.helpers;
 
 import java.security.SecureRandom;
 
-public class TokenGeneratorHelper {
-	static final String ALLOWED = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvzyzw";
-	static SecureRandom random = new SecureRandom();
-	
-	private TokenGeneratorHelper() {
-		//
-	}
+import lombok.experimental.UtilityClass;
 
-	public static String randomString(int len){
+@UtilityClass
+public class TokenGeneratorHelper {
+	private final String ALLOWED = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvzyzw";
+	private SecureRandom random = new SecureRandom();
+	
+	public String newToken(int len){
 		StringBuilder sb = new StringBuilder(len);
 		for(int i = 0; i < len; i++)
 			sb.append(ALLOWED.charAt(random.nextInt(ALLOWED.length())));

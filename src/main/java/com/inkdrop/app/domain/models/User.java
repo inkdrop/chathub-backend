@@ -83,6 +83,6 @@ public class User extends BasePersistable {
 	public void prePersist(){
 		super.prePersist();
 		if(backendAccessToken == null)
-			backendAccessToken = TokenGeneratorHelper.randomString(25);
+			backendAccessToken = TokenGeneratorHelper.newToken(25);
 	}
 }
