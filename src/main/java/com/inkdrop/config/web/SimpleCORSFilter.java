@@ -12,14 +12,12 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 @WebFilter(urlPatterns={"/**", "/*", "*"})
+@Slf4j
 public class SimpleCORSFilter implements Filter {
 	
-	private final Logger log = LogManager.getLogger(SimpleCORSFilter.class);
-
 	@Override
    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 		log.info("Allowing CORS");

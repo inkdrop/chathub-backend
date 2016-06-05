@@ -3,8 +3,8 @@ package com.inkdrop.config.reactor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import reactor.core.Reactor;
-import reactor.event.dispatch.RingBufferDispatcher;
+import reactor.bus.EventBus;
+import reactor.core.dispatch.RingBufferDispatcher;
 import reactor.spring.context.config.EnableReactor;
 
 @Configuration
@@ -12,7 +12,7 @@ import reactor.spring.context.config.EnableReactor;
 public class ReactorConfigurator {
 
 	@Bean
-	public Reactor reactor(){
-		return new Reactor(new RingBufferDispatcher("rb-dispatcher"));
+	public EventBus reactor(){
+		return new EventBus(new RingBufferDispatcher("rb-dispatcher"));
 	}
 }

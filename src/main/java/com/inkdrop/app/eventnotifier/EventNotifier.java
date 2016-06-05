@@ -13,13 +13,13 @@ import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.domain.models.User;
 import com.mixpanel.mixpanelapi.MessageBuilder;
 
-import reactor.core.Reactor;
-import reactor.event.Event;
+import reactor.bus.Event;
+import reactor.bus.EventBus;
 
 @Component
 public class EventNotifier {
 	
-	@Autowired Reactor r;
+	@Autowired EventBus r;
 	
 	@Autowired MessageBuilder mbuilder;
 	

@@ -3,8 +3,6 @@ package com.inkdrop.app.controllers.api.v1;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -21,11 +19,12 @@ import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.services.RoomService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @EnableAutoConfiguration
+@Slf4j
 public class RoomsController extends BasicController {
-
-	private Logger logger = LogManager.getLogger(RoomsController.class);
 
 	@Autowired
 	UserRepository userRepository;
@@ -43,7 +42,7 @@ public class RoomsController extends BasicController {
 			Set<Room> rooms = formatRooms(user.getRooms());
 			return new ResponseEntity<>(rooms, HttpStatus.OK);
 		} catch (Exception e){
-			logger.error(e);
+			log.error(e.getLocalizedMessage());
 			return createErrorResponse(e);
 		}
 	}
@@ -55,7 +54,7 @@ public class RoomsController extends BasicController {
 			room.setJoined(room.getUsers().contains(findByBackendToken(token, userRepository)));
 			return new ResponseEntity<>(room, HttpStatus.OK);
 		} catch (Exception e) {
-			logger.error(e);
+			log.error(e.getLocalizedMessage());
 			return new ResponseEntity<>(exception(e), HttpStatus.NOT_FOUND);
 		}
 	}
@@ -69,7 +68,7 @@ public class RoomsController extends BasicController {
 			roomService.joinRoom(user, room);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch(Exception e) {
-			logger.error(e);
+			log.error(e.getLocalizedMessage());
 			return new ResponseEntity<>(exception(e), HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
@@ -83,7 +82,7 @@ public class RoomsController extends BasicController {
 			roomService.leave(user, room);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch(Exception e) {
-			logger.error(e);
+			log.error(e.getLocalizedMessage());
 			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}

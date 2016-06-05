@@ -21,12 +21,17 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inkdrop.app.helpers.TokenGeneratorHelper;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name="users", indexes = {
 		@Index(unique=true, columnList="uid"),
 		@Index(unique=true, columnList="backendAccessToken"),
 		@Index(columnList="backendAccessToken", name="idx_backend")
 })
+@Data
+@EqualsAndHashCode(callSuper=true)
 public class User extends BasePersistable {
 	private static final long serialVersionUID = 1492535311821424305L;
 
@@ -72,101 +77,6 @@ public class User extends BasePersistable {
 	@Transient
 	private String firebaseJwt = "";
 
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-	public Integer getUid() {
-		return uid;
-	}
-
-	public void setUid(Integer uid) {
-		this.uid = uid;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public String getCompany() {
-		return company;
-	}
-
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-
-	public String getAccessToken() {
-		return accessToken;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
-
-	public Date getMemberSince() {
-		return memberSince;
-	}
-
-	public void setMemberSince(Date memberSince) {
-		this.memberSince = memberSince;
-	}
-
-	public Set<Room> getRooms() {
-		return rooms;
-	}
-
-	public void setRooms(Set<Room> rooms) {
-		this.rooms = rooms;
-	}
-
-	public String getBackendAccessToken() {
-		return backendAccessToken;
-	}
-
-	public void setBackendAccessToken(String backendAccessToken) {
-		this.backendAccessToken = backendAccessToken;
-	}
-	
-	public String getFirebaseJwt() {
-		return firebaseJwt;
-	}
-	
-	public void setFirebaseJwt(String firebaseJwt) {
-		this.firebaseJwt = firebaseJwt;
-	}
 
 	@Override
 	@PrePersist
@@ -174,10 +84,5 @@ public class User extends BasePersistable {
 		super.prePersist();
 		if(backendAccessToken == null)
 			backendAccessToken = TokenGeneratorHelper.randomString(25);
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + getId() + ", nickname=" + nickname + "]";
 	}
 }

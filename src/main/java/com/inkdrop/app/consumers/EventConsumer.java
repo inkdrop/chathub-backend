@@ -12,10 +12,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.services.MixpanelAPIService;
 
-import reactor.core.Reactor;
-import reactor.event.Event;
-import reactor.event.selector.Selectors;
-import reactor.function.Consumer;
+import reactor.bus.Event;
+import reactor.bus.EventBus;
+import reactor.bus.selector.Selectors;
+import reactor.fn.Consumer;
 
 @Component
 public class EventConsumer {
@@ -23,7 +23,7 @@ public class EventConsumer {
 	public static final String MESSAGE_SAVED = "message_saved";
 	public static final String EVENT = "event";
 
-	@Autowired Reactor r;
+	@Autowired EventBus r;
 	
 	@Autowired MixpanelAPIService mixpanelApi;
 	

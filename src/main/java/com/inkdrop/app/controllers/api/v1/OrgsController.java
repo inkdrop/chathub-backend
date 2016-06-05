@@ -1,7 +1,5 @@
 package com.inkdrop.app.controllers.api.v1;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inkdrop.app.domain.models.Organization;
 import com.inkdrop.app.domain.repositories.OrganizationRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @EnableAutoConfiguration
+@Slf4j
 public class OrgsController extends BasicController {
-	
-	private Logger log = LogManager.getLogger(OrgsController.class);
 	
 	@Autowired OrganizationRepository organizatioRepository;
 
@@ -28,7 +27,7 @@ public class OrgsController extends BasicController {
 			Organization org = organizatioRepository.findByLoginIgnoreCase(login);
 			return createSuccessfulResponse(org);
 		} catch(Exception e) {
-			log.error(e);
+			log.error(e.getLocalizedMessage());
 			return createErrorResponse(e);
 		}
 	}

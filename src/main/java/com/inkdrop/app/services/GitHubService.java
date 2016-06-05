@@ -3,8 +3,6 @@ package com.inkdrop.app.services;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
@@ -22,7 +20,10 @@ import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.eventnotifier.EventNotifier;
 import com.inkdrop.app.exceptions.ChathubBackendException;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class GitHubService {
 
 	@Autowired UserRepository userRepository;
@@ -32,8 +33,6 @@ public class GitHubService {
 	@Autowired RoomRepository roomRespository;
 	
 	@Autowired EventNotifier notifier;
-
-	private Logger log = LogManager.getLogger(GitHubService.class);
 
 	@Transactional
 	public void createFromGithub(String token) throws IOException {

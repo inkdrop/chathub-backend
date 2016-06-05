@@ -1,17 +1,16 @@
 package com.inkdrop.app.services;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.mixpanel.mixpanelapi.ClientDelivery;
 import com.mixpanel.mixpanelapi.MixpanelAPI;
 
-@Service
-public class MixpanelAPIService {
+import lombok.extern.slf4j.Slf4j;
 
-	private Logger logger = LogManager.getLogger(MixpanelAPIService.class);
+@Service
+@Slf4j
+public class MixpanelAPIService {
 
 	public void sendEvent(JSONObject event){
 		try{
@@ -21,7 +20,7 @@ public class MixpanelAPIService {
 			 new MixpanelAPI().deliver(delivery);
 		} catch(Exception e){
 			e.printStackTrace();
-			logger.error(e);
+			log.error(e.getLocalizedMessage());
 		}
 	}
 }

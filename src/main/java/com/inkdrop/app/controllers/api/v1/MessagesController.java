@@ -1,7 +1,5 @@
 package com.inkdrop.app.controllers.api.v1;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -21,11 +19,12 @@ import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.eventnotifier.EventNotifier;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @EnableAutoConfiguration
+@Slf4j
 public class MessagesController extends BasicController {
-
-	private Logger log = LogManager.getLogger(MessagesController.class);
 
 	@Autowired MessageRepository messageRepository;
 
@@ -49,7 +48,7 @@ public class MessagesController extends BasicController {
 			eventNotifier.messageSaved(m);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		}catch(Exception e){
-			log.error(e);
+			log.error(e.getLocalizedMessage());
 			e.printStackTrace();
 			return new ResponseEntity<>(exception(e), HttpStatus.BAD_REQUEST);
 		}

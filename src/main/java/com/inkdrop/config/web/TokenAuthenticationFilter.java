@@ -12,20 +12,19 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import com.inkdrop.app.domain.repositories.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @WebFilter(urlPatterns={"/v1/*", "/v1/**"})
+@Slf4j
 public class TokenAuthenticationFilter implements Filter {
 
 	@Autowired
 	UserRepository userRepository;
-
-	private Logger log = LogManager.getLogger(TokenAuthenticationFilter.class);
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {

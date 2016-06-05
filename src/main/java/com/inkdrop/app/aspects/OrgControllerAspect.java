@@ -1,6 +1,5 @@
 package com.inkdrop.app.aspects;
 
-import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -16,10 +15,12 @@ import com.inkdrop.app.exceptions.ChathubBackendException;
 import com.inkdrop.app.helpers.InstantHelper;
 import com.inkdrop.app.services.GitHubService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Aspect
 @Component
+@Slf4j
 public class OrgControllerAspect {
-	private Logger logger = Logger.getLogger(OrgControllerAspect.class);
 
 	@Autowired
 	OrganizationRepository orgRepository;
@@ -44,7 +45,7 @@ public class OrgControllerAspect {
 		String accessToken = getUserByBackendToken(token).getAccessToken();
 
 		if(org == null || InstantHelper.biggerThanSixHours(org.getUpdatedAt())) {
-			logger.info("Org needs to be created or updated");
+			log.info("Org needs to be created or updated");
 			githubService.createOrUpdateOrg(orgLogin, accessToken);
 		}
 	}
