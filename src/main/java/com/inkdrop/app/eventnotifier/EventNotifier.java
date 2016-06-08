@@ -30,7 +30,7 @@ public class EventNotifier {
 				.newEvent(mbuilder)
 				.ofType(EventType.MESSAGE_SENT)
 				.withDistinctId(m.getUid())
-				.andProperties(getProperties(m))
+				.andProperties(getMessageProperties(m))
 				.build()));
 	}
 	
@@ -44,7 +44,7 @@ public class EventNotifier {
 				.build()));
 	}
 	
-	private Map<String, String> getProperties(Message m){
+	private Map<String, String> getMessageProperties(Message m){
 		Map<String, String> map = new HashMap<>();
 		map.put("sender_id", m.getSender().getId().toString());
 		map.put("room_id", m.getRoom().getId().toString());

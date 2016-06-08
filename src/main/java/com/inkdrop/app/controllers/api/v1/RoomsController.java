@@ -48,14 +48,14 @@ public class RoomsController extends BasicController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}")
-	public ResponseEntity<Object> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
+	public ResponseEntity<?> getRoomInformation(@PathVariable Integer uid, @RequestHeader("Auth-Token") String token){
 		try {
 			Room room = roomRepository.findByUid(uid);
 			room.setJoined(room.getUsers().contains(findByBackendToken(token, userRepository)));
 			return new ResponseEntity<>(room, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
-			return new ResponseEntity<>(exception(e), HttpStatus.NOT_FOUND);
+			return createErrorResponse(e);
 		}
 	}
 
@@ -69,7 +69,7 @@ public class RoomsController extends BasicController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch(Exception e) {
 			log.error(e.getLocalizedMessage());
-			return new ResponseEntity<>(exception(e), HttpStatus.UNPROCESSABLE_ENTITY);
+			return createErrorResponse(e);
 		}
 	}
 

@@ -12,9 +12,11 @@ import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -33,9 +35,11 @@ public class Organization extends BasePersistable {
 	private static final long serialVersionUID = -7119760968529447945L;
 
 	@Column(nullable=false)
+	@NotEmpty
 	private String name;
 
 	@Column(nullable=false, unique = true)
+	@NotNull
 	private Integer uid;
 
 	@Column
@@ -48,6 +52,7 @@ public class Organization extends BasePersistable {
 	private String company;
 
 	@Column(nullable=false)
+	@NotNull
 	private String login;
 
 	@Column(nullable=true)

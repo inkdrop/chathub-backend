@@ -18,6 +18,7 @@ import com.inkdrop.app.domain.repositories.MessageRepository;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.eventnotifier.EventNotifier;
+import com.inkdrop.app.exceptions.ChathubBackendException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,20 +48,21 @@ public class MessagesController extends BasicController {
 
 			eventNotifier.messageSaved(m);
 			return new ResponseEntity<>(HttpStatus.CREATED);
-		}catch(Exception e){
+		}catch(ChathubBackendException e){
 			log.error(e.getLocalizedMessage());
-			e.printStackTrace();
-			return new ResponseEntity<>(exception(e), HttpStatus.BAD_REQUEST);
+			return createErrorResponse(e);
 		}
 	}
 	
-	private Message buildMessage(String content, Room room, User user) {
+	private Message buildMessage(String content, Room room, User user) throws ChathubBackendException {
 		Message m = new Message();
 
 		m.setRoom(room);
 		m.setSender(user);
 		m.setContent(content);
 
+		if(!isValid(m))
+			throw new ChathubBackendException("Message is not valid");
 		return m;
 	}
 }

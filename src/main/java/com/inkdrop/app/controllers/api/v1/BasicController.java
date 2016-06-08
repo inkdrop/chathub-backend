@@ -3,6 +3,10 @@ package com.inkdrop.app.controllers.api.v1;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -37,6 +41,12 @@ class BasicController {
 		}
 	}
 	
+	protected boolean isValid(Object object){
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+      Validator validator = factory.getValidator();
+      return validator.validate(object).isEmpty();
+	}
+	
 	protected Object excludeFieldsFromObject(Object object, String[] ignoredFields){
 		try {
 			for (String string : ignoredFields) {
@@ -61,14 +71,14 @@ class BasicController {
 	}
 	
 	protected ResponseEntity<String> createErrorResponse(Exception response){
-		return new ResponseEntity<>(response.getMessage(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(exception(response), HttpStatus.BAD_REQUEST);
 	}
 	
 	protected User findByBackendToken(String token, UserRepository userRepository){
 		return userRepository.findByBackendAccessToken(token);
 	}
 	
-	protected String exception(Exception e){
-		return "{'error': '"+e.getMessage()+"' }";
+	private String exception(Exception e){
+		return "{\"error\": \""+e.getMessage()+"\" }";
 	}
 }
