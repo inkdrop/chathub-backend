@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @EnableAutoConfiguration
 @Slf4j
-public class OrgsController extends BasicController {
+public class OrganizationsController extends BasicController {
 	
 	@Autowired OrganizationRepository organizatioRepository;
 
