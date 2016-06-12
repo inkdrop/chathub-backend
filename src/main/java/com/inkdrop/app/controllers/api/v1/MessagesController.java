@@ -48,7 +48,7 @@ public class MessagesController extends BasicController {
 
 			eventNotifier.messageSaved(m);
 			return new ResponseEntity<>(HttpStatus.CREATED);
-		}catch(ChathubBackendException e){
+		} catch(ChathubBackendException e){
 			log.error(e.getLocalizedMessage());
 			return createErrorResponse(e);
 		}

@@ -22,9 +22,7 @@ class BasicController {
 		
 		private String content;
 		
-		public Params() {
-			// Default
-		}
+		public Params() {}
 		
 		@JsonCreator
 		public Params(@JsonProperty("content") String content) {
@@ -63,15 +61,22 @@ class BasicController {
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
 	
 	protected ResponseEntity<Object> createSuccessfulResponse(Object response){
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		return createSuccessfulResponse(response, HttpStatus.OK);
+	}
+	
+	protected ResponseEntity<Object> createSuccessfulResponse(Object response, HttpStatus status){
+		return new ResponseEntity<>(response, status);
 	}
 	
 	protected ResponseEntity<String> createErrorResponse(Exception response){
-		return new ResponseEntity<>(exception(response), HttpStatus.BAD_REQUEST);
+		return createErrorResponse(response, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
+	
+	protected ResponseEntity<String> createErrorResponse(Exception response, HttpStatus status){
+		return new ResponseEntity<>(exception(response), status);
 	}
 	
 	protected User findByBackendToken(String token, UserRepository userRepository){

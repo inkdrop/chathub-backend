@@ -83,7 +83,7 @@ public class RoomsController extends BasicController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch(Exception e) {
 			log.error(e.getLocalizedMessage());
-			return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+			return createErrorResponse(e);
 		}
 	}
 	

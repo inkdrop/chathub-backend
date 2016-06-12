@@ -15,8 +15,8 @@ import com.zaxxer.hikari.HikariDataSource;
 @ConfigurationProperties(prefix = "params.datasource")
 public class DataSourceConfiguration extends HikariConfig {
 
-    @Bean
-    public DataSource dataSource() throws SQLException {
-        return new HikariDataSource(this);
-    }
+	@Bean
+	public DataSource dataSource() throws SQLException {
+		return new HikariDataSource(this);
+	}
 }
