@@ -86,6 +86,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>io.projectreactor.spring</groupId>
       <artifactId>reactor-spring-context</artifactId>
     </dependency>
