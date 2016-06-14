@@ -13,7 +13,7 @@ api:
     - redis
 
 lb:
-  image: 'dockercloud/haproxy:1.2.1'
+  image: 'dockercloud/haproxy:1.5.1'
   links:
     - api
   ports:

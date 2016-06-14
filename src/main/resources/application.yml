@@ -5,9 +5,9 @@ spring:
 server:
   compression.enabled: true
   port: 8080
-  
-mixpanel: 
-  token: ${MIXPANEL_TOKEN}
+
+mixpanel:
+  token: invalid
 
 params:
   datasource:
@@ -39,7 +39,7 @@ cache:
 
 spring:
   profiles: test
-  
+
 params:
   datasource:
     jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub_test
@@ -56,13 +56,15 @@ spring.jpa:
 ---
 
 # Production
-
 spring:
   profiles: docker
-    
+
 cache:
   host: redis
   port: 6379
+  
+mixpanel:
+  token: ${MIXPANEL_TOKEN}
 
 params:
   datasource:
