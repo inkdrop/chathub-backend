@@ -11,7 +11,7 @@ public class TestHelper {
 	
 	protected User createUser(){
 		User u = new User();
-		u.setNickname("testUser");
+		u.setLogin("testUser");
 		u.setUid(1234);
 		
 		return userRepo.save(u);

@@ -13,7 +13,7 @@ import com.inkdrop.app.domain.repositories.OrganizationRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
 import com.inkdrop.app.exceptions.ChathubBackendException;
 import com.inkdrop.app.helpers.InstantHelper;
-import com.inkdrop.app.services.GitHubService;
+import com.inkdrop.app.services.github.OrganizationService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,22 +29,22 @@ public class OrgControllerAspect {
 	UserRepository userRepository;
 
 	@Autowired
-	GitHubService githubService;
+	OrganizationService organizationService;
 
 	@Pointcut("execution(* getOrgInfo*(..))")
 	public void getOrgInfo() {}
 
 	@Before("com.inkdrop.app.aspects.OrgControllerAspect.getOrgInfo()")
 	public void checkRoomExists(JoinPoint joinPoint) throws ChathubBackendException {
-		String orgLogin = (String) joinPoint.getArgs()[0];
-		String token = (String) joinPoint.getArgs()[1];
+		String login = (String) joinPoint.getArgs()[0];
+		String backendToken = (String) joinPoint.getArgs()[1];
 
-		Organization org = orgRepository.findByLoginIgnoreCase(orgLogin);
-		String accessToken = getUserByBackendToken(token).getAccessToken();
+		Organization org = orgRepository.findByLoginIgnoreCase(login);
+		String accessToken = getUserByBackendToken(backendToken).getAccessToken();
 
 		if(org == null || InstantHelper.biggerThanSixHours(org.getUpdatedAt())) {
 			log.info("Organization needs to be created or updated");
-			githubService.createOrUpdateOrg(orgLogin, accessToken);
+			organizationService.findOrCreateOrganizationByName(accessToken, login);
 		}
 	}
 

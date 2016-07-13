@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inkdrop.app.domain.models.Organization;
 import com.inkdrop.app.domain.repositories.OrganizationRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
-import com.inkdrop.app.services.GitHubService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,9 +24,6 @@ public class OrganizationsController extends BasicController {
 	
 	@Autowired
 	UserRepository userRepository;
-
-	@Autowired
-	GitHubService githubService;
 
 	@RequestMapping(method = RequestMethod.GET, path="/v1/orgs/{login}")
 	public ResponseEntity<?> getOrgInfo(@PathVariable String login, @RequestHeader("Auth-Token") String token){

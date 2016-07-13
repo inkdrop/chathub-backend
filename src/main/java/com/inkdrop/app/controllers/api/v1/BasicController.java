@@ -15,7 +15,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.UserRepository;
 
-class BasicController {
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class BasicController {
 
 	static class Params implements Serializable {
 		private static final long serialVersionUID = 6961393145500932303L;
@@ -55,10 +58,9 @@ class BasicController {
 				f.setAccessible(true);
 				f.set(object, null);
 			}
-			
 			return object;
 		}catch(Exception e){
-			e.printStackTrace();
+			log.error("Could not exclude fields", e);
 			return null;
 		}
 	}

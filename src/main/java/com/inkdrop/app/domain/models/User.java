@@ -19,6 +19,9 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.inkdrop.app.helpers.TokenGeneratorHelper;
 
 import lombok.Data;
@@ -28,15 +31,18 @@ import lombok.EqualsAndHashCode;
 @Table(name="users", indexes = {
 		@Index(unique=true, columnList="uid"),
 		@Index(unique=true, columnList="backendAccessToken"),
-		@Index(columnList="backendAccessToken", name="idx_backend")
+		@Index(unique=true, columnList="login"),
+		@Index(columnList="backendAccessToken", name="idx_backend"),
+		@Index(columnList="login", name="idx_login")
 })
 @Data
 @EqualsAndHashCode(callSuper=true)
+@JsonInclude(content=Include.NON_NULL)
 public class User extends BasePersistable {
 	private static final long serialVersionUID = 1492535311821424305L;
 
 	@Column(nullable=false, unique=true)
-	private String nickname;
+	private String login;
 
 	@Column(nullable=false)
 	private Integer uid;
@@ -75,6 +81,7 @@ public class User extends BasePersistable {
 	private Set<Room> rooms = new HashSet<>();
 	
 	@Transient
+	@JsonProperty(value="firebase_token")
 	private String firebaseJwt = "";
 
 

@@ -25,7 +25,6 @@ public class BasePersistable implements Serializable {
 	private Long id;
 
 	@CreatedDate
-	@JsonIgnore
 	private Date createdAt;
 
 	@LastModifiedDate

@@ -15,17 +15,17 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class FirebaseConfig {
-	
-	 @Autowired
-    private ResourceLoader resourceLoader;
-	 
+
+	@Autowired
+	private ResourceLoader resourceLoader;
+
 	@Bean
 	public FirebaseApp firebase(){
 		try {
 			FirebaseOptions options = new FirebaseOptions.Builder()
-					  .setServiceAccount(resourceLoader.getResource("classpath:credentials.json").getInputStream())
-					  .setDatabaseUrl("https://chathub-48840.firebaseio.com/")
-					  .build();
+					.setServiceAccount(resourceLoader.getResource("classpath:credentials.json").getInputStream())
+					.setDatabaseUrl("https://chathub-48840.firebaseio.com/")
+					.build();
 			log.info("Firebase app loaded");
 			return FirebaseApp.initializeApp(options);
 		} catch(IOException exception){
