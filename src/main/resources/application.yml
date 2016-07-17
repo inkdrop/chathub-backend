@@ -21,6 +21,10 @@ spring.jpa:
   show-sql: true
   hibernate:
     ddl-auto: update
+    
+logging.level.org:
+  springframework.web: INFO
+  hibernate: INFO
 
 ---
 
@@ -35,6 +39,19 @@ cache:
   host: localhost
   port: 6379
 
+---
+
+spring:
+  profiles: local_test
+
+params:
+  datasource:
+    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub_test
+
+cache:
+  host: localhost
+  port: 6379
+  
 ---
 
 spring:

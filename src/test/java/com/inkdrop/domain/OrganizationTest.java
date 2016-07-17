@@ -10,22 +10,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.inkdrop.ChathubApp;
 import com.inkdrop.TestHelper;
 import com.inkdrop.app.domain.models.Organization;
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.OrganizationRepository;
 import com.jayway.restassured.RestAssured;
 
-@SpringApplicationConfiguration(classes = ChathubApp.class)
-@WebAppConfiguration
-@IntegrationTest("server.port:0")
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
 public class OrganizationTest extends TestHelper{
 	
 	@Autowired OrganizationRepository orgRepo;
@@ -51,11 +47,11 @@ public class OrganizationTest extends TestHelper{
 	@Test
 	public void testGetOrganizationWithAccess(){
 		given()
-		.header("Auth-Token", user.getBackendAccessToken())
-		.when().get("/v1/orgs/{login}", "test")
-		.then()
-		.statusCode(HttpStatus.SC_OK)
-		.body("name", Matchers.equalTo("TestOrganization"));
+			.header("Auth-Token", user.getBackendAccessToken())
+			.when().get("/v1/orgs/{login}", "test")
+			.then()
+			.statusCode(HttpStatus.SC_OK)
+			.body("name", Matchers.equalTo("TestOrganization"));
 	}
 	
 	@Test
