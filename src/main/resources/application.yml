@@ -42,7 +42,7 @@ cache:
 ---
 
 spring:
-  profiles: local_test
+  profiles: test
 
 params:
   datasource:
