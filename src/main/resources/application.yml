@@ -1,12 +1,17 @@
 spring:
   profiles:
     active: dev
+  jackson.serialization.WRAP_ROOT_VALUE: true
+
+github:
+ client: ${GITHUB_CLIENT_KEY}
+ secret: ${GITHUB_SECRET_KEY}
 
 server:
   compression.enabled: true
   port: 8080
 
-mixpanel:
+mixpanel: 
   token: invalid
 
 params:

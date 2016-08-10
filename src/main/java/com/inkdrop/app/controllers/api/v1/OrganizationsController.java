@@ -25,10 +25,11 @@ public class OrganizationsController extends BasicController {
 	@Autowired
 	UserRepository userRepository;
 
-	@RequestMapping(method = RequestMethod.GET, path="/v1/orgs/{login}")
-	public ResponseEntity<?> getOrgInfo(@PathVariable String login, @RequestHeader("Auth-Token") String token){
+	@RequestMapping(method = RequestMethod.GET, path="/v1/organizations/{uid}")
+	public ResponseEntity<?> getOrgInfo(@PathVariable String uid, @RequestHeader("Auth-Token") String token){
 		try{
-			Organization org = organizatioRepository.findByLoginIgnoreCase(login);
+			log.info("Loading org: "+uid);
+			Organization org = organizatioRepository.findByUid(Integer.parseInt(uid));
 			return createSuccessfulResponse(org);
 		} catch(Exception e) {
 			log.error(e.getLocalizedMessage());

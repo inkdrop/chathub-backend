@@ -38,6 +38,7 @@ public class RoomsController extends BasicController {
 	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms")
 	public ResponseEntity<?> getRoomsFromUser(@RequestHeader("Auth-Token") String token){
 		try{
+			log.info("Listing rooms");
 			User user = userRepository.findByBackendAccessToken(token);
 			Set<Room> rooms = formatRooms(user.getRooms());
 			return new ResponseEntity<>(rooms, HttpStatus.OK);
@@ -52,7 +53,7 @@ public class RoomsController extends BasicController {
 		try {
 			Room room = roomRepository.findByUid(uid);
 //			room.setJoined(room.getUsers().contains(findByBackendToken(token, userRepository)));
-			return new ResponseEntity<>(room, HttpStatus.OK);
+			return ResponseEntity.ok(room);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e.getLocalizedMessage());
