@@ -48,7 +48,7 @@ public class OrganizationTest extends TestHelper{
 	public void testGetOrganizationWithAccess(){
 		given()
 			.header("Auth-Token", user.getBackendAccessToken())
-			.when().get("/v1/orgs/{login}", "test")
+			.when().get("/v1/organizations/{uid}", "1234")
 			.then()
 			.statusCode(HttpStatus.SC_OK)
 			.body("name", Matchers.equalTo("TestOrganization"));
