@@ -2,12 +2,14 @@ spring:
   profiles:
     active: dev
   jackson.serialization.WRAP_ROOT_VALUE: true
+  cache.cache-names: roomByUid, users
+  cache.caffeine.spec: maximumSize=100, expireAfterAccess=10s  
 
 github:
  client: ${GITHUB_CLIENT_KEY}
  secret: ${GITHUB_SECRET_KEY}
-
-server:
+ 
+server: 
   compression.enabled: true
   port: 8080
 
