@@ -48,9 +48,9 @@ public class BasicController {
       return validator.validate(object).isEmpty();
 	}
 	
-	protected Object excludeFieldsFromObject(Object object, String[] ignoredFields){
+	protected Object excludeFieldsFromObject(Object object, String[] toBeExcluded){
 		try {
-			for (String string : ignoredFields) {
+			for (String string : toBeExcluded) {
 				Field f = object.getClass().getDeclaredField(string);
 				if(f == null)
 					continue;
@@ -66,7 +66,7 @@ public class BasicController {
 	}
 	
 	protected ResponseEntity<Object> createSuccessfulResponse(Object response){
-		return createSuccessfulResponse(response, HttpStatus.OK);
+		return ResponseEntity.ok(response);
 	}
 	
 	protected ResponseEntity<Object> createSuccessfulResponse(Object response, HttpStatus status){
