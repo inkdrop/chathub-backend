@@ -63,7 +63,7 @@ public class Organization extends BasePersistable {
 	
 	@OneToMany(mappedBy="organization")
 	@JsonIgnoreProperties({"users", "joined", "organization"})
-	private List<Room> repos = new ArrayList<>();
+	private List<Room> rooms = new ArrayList<>();
 	
 	@ElementCollection(fetch=FetchType.EAGER)
 	@Fetch(FetchMode.JOIN)
