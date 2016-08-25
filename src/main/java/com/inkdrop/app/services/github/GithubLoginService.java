@@ -99,10 +99,10 @@ public class GithubLoginService extends AbstractGithubService {
 		.stream()
 		.forEach(repo -> repositoryService.findOrCreateRoom(repo));
 
-		for (GHOrganization org : githubUser.getAllOrganizations()) {
-			org.getRepositories().values()
-			.stream()
-			.forEach(repo -> repositoryService.findOrCreateRoom(repo));
-		}
+//		for (GHOrganization org : githubUser.getAllOrganizations()) {
+//			org.getRepositories().values()
+//			.stream()
+//			.forEach(repo -> repositoryService.findOrCreateRoom(repo));
+//		}
 	}
 }

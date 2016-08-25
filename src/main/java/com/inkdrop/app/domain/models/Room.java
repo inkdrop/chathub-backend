@@ -23,19 +23,24 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name="rooms", indexes = {
-		@Index(unique=true, columnList="uid"),
+		@Index(columnList="uid", unique=true),
 		@Index(columnList="uid", name="uid_room_idx"),
 		@Index(columnList="fullName", name="full_name_idx")
 })
 @JsonInclude(content=Include.NON_NULL)
+@Data
+@EqualsAndHashCode(callSuper=true)
 public class Room extends BasePersistable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Column(nullable=false)
-	private Integer uid;
+	private String uid;
 	
 	@Column(nullable=false)
 	private String name;
@@ -73,94 +78,4 @@ public class Room extends BasePersistable {
 	
 	@Transient
 	private boolean joined = false;
-
-	public Integer getUid() {
-		return uid;
-	}
-
-	public void setUid(Integer uid) {
-		this.uid = uid;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getHomepage() {
-		return homepage;
-	}
-
-	public void setHomepage(String homepage) {
-		this.homepage = homepage;
-	}
-
-	public String getOwner() {
-		return owner;
-	}
-
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
-
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public List<Message> getMessages() {
-		return messages;
-	}
-
-	public void setMessages(List<Message> messages) {
-		this.messages = messages;
-	}
-
-	public Set<User> getUsers() {
-		if (users == null)
-				return new HashSet<>();
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-
-	public Boolean get_private() {
-		return _private;
-	}
-
-	public void set_private(Boolean _private) {
-		this._private = _private;
-	}
-	
-	public void setJoined(boolean joined) {
-		this.joined = joined;
-	}
-	
-	public boolean isJoined() {
-		return joined;
-	}
 }

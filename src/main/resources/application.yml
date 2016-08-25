@@ -32,6 +32,7 @@ spring.jpa:
      weaving: false
      ddl-generation: create-or-extend-tables
      logging:
+       parameters: true
        level: 
          sql: FINEST
          query: FINEST
