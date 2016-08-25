@@ -24,10 +24,17 @@ params:
     maximumPoolSize: 10
     poolName: chathub_conn_pool
 
-spring.jpa:
+spring.jpa: 
   show-sql: true
-  hibernate:
-    ddl-auto: update
+  properties: 
+   eclipselink:
+     persistence-context.flush-mode: COMMIT
+     weaving: false
+     ddl-generation: create-or-extend-tables
+     logging:
+       level: 
+         sql: FINEST
+         query: FINEST
     
 logging.level.org:
   springframework.web: INFO

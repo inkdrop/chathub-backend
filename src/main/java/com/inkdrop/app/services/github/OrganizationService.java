@@ -53,7 +53,7 @@ public class OrganizationService extends AbstractGithubService {
 			org.setUid(ghOrganization.getId());
 			org.setLocation(ghOrganization.getLocation());
 			org.setUpdatedAt(null);
-			org.setMembers(ghOrganization.listMembers().asList().stream().map(u -> u.getLogin()).collect(Collectors.toSet()));
+//			org.setMembers(ghOrganization.listMembers().asList().stream().map(u -> u.getLogin()).collect(Collectors.toSet()));
 
 			org = organizationRepository.save(org);
 			return org;

@@ -1,21 +1,15 @@
 package com.inkdrop.app.domain.models;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -65,9 +59,8 @@ public class Organization extends BasePersistable {
 	@JsonIgnoreProperties({"users", "joined", "organization"})
 	private List<Room> repos = new ArrayList<>();
 	
-	@ElementCollection(fetch=FetchType.EAGER)
-	@Fetch(FetchMode.JOIN)
-	@Column
-	private Set<String> members = new HashSet<>();
+//	@ElementCollection(fetch=FetchType.EAGER)
+//	@Column
+//	private Set<String> members = new HashSet<>();
 
 }

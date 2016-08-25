@@ -16,12 +16,12 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.inkdrop.app.helpers.TokenGeneratorHelper;
 
 import lombok.Data;
@@ -70,7 +70,7 @@ public class User extends BasePersistable {
 	@JsonIgnore
 	private String accessToken;
 
-	@CreationTimestamp
+	@CreatedDate
 	private Date memberSince;
 
 	@ManyToMany(targetEntity=Room.class, cascade = CascadeType.ALL, fetch=FetchType.EAGER)

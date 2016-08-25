@@ -1,6 +1,7 @@
 package com.inkdrop.app.services.github;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
@@ -34,12 +36,12 @@ public class GithubLoginService extends AbstractGithubService {
 	@Autowired private UserRepository userRepository;
 	@Autowired private RoomRepository roomRepository;
 	
-	private GHMyself currentUser = null;
+	private GHMyself githubUser = null;
 
 	@Transactional
 	public User loginUser(String ghubAccessToken) throws IOException {
-		this.currentUser = getCurrentUser(ghubAccessToken);
-		User user = userService.findOrCreateUser(currentUser, ghubAccessToken);
+		this.githubUser = getCurrentUser(ghubAccessToken);
+		User user = userService.findOrCreateUser(githubUser, ghubAccessToken);
 		if(user.getId() == null){
 			log.info("New user arrived");
 			doSync(user);
@@ -63,39 +65,41 @@ public class GithubLoginService extends AbstractGithubService {
 	
 	private void doAsync(User user) throws IOException {
 		log.info("[ASYNC] Updating organizations");
-		organizationServiceAsync.findOrCreateOrganizationAsync(currentUser);
+		organizationServiceAsync.findOrCreateOrganizationAsync(githubUser);
 		log.info("[ASYNC] Updating rooms");
-		repositoryServiceAsync.findOrCreateRoomAsync(currentUser);
+		repositoryServiceAsync.findOrCreateRoomAsync(githubUser);
 	}
 
 	private void linkUserToRooms(User user) throws IOException {
-		Map<String, GHRepository> repositories = currentUser.getRepositories();
+		Map<String, GHRepository> repositories = githubUser.getRepositories();
 		List<Integer> userRepoUid = repositories
 				.values().stream()
 				.map(repo -> repo.getId()).collect(Collectors.toList());
 
-		for (GHOrganization org : currentUser.getAllOrganizations()) {
+		for (GHOrganization org : githubUser.getAllOrganizations()) {
 			userRepoUid.addAll(org.getRepositories().values()
 					.stream()
 					.map(repo -> repo.getId())
 					.collect(Collectors.toList()));
 		}
-		user.setRooms(roomRepository.findByUidIn(userRepoUid)
-				.stream().collect(Collectors.toSet()));
+		userRepoUid.stream()
+		.forEach(uid -> user.getRooms().add(roomRepository.findByUid(uid)));
+//		user.setRooms(roomRepository.findByUidIn(userRepoUid)
+//				.stream().collect(Collectors.toSet()));
 	}
 
 	private void findOrCreateOrganizations() throws IOException {
-		currentUser.getAllOrganizations()
+		githubUser.getAllOrganizations()
 		.stream()
 		.forEach(org -> organizationService.findOrCreateOrganization(org));
 	}
 
 	private void findOrCreateRooms() throws IOException {
-		currentUser.getRepositories().values()
+		githubUser.getRepositories().values()
 		.stream()
 		.forEach(repo -> repositoryService.findOrCreateRoom(repo));
 
-		for (GHOrganization org : currentUser.getAllOrganizations()) {
+		for (GHOrganization org : githubUser.getAllOrganizations()) {
 			org.getRepositories().values()
 			.stream()
 			.forEach(repo -> repositoryService.findOrCreateRoom(repo));
