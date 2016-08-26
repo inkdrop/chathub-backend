@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
 @Table(name="organizations", indexes = {
@@ -26,7 +27,8 @@ import lombok.EqualsAndHashCode;
 		@Index(columnList="login", name="login_org_idx")
 })
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper=true, exclude={"rooms"})
+@ToString(of={"name", "uid", "login"})
 @JsonInclude(content=Include.NON_NULL)
 public class Organization extends BasePersistable {
 	private static final long serialVersionUID = -7119760968529447945L;
@@ -57,7 +59,7 @@ public class Organization extends BasePersistable {
 	
 	@OneToMany(mappedBy="organization")
 	@JsonIgnoreProperties({"users", "joined", "organization"})
-	private List<Room> repos = new ArrayList<>();
+	private List<Room> rooms = new ArrayList<>();
 	
 //	@ElementCollection(fetch=FetchType.EAGER)
 //	@Column

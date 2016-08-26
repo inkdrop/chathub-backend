@@ -14,17 +14,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
 @Table(name="rooms", indexes = {
@@ -34,7 +32,8 @@ import lombok.EqualsAndHashCode;
 })
 @JsonInclude(content=Include.NON_NULL)
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper=true, exclude={"organization"})
+@ToString(of={"name", "uid", "fullName"})
 public class Room extends BasePersistable {
 
 	private static final long serialVersionUID = 1L;
@@ -59,8 +58,6 @@ public class Room extends BasePersistable {
 	
 	@ManyToOne
 	@JsonIgnoreProperties({"repos", "members"})
-	@JsonIdentityReference(alwaysAsId=true)
-	@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="uid")
 	private Organization organization;
 	
 	@OneToMany(mappedBy="room")

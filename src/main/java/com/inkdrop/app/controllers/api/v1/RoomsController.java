@@ -94,26 +94,4 @@ public class RoomsController extends BasicController {
 		rooms.forEach(room -> formattedRooms.add((Room) excludeFieldsFromObject(room, new String[]{"users"})));
 		return formattedRooms;
 	}
-	//	@RequestMapping(method = RequestMethod.GET, path="/v1/rooms/{uid}/messages", produces="application/json; charset=UTF-8")
-//	public ResponseEntity<?> findLast10Messages(@PathVariable Integer uid, @PathParam("page") Integer page){
-//		try{
-//			Room room = roomRepository.findByUid(uid);
-//			page = page == null ? 0 : page;
-//			Page<Message> pageResult = messageRepository.findByRoom(room, getPageable(page));
-//			MessagesPageJson result = formatResult(pageResult);
-//
-//			return new ResponseEntity<MessagesPageJson>(result, HttpStatus.OK);
-//		} catch(Exception e){
-//			e.printStackTrace();
-//			return new ResponseEntity<String>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
-//		}
-//	}
-//
-//	private MessagesPageJson formatResult(Page<Message> pageResult) {
-//		return new MessagesPageJson(pageResult);
-//	}
-//
-//	private Pageable getPageable(Integer page) {
-//		return new PageRequest(page, 50, Sort.Direction.DESC, "createdAt");
-//	}
 }

@@ -1,7 +1,6 @@
 package com.inkdrop.app.services.github;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 import org.kohsuke.github.GHOrganization;
 import org.springframework.beans.factory.annotation.Autowired;

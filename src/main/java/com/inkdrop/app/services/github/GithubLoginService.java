@@ -1,7 +1,6 @@
 package com.inkdrop.app.services.github;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,9 +10,7 @@ import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.inkdrop.app.domain.models.Room;
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.RoomRepository;
 import com.inkdrop.app.domain.repositories.UserRepository;
@@ -38,7 +35,6 @@ public class GithubLoginService extends AbstractGithubService {
 	
 	private GHMyself githubUser = null;
 
-	@Transactional
 	public User loginUser(String ghubAccessToken) throws IOException {
 		this.githubUser = getCurrentUser(ghubAccessToken);
 		User user = userService.findOrCreateUser(githubUser, ghubAccessToken);

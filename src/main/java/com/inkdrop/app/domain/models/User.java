@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 		@Index(columnList="login", name="idx_login")
 })
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper=true, exclude={"rooms", "firebaseJwt"})
 @JsonInclude(content=Include.NON_NULL)
 public class User extends BasePersistable {
 	private static final long serialVersionUID = 1492535311821424305L;
