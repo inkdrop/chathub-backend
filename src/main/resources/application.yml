@@ -28,7 +28,7 @@ spring.jpa:
   show-sql: true
   properties: 
    eclipselink:
-     persistence-context.flush-mode: COMMIT
+     # persistence-context.flush-mode: COMMIT
      weaving: false
      ddl-generation: create-or-extend-tables
      logging:

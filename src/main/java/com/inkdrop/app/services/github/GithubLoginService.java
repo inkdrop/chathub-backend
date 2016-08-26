@@ -32,7 +32,7 @@ public class GithubLoginService extends AbstractGithubService {
 
 	@Autowired private UserRepository userRepository;
 	@Autowired private RoomRepository roomRepository;
-	
+
 	private GHMyself githubUser = null;
 
 	public User loginUser(String ghubAccessToken) throws IOException {
@@ -48,7 +48,7 @@ public class GithubLoginService extends AbstractGithubService {
 
 		return userRepository.save(user);
 	}
-	
+
 	private void doSync(User user) throws IOException {
 		log.info("Creating organizations");
 		findOrCreateOrganizations();
@@ -58,7 +58,7 @@ public class GithubLoginService extends AbstractGithubService {
 		linkUserToRooms(user);
 		log.info("Done: linking user to rooms");
 	}
-	
+
 	private void doAsync(User user) throws IOException {
 		log.info("[ASYNC] Updating organizations");
 		organizationServiceAsync.findOrCreateOrganizationAsync(githubUser);
@@ -80,8 +80,8 @@ public class GithubLoginService extends AbstractGithubService {
 		}
 		userRepoUid.stream()
 		.forEach(uid -> user.getRooms().add(roomRepository.findByUid(uid)));
-//		user.setRooms(roomRepository.findByUidIn(userRepoUid)
-//				.stream().collect(Collectors.toSet()));
+		//		user.setRooms(roomRepository.findByUidIn(userRepoUid)
+		//				.stream().collect(Collectors.toSet()));
 	}
 
 	private void findOrCreateOrganizations() throws IOException {
@@ -94,11 +94,5 @@ public class GithubLoginService extends AbstractGithubService {
 		githubUser.getRepositories().values()
 		.stream()
 		.forEach(repo -> repositoryService.findOrCreateRoom(repo));
-
-//		for (GHOrganization org : githubUser.getAllOrganizations()) {
-//			org.getRepositories().values()
-//			.stream()
-//			.forEach(repo -> repositoryService.findOrCreateRoom(repo));
-//		}
 	}
 }
