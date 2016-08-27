@@ -80,7 +80,7 @@ public class BasePersistable implements Serializable {
 	}
 
 	@PrePersist
-	public void prePersist(){
+	public void onCreate(){
 		if(createdAt == null)
 			createdAt = new Date();
 
@@ -88,7 +88,7 @@ public class BasePersistable implements Serializable {
 	}
 
 	@PreUpdate
-	public void preUpdate(){
+	public void onUpdate(){
 		updatedAt = new Date();
 	}
 }

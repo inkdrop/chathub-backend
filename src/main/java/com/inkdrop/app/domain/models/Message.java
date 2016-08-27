@@ -45,9 +45,11 @@ public class Message extends BasePersistable {
 	private String uid;
 
 	@PrePersist
-	public void prePersist() {
+	public void onCreate() {
 		if (uid == null)
 			uid = TokenGeneratorHelper.newToken(15);
+		
+		super.onCreate();
 	}
 
 }

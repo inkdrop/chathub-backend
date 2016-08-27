@@ -89,8 +89,8 @@ public class User extends BasePersistable {
 
 	@Override
 	@PrePersist
-	public void prePersist(){
-		super.prePersist();
+	public void onCreate(){
+		super.onCreate();
 		if(backendAccessToken == null)
 			backendAccessToken = TokenGeneratorHelper.newToken(25);
 	}

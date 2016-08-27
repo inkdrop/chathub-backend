@@ -69,8 +69,8 @@ public class PrivateMessage extends BasePersistable {
 
 	@Override
 	@PrePersist
-	public void prePersist(){
-		super.prePersist();
+	public void onCreate(){
+		super.onCreate();
 		if(uid == null)
 			uid = TokenGeneratorHelper.newToken(15);
 	}
