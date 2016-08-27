@@ -21,7 +21,6 @@ public class BasePersistable implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonIgnore
 	private Long id;
 
 	@CreatedDate

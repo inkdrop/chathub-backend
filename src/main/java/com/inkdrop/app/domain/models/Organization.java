@@ -27,7 +27,7 @@ import lombok.ToString;
 		@Index(columnList="login", name="login_org_idx")
 })
 @Data
-@EqualsAndHashCode(callSuper=true, exclude={"rooms"})
+@EqualsAndHashCode(callSuper=true, of={"uid"})
 @ToString(of={"name", "uid", "login"})
 @JsonInclude(content=Include.NON_NULL)
 public class Organization extends BasePersistable {

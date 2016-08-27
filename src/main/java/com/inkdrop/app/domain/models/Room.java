@@ -32,7 +32,7 @@ import lombok.ToString;
 })
 @JsonInclude(content=Include.NON_NULL)
 @Data
-@EqualsAndHashCode(callSuper=true, exclude={"organization"})
+@EqualsAndHashCode(callSuper=true, of={"uid"})
 @ToString(of={"name", "uid", "fullName"})
 public class Room extends BasePersistable {
 
@@ -57,7 +57,7 @@ public class Room extends BasePersistable {
 	private String owner;
 	
 	@ManyToOne
-	@JsonIgnoreProperties({"repos", "members"})
+	@JsonIgnoreProperties({"rooms", "members"})
 	private Organization organization;
 	
 	@OneToMany(mappedBy="room")

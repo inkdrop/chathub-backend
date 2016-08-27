@@ -26,6 +26,7 @@ import com.inkdrop.app.helpers.TokenGeneratorHelper;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
 @Table(name="users", indexes = {
@@ -36,7 +37,8 @@ import lombok.EqualsAndHashCode;
 		@Index(columnList="login", name="idx_login")
 })
 @Data
-@EqualsAndHashCode(callSuper=true, exclude={"rooms", "firebaseJwt"})
+@EqualsAndHashCode(callSuper=true, of={"login"})
+@ToString(of={"login", "uid"})
 @JsonInclude(content=Include.NON_NULL)
 public class User extends BasePersistable {
 	private static final long serialVersionUID = 1492535311821424305L;

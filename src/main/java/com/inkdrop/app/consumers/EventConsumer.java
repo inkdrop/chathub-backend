@@ -55,7 +55,7 @@ public class EventConsumer {
 	private void sendMessage(Message message){
 		try{
 			DatabaseReference db = getDatabase(message);
-			db.child(message.getUid()).setValue(new ObjectMapper().writeValueAsString(message));
+			db.child(message.getId().toString()).setValue(new ObjectMapper().writeValueAsString(message));
 		} catch(Exception e){
 			e.printStackTrace();
 		}

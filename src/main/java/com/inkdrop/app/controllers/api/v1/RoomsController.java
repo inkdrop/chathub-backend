@@ -41,7 +41,8 @@ public class RoomsController extends BasicController {
 			log.info("Listing rooms");
 			User user = userRepository.findByBackendAccessToken(token);
 			Set<Room> rooms = formatRooms(user.getRooms());
-			return new ResponseEntity<>(rooms, HttpStatus.OK);
+			System.out.println(rooms);
+			return createSuccessfulResponse(rooms);
 		} catch (Exception e){
 			log.error(e.getLocalizedMessage());
 			return createErrorResponse(e);
