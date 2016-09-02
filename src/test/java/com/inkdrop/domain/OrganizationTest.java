@@ -10,10 +10,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.inkdrop.ChathubApp;
 import com.inkdrop.TestHelper;
 import com.inkdrop.app.domain.models.Organization;
 import com.inkdrop.app.domain.models.User;
@@ -21,7 +21,7 @@ import com.inkdrop.app.domain.repositories.OrganizationRepository;
 import com.jayway.restassured.RestAssured;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
+@SpringApplicationConfiguration(ChathubApp.class)
 public class OrganizationTest extends TestHelper{
 	
 	@Autowired OrganizationRepository orgRepo;

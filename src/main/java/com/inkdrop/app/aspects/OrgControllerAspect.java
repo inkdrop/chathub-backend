@@ -36,16 +36,16 @@ public class OrgControllerAspect {
 
 	@Before("com.inkdrop.app.aspects.OrgControllerAspect.getOrgInfo()")
 	public void checkRoomExists(JoinPoint joinPoint) throws ChathubBackendException {
-//		Integer uid = (Integer) joinPoint.getArgs()[0];
-//		String backendToken = (String) joinPoint.getArgs()[1];
+		Integer uid = (Integer) joinPoint.getArgs()[0];
+		String backendToken = (String) joinPoint.getArgs()[1];
 //
-//		Organization org = orgRepository.findByUid(uid);
+		Organization org = orgRepository.findByUid(uid);
 //		String accessToken = getUserByBackendToken(backendToken).getAccessToken();
 //
-//		if(org == null || InstantHelper.biggerThanSixHours(org.getUpdatedAt())) {
-//			log.info("Organization needs to be created or updated");
+		if(org == null) {
+			log.info("Organization needs to be created or updated");
 //			organizationService.findOrCreateOrganizationByName(accessToken, login);
-//		}
+		}
 	}
 
 	private User getUserByBackendToken(String token) {
