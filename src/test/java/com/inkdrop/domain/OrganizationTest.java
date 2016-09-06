@@ -10,12 +10,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.inkdrop.ChathubApp;
 import com.inkdrop.TestHelper;
 import com.inkdrop.app.domain.models.Organization;
 import com.inkdrop.app.domain.models.User;
@@ -24,10 +22,8 @@ import com.jayway.restassured.RestAssured;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SpringApplicationConfiguration(classes = ChathubApp.class)
-@WebAppConfiguration
-@IntegrationTest("server.port:0")
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
 @Slf4j
 public class OrganizationTest extends TestHelper{
 	
@@ -76,7 +72,7 @@ public class OrganizationTest extends TestHelper{
 	@After
 	public void deleteAll(){
 		orgRepo.deleteAll();
-//		userRepo.deleteAll();
+		userRepo.deleteAll();
 	}
 	
 }
