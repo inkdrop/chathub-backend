@@ -37,7 +37,7 @@ public class OrganizationService extends AbstractGithubService {
 
 	public Organization findOrCreateOrganization(GHOrganization ghOrganization){
 		try{
-			Organization org = organizationRepository.findByLoginIgnoreCase(ghOrganization.getLogin());
+			Organization org = organizationRepository.findByUid(ghOrganization.getId());
 			if(org == null){
 				org = new Organization();
 				log.info("Creating new organization: "+ghOrganization.getLogin());

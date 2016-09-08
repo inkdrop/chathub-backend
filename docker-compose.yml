@@ -11,19 +11,11 @@ services:
     volumes:
       - /var/lib/postgresql
 
-  redis:
-    image: luizkowalski/redis-cache
-    ports:
-      - "6379"
-    volumes:
-      - /data
-
   chathub:
     build: .
     ports:
       - "8080"
     links:
-      - redis
       - postgres
     environment:
       DATABASE_USERNAME: postgres
@@ -32,7 +24,7 @@ services:
       MIXPANEL_TOKEN: invalid
 
   lb:
-    image: 'dockercloud/haproxy:1.5.1'
+    image: 'dockercloud/haproxy:1.5.3'
     links:
       - chathub
     volumes:

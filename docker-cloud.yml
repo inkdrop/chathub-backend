@@ -1,22 +1,32 @@
-redis:
-  image: luizkowalski/redis-cache
-  ports:
-    - "6379"
-  volumes:
-    - /data
-
 api:
-  image: luizkowalski/chathub
+  image: luizkowalski/chathub:qa
   ports:
-    - "8080"
-  links:
-    - redis
-
+    - "8080:8080"
+    - "9090:9090"
+    - "1099:1099"
+  deployment_strategy: every_node
+  tags:
+    - sta
 lb:
-  image: 'dockercloud/haproxy:1.5.1'
+  image: 'dockercloud/haproxy:1.5.3'
   links:
     - api
   ports:
     - '80:80'
   roles:
     - global
+
+cadvisor:
+  image: google/cadvisor
+  name: cadvisor
+  ports:
+    - "8080:8080"
+  deployment_strategy: every_node
+  tags:
+    - sta
+    - live
+  volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro

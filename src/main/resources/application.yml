@@ -3,36 +3,35 @@ spring:
     active: dev
   jackson.serialization.WRAP_ROOT_VALUE: true
   cache.cache-names: roomByUid, users
-  cache.caffeine.spec: maximumSize=100, expireAfterAccess=10s  
+  cache.caffeine.spec: maximumSize=100, expireAfterAccess=300s
 
-server: 
+server:
   compression.enabled: true
   port: 8080
 
-mixpanel: 
+mixpanel:
   token: invalid
 
 params:
   datasource:
-    driverClassName: org.postgresql.Driver
     username: postgres
     password: postgres
-    maximumPoolSize: 5
+    maximumPoolSize: 2
     poolName: chathub_conn_pool
 
-spring.jpa: 
+spring.jpa:
   show-sql: true
-  properties: 
+  properties:
    eclipselink:
      persistence-context.flush-mode: COMMIT
      weaving: false
      ddl-generation: create-or-extend-tables
      logging:
        parameters: true
-       level: 
+       level:
          sql: FINEST
          query: FINEST
-    
+
 logging.level.org:
   springframework.web: INFO
   hibernate: INFO
@@ -56,7 +55,7 @@ params:
     username: postgres
     password: qwerty
     jdbcUrl: jdbc:postgresql://postgres:5432/chathub_test
- 
+
 ---
 
 spring:
@@ -69,7 +68,7 @@ params:
 ---
 
 # Production
-spring: 
+spring:
   profiles: docker
 
 mixpanel:

@@ -4,4 +4,7 @@ set -e
 
 mvn clean package -DskipTests;
 
-find . -name *chathub*.jar -exec du -h {} \;
+docker build . -t luizkowalski/chathub:qa;
+docker push luizkowalski/chathub:qa;
+
+mvn clean;
