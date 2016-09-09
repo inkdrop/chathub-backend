@@ -44,9 +44,11 @@ public class MessagesController extends BasicController {
 			Room room = roomRepository.findByUid(uid);
 			String message = params.getContent();
 			
-			Message m = messageRepository.save(buildMessage(message, room, sender));
+//			Message m = messageRepository.save(buildMessage(message, room, sender));
+			
+			eventNotifier.saveMessage(buildMessage(message, room, sender));
 
-			eventNotifier.messageSaved(m);
+//			eventNotifier.messageSaved(m);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch(ChathubBackendException e){
 			log.error(e.getLocalizedMessage());

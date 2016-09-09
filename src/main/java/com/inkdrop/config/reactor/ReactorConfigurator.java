@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import reactor.bus.EventBus;
-import reactor.core.dispatch.RingBufferDispatcher;
+import reactor.core.dispatch.WorkQueueDispatcher;
 import reactor.spring.context.config.EnableReactor;
 
 @Configuration
@@ -15,6 +15,6 @@ public class ReactorConfigurator {
 
 	@Bean
 	public EventBus reactor(){
-		return new EventBus(new RingBufferDispatcher("rb-dispatcher", BUFFER));
+		return new EventBus(new WorkQueueDispatcher("wa-chub", 4, BUFFER, null));
 	}
 }

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.inkdrop.app.domain.models.Message;
+import com.inkdrop.app.services.MessageService;
 import com.inkdrop.app.services.MixpanelAPIService;
 
 import reactor.bus.Event;
@@ -21,18 +22,26 @@ import reactor.fn.Consumer;
 public class EventConsumer {
 
 	public static final String MESSAGE_SAVED = "message_saved";
+	public static final String NEW_MESSAGE = "newmessage";
 	public static final String EVENT = "event";
+
 
 	@Autowired EventBus r;
 	
 	@Autowired MixpanelAPIService mixpanelApi;
 	
+	@Autowired MessageService messageService;
 	
 	@PostConstruct
 	public void onStartUp() {
 		r.on(Selectors.R(MESSAGE_SAVED), createEventAndPush());
+		r.on(Selectors.R(NEW_MESSAGE), saveMessage());
 		r.on(Selectors.R(EVENT), pushToMixpanel());
 	}
+	
+	public Consumer<Event<Message>> saveMessage(){
+        return event -> messageService.save(event.getData());
+    }
 
 	public Consumer<Event<Message>> createEventAndPush() {
 		return event -> push(event.getData());

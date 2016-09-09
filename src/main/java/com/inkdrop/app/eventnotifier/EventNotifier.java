@@ -23,6 +23,10 @@ public class EventNotifier {
 	
 	@Autowired MessageBuilder mbuilder;
 	
+	public void saveMessage(Message message){
+        r.notify(EventConsumer.NEW_MESSAGE, Event.wrap(message));
+    }
+	
 	public void messageSaved(Message m){
 		r.notify(EventConsumer.MESSAGE_SAVED, Event.wrap(m));
 		r.notify(EventConsumer.EVENT, Event.wrap(
