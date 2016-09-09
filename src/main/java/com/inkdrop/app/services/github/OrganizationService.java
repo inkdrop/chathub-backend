@@ -1,7 +1,6 @@
 package com.inkdrop.app.services.github;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 import org.kohsuke.github.GHOrganization;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ public class OrganizationService extends AbstractGithubService {
 			org.setUid(ghOrganization.getId());
 			org.setLocation(ghOrganization.getLocation());
 			org.setUpdatedAt(null);
-			org.setMembers(ghOrganization.listMembers().asList().stream().map(u -> u.getLogin()).collect(Collectors.toList()));
+//			org.setMembers(ghOrganization.listMembers().asList().stream().map(u -> u.getLogin()).collect(Collectors.toList()));
 
 			org = organizationRepository.save(org);
 			return org;

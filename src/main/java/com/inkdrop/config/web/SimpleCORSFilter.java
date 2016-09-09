@@ -12,8 +12,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.extern.slf4j.Slf4j;
-
 @WebFilter(urlPatterns={"/**", "/*", "*"})
 public class SimpleCORSFilter implements Filter {
 
@@ -23,21 +21,17 @@ public class SimpleCORSFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) servletRequest;
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-		response.setHeader("Access-Control-Allow-Methods", "POST, GET, HEAD, OPTIONS");
+		response.setHeader("Access-Control-Allow-Methods", "POST, GET, HEAD, OPTIONS, PUT");
 		response.setHeader("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Auth-Token");
 
 		filterChain.doFilter(req, response);
 	}
 
 	@Override
-	public void init(FilterConfig filterConfig) {
-		//
-	}
+	public void init(FilterConfig filterConfig) {}
 
 	@Override
-	public void destroy() {
-		//
-	}
+	public void destroy() {}
 
 }
 

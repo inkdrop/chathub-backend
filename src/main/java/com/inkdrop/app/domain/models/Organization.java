@@ -10,13 +10,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.eclipse.persistence.annotations.Converter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.inkdrop.app.domain.models.jpaTypes.ListToArrayConveter;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -63,8 +61,8 @@ public class Organization extends BasePersistable {
 	@JsonIgnoreProperties({"users", "joined", "organization"})
 	private List<Room> rooms = new ArrayList<>();
 	
-	@Column(name="members", columnDefinition="text[]")
-	@Converter(converterClass=ListToArrayConveter.class, name = "arrayConverter")
-	private List<String> members = new ArrayList<>();
+//	@Column(name="members", columnDefinition="text[]")
+//	@Converter(converterClass=ListToArrayConveter.class, name = "arrayConverter")
+//	private List<String> members = new ArrayList<>();
 
 }

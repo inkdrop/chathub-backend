@@ -1,8 +1,5 @@
 package com.inkdrop.app.eventnotifier;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,17 +24,6 @@ public class EventNotifier {
         r.notify(EventConsumer.NEW_MESSAGE, Event.wrap(message));
     }
 	
-	public void messageSaved(Message m){
-		r.notify(EventConsumer.MESSAGE_SAVED, Event.wrap(m));
-		r.notify(EventConsumer.EVENT, Event.wrap(
-				MixpanelEventBuilder
-				.newEvent(mbuilder)
-				.ofType(EventType.MESSAGE_SENT)
-				.withDistinctId(m.getUid())
-				.andProperties(getMessageProperties(m))
-				.build()));
-	}
-	
 	public void newUser(User user){
 		r.notify(EventConsumer.EVENT, Event.wrap(
 				MixpanelEventBuilder
@@ -48,11 +34,4 @@ public class EventNotifier {
 				.build()));
 	}
 	
-	private Map<String, String> getMessageProperties(Message m){
-		Map<String, String> map = new HashMap<>();
-		map.put("sender_id", m.getSender().getId().toString());
-		map.put("room_id", m.getRoom().getId().toString());
-		
-		return map;
-	}
 }

@@ -39,7 +39,7 @@ public class Room extends BasePersistable {
 	private static final long serialVersionUID = 1L;
 	
 	@Column(nullable=false)
-	private String uid;
+	private Integer uid;
 	
 	@Column(nullable=false)
 	private String name;

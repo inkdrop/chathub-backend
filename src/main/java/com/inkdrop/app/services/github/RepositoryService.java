@@ -48,7 +48,7 @@ public class RepositoryService extends AbstractGithubService {
 		room.setHomepage(repo.getHomepage());
 		room.setFullName(repo.getFullName());
 		room.setName(repo.getName());
-		room.setUid(String.valueOf(repo.getId()));
+		room.setUid(repo.getId());
 		room.setOwner(repo.getOwner().getLogin());
 		room.setUpdatedAt(repo.getUpdatedAt());
 		room.setOrganization(organizationRepository.findByLoginIgnoreCase(repo.getOwnerName()));

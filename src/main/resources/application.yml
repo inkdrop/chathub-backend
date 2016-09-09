@@ -1,9 +1,7 @@
 spring:
   profiles:
     active: dev
-  jackson.serialization.WRAP_ROOT_VALUE: true
-  cache.cache-names: roomByUid, users
-  cache.caffeine.spec: maximumSize=100, expireAfterAccess=300s
+  jpa.hibernate.ddl-auto: update
 
 server:
   compression.enabled: true
@@ -21,16 +19,6 @@ params:
 
 spring.jpa:
   show-sql: true
-  properties:
-   eclipselink:
-     persistence-context.flush-mode: COMMIT
-     weaving: false
-     ddl-generation: create-or-extend-tables
-     logging:
-       parameters: true
-       level:
-         sql: FINEST
-         query: FINEST
 
 logging.level.org:
   springframework.web: INFO

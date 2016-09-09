@@ -11,7 +11,7 @@ import reactor.spring.context.config.EnableReactor;
 @EnableReactor
 public class ReactorConfigurator {
 	
-	private static final int BUFFER = 1024;
+	private static final int BUFFER = 2048;
 
 	@Bean
 	public EventBus reactor(){

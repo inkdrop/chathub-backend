@@ -17,13 +17,13 @@ public class MessageService {
 	@Autowired MessageRepository messageRepo;
 	
 	@Transactional
-	public void save(Message m){
+	public Message save(Message m){
 		try{
 			log.info("Saving...");
-			m = messageRepo.save(m);
-			log.info("Saved");
+			return messageRepo.save(m);
 		}catch(Exception e){
 			e.printStackTrace();
+			return null;
 		}
 	}
 }
