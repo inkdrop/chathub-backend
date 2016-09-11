@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import com.inkdrop.app.domain.models.Organization;
 
 public interface OrganizationRepository extends CrudRepository<Organization, Long> {
-	@Cacheable(cacheNames="orgByUid", key="#root.args[0]") Organization findByUid(Integer uid);
+	@Cacheable(cacheNames="orgByUid", key="#root.args[0]") 
+	Organization findByUid(Integer uid);
+	
 	Organization findByLoginIgnoreCase(String login);
 }
