@@ -15,24 +15,20 @@ import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.services.MixpanelAPIService;
 import com.mixpanel.mixpanelapi.MessageBuilder;
 
-import lombok.extern.slf4j.Slf4j;
 import reactor.bus.Event;
 import reactor.spring.context.annotation.Consumer;
 import reactor.spring.context.annotation.Selector;
 
 @Consumer
-@Slf4j
 public class MessageSavedConsumer {
 
 	@Autowired MixpanelAPIService mixpanelApi;
 
 	@Autowired MessageBuilder mbuilder;
 
-	@Selector(value=EventConsumer.MESSAGE_SAVED, eventBus="@reactor")
+	@Selector(value=EventConsumer.MESSAGE_SAVED, eventBus="@webServiceReactor")
 	public void saveMessage(Event<Message> event){
-		log.info("Pushing to firebase");
 		pushToFirebase(event.getData());
-		log.info("Pushed");
 		mixpanelApi.sendEvent(getMixpanelJson((event.getData())));
 	}
 

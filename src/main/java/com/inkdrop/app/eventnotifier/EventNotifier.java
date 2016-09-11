@@ -1,6 +1,7 @@
 package com.inkdrop.app.eventnotifier;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.inkdrop.app.consumers.EventConsumer;
@@ -16,7 +17,7 @@ import reactor.bus.EventBus;
 @Component
 public class EventNotifier {
 	
-	@Autowired EventBus r;
+	@Autowired @Qualifier("persistenceReactor") EventBus r;
 	
 	@Autowired MessageBuilder mbuilder;
 	

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import reactor.bus.EventBus;
+import reactor.core.dispatch.MultiThreadDispatcher;
 import reactor.core.dispatch.WorkQueueDispatcher;
 import reactor.spring.context.config.EnableReactor;
 
@@ -11,10 +12,19 @@ import reactor.spring.context.config.EnableReactor;
 @EnableReactor
 public class ReactorConfigurator {
 	
-	private static final int BUFFER = 2048;
+	private static final int BUFFER = 8192;
 
-	@Bean
-	public EventBus reactor(){
-		return new EventBus(new WorkQueueDispatcher("wa-chub", 4, BUFFER, null));
+	@Bean(name="persistenceReactor")
+	public EventBus persistenceReactor(){
+		return new EventBus(getDispatcher("wq-chub-persistence"));
+	}
+	
+	@Bean(name="webServiceReactor")
+	public EventBus webServiceReactor(){
+		return new EventBus(getDispatcher("wq-chub-ws"));
+	}
+	
+	public MultiThreadDispatcher getDispatcher(String name){
+		return new WorkQueueDispatcher(name, 6, BUFFER, null);
 	}
 }

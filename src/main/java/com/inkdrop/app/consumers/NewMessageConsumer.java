@@ -1,6 +1,7 @@
 package com.inkdrop.app.consumers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.services.MessageService;
@@ -15,9 +16,9 @@ public class NewMessageConsumer {
 
 	@Autowired MessageService messageService;
 	
-	@Autowired EventBus bus;
+	@Autowired @Qualifier("webServiceReactor") EventBus bus;
 	
-	@Selector(value=EventConsumer.NEW_MESSAGE, eventBus="@reactor")
+	@Selector(value=EventConsumer.NEW_MESSAGE, eventBus="@persistenceReactor")
 	public void saveMessage(Event<Message> event){
 		Message m = messageService.save(event.getData());
 		bus.notify(EventConsumer.MESSAGE_SAVED, Event.wrap(m));
