@@ -1,7 +1,6 @@
 spring:
   profiles:
     active: dev
-  jpa.hibernate.ddl-auto: update
 
 server:
   compression.enabled: true
@@ -19,6 +18,7 @@ params:
 
 spring.jpa:
   show-sql: true
+  hibernate.ddl-auto: update
 
 logging.level.org:
   springframework.web: INFO
