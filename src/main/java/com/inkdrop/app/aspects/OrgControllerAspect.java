@@ -43,7 +43,7 @@ public class OrgControllerAspect {
 //		String accessToken = getUserByBackendToken(backendToken).getAccessToken();
 //
 		if(org == null) {
-			log.info("Organization needs to be created or updated");
+			log.info("Organization needs to be created");
 //			organizationService.findOrCreateOrganizationByName(accessToken, login);
 		}
 	}
