@@ -1,33 +1,4 @@
-version: '2'
-services:
-  postgres:
-    image: postgres:9.5
-    ports:
-      - "5432"
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: chathub
-    volumes:
-      - /var/lib/postgresql
-
-  chathub:
-    build: .
-    ports:
-      - "8080"
-    links:
-      - postgres
-    environment:
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: postgres
-      DATABASE_URL: jdbc:postgresql://postgres:5432/chathub
-      MIXPANEL_TOKEN: invalid
-
-  lb:
-    image: 'dockercloud/haproxy:1.5.3'
-    links:
-      - chathub
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - 80:80
+chathub:
+  image: luizkowalski/chathub:qa
+  ports:
+    - "80:8080"

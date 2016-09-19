@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:8-alpine
 VOLUME /chathub
 COPY target/chathub-backend-1.0.0.jar app.jar
 RUN sh -c 'touch app.jar'

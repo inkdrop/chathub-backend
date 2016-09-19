@@ -7,6 +7,10 @@ server:
   port: 8080
   jetty.acceptors: 400
 
+cache:
+  host: ${CACHE_HOST:127.0.0.1}
+  port: ${CACHE_PORT:6379}
+
 mixpanel:
   token: invalid
 
