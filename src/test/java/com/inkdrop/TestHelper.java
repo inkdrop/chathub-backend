@@ -13,6 +13,7 @@ public class TestHelper {
 		User u = new User();
 		u.setLogin("testUser");
 		u.setUid(1234);
+		u.setBackendAccessToken("valid");
 		
 		return userRepo.save(u);
 	}
