@@ -13,7 +13,7 @@ import reactor.Environment;
 public class AsyncConfig {
 
 	@Bean
-	public AsyncTaskExecutor getAsync(Environment env){
+	public AsyncTaskExecutor createAsyncTaskExecutor(Environment env){
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(7);
 		executor.setMaxPoolSize(42);

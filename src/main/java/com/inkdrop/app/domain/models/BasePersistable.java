@@ -3,25 +3,17 @@ package com.inkdrop.app.domain.models;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@MappedSuperclass
 public class BasePersistable implements Serializable {
 	private static final long serialVersionUID = 8407288074963581312L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private String id;
 
 	@CreatedDate
 	private Date createdAt;
@@ -30,11 +22,11 @@ public class BasePersistable implements Serializable {
 	@JsonIgnore
 	private Date updatedAt;
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -79,15 +71,11 @@ public class BasePersistable implements Serializable {
 		return true;
 	}
 
-	@PrePersist
 	public void onCreate(){
 		if(createdAt == null)
 			createdAt = new Date();
-
-		updatedAt = new Date();
 	}
 
-	@PreUpdate
 	public void onUpdate(){
 		updatedAt = new Date();
 	}

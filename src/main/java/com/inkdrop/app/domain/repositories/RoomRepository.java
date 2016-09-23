@@ -3,11 +3,11 @@ package com.inkdrop.app.domain.repositories;
 import java.util.List;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.inkdrop.app.domain.models.Room;
 
-public interface RoomRepository extends CrudRepository<Room, Long> {
+public interface RoomRepository extends MongoRepository<Room, String> {
 	@Cacheable(cacheNames="roomByUid", key="#root.args[0]")
 	Room findByUid(Integer uid);
 	

@@ -1,6 +1,7 @@
 spring:
   profiles:
     active: dev
+  data.mongodb.uri: mongodb://127.0.0.1/chathub_dev
 
 server:
   compression.enabled: true
@@ -14,61 +15,33 @@ cache:
 mixpanel:
   token: invalid
 
-params:
-  datasource:
-    username: postgres
-    password: postgres
-    maximumPoolSize: 100
-    poolName: chathub_conn_pool
-
-spring.jpa:
-  show-sql: true
-  hibernate.ddl-auto: update
-
 logging.level.org:
   springframework.web: INFO
-  hibernate: INFO
+  
 
 ---
 
 spring:
   profiles: dev
 
-params:
-  datasource:
-    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub
-
 ---
 
 spring:
   profiles: cloud_test
-
-params:
-  datasource:
-    username: postgres
-    password: qwerty
-    jdbcUrl: jdbc:postgresql://postgres:5432/chathub_test
+  data.mongodb.uri: mongodb://mongo/chathub_cloud_test
 
 ---
 
 spring:
   profiles: test
-
-params:
-  datasource:
-    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub_test
+  data.mongodb.uri: mongodb://127.0.0.1/chathub_dev_test
 
 ---
 
 # Production
 spring:
   profiles: docker
+  data.mongodb.uri: ${MONGO_URI}
 
 mixpanel:
   token: ${MIXPANEL_TOKEN}
-
-params:
-  datasource:
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    jdbcUrl: ${DATABASE_URL}
