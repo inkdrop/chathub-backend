@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.inkdrop.app.helpers.TokenGeneratorHelper;
@@ -13,6 +14,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
+@Document
 public class Message extends BasePersistable {
 	private static final long serialVersionUID = -5293724621181603251L;
 

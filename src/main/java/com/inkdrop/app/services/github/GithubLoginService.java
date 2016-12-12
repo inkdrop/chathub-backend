@@ -10,6 +10,7 @@ import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.inkdrop.app.domain.models.User;
 import com.inkdrop.app.domain.repositories.RoomRepository;
@@ -35,6 +36,7 @@ public class GithubLoginService extends AbstractGithubService {
 
 	private GHMyself githubUser = null;
 
+	@Transactional
 	public User loginUser(String ghubAccessToken) throws IOException {
 		this.githubUser = getCurrentUser(ghubAccessToken);
 		User user = userService.findOrCreateUser(githubUser, ghubAccessToken);

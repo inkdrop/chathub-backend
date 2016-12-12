@@ -1,6 +1,7 @@
 package com.inkdrop.app.services.github;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import org.kohsuke.github.GHOrganization;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,11 @@ public class OrganizationService extends AbstractGithubService {
 	public void findOrCreateOrganizationByName(String accessToken, String login){
 		try {
 			GHOrganization ghOrg = getGitHubConnection(accessToken).getOrganization(login);
-			findOrCreateOrganization(ghOrg);
+			Organization org = findOrCreateOrganization(ghOrg);
 			ghOrg.getRepositories().values()
-				.stream().forEach(ghRepo -> repositoryService.findOrCreateRoom(ghRepo));
+				.stream().forEach(ghRepo -> org.addRoom(repositoryService.findOrCreateRoom(ghRepo)));
+			log.info("Rooms for "+org.getLogin()+": "+org.getRooms());
+			organizationRepository.save(org);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -52,10 +55,9 @@ public class OrganizationService extends AbstractGithubService {
 			org.setUid(ghOrganization.getId());
 			org.setLocation(ghOrganization.getLocation());
 			org.setUpdatedAt(null);
-//			org.setMembers(ghOrganization.listMembers().asList().stream().map(u -> u.getLogin()).collect(Collectors.toList()));
+			org.setMembers(ghOrganization.listMembers().asList().stream().map(u -> u.getLogin()).collect(Collectors.toList()));
 
-			org = organizationRepository.save(org);
-			return org;
+			return organizationRepository.save(org);
 		}catch(IOException e){
 			e.printStackTrace();
 			return null;
