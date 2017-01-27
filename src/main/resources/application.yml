@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: chathub-api
   profiles:
     active: dev
 
@@ -6,6 +8,8 @@ server:
   compression.enabled: true
   port: 8080
   jetty.acceptors: 400
+
+logging.level.org.springframework.cloud.sleuth: DEBUG
 
 cache:
   host: ${CACHE_HOST:127.0.0.1}
