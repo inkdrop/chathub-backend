@@ -1,59 +1,40 @@
 package com.inkdrop.app.consumers;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.inkdrop.app.commands.PushToFirebaseCommand;
 import com.inkdrop.app.domain.builder.MixpanelEventBuilder;
 import com.inkdrop.app.domain.models.EventType;
 import com.inkdrop.app.domain.models.Message;
 import com.inkdrop.app.services.MixpanelAPIService;
 import com.mixpanel.mixpanelapi.MessageBuilder;
-
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import reactor.bus.Event;
-import reactor.spring.context.annotation.Consumer;
-import reactor.spring.context.annotation.Selector;
 
-@Consumer
-public class MessageSavedConsumer {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+
+@Component
+public class MessageSavedConsumer implements Consumer<Event<Message>> {
 
 	@Autowired MixpanelAPIService mixpanelApi;
 
-	@Autowired MessageBuilder mbuilder;
+	@Autowired MessageBuilder mBuilder;
 
-	@Selector(value=EventConsumer.MESSAGE_SAVED, eventBus="@webServiceReactor")
-	public void saveMessage(Event<Message> event){
-		pushToFirebase(event.getData());
+//	@Selector(value=EventConsumer.MESSAGE_SAVED, eventBus="@webServiceReactor")
+	public void accept(Event<Message> event){
+		new PushToFirebaseCommand().pushToFirebase(event.getData());
 		mixpanelApi.sendEvent(getMixpanelJson((event.getData())));
 	}
 
 	private JSONObject getMixpanelJson(Message m){
 		return MixpanelEventBuilder
-				.newEvent(mbuilder)
+				.newEvent(mBuilder)
 				.ofType(EventType.MESSAGE_SENT)
 				.withDistinctId(m.getUid())
 				.andProperties(getMessageProperties(m))
 				.build();
-	}
-
-	private DatabaseReference getDatabase(Message message) {
-		FirebaseDatabase database = FirebaseDatabase.getInstance();
-		DatabaseReference db = database.getReference("/messages");
-		return db.child(message.getRoom().getUid().toString());
-	}
-
-	private void pushToFirebase(Message message){
-		try{
-			DatabaseReference db = getDatabase(message);
-			db.child(message.getId().toString()).setValue(new ObjectMapper().writeValueAsString(message));
-		} catch(Exception e){
-			e.printStackTrace();
-		}
 	}
 
 	private Map<String, String> getMessageProperties(Message m){

@@ -2,17 +2,20 @@ package com.inkdrop.config.reactor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import reactor.Environment;
 import reactor.bus.EventBus;
 import reactor.core.dispatch.MultiThreadDispatcher;
 import reactor.core.dispatch.WorkQueueDispatcher;
-import reactor.spring.context.config.EnableReactor;
 
 @Configuration
-@EnableReactor
 public class ReactorConfigurator {
 	
 	private static final int BUFFER = 8192;
+
+	@Bean
+	public Environment environment(){
+		return Environment.initializeIfEmpty().assignErrorJournal();
+	}
 
 	@Bean(name="persistenceReactor")
 	public EventBus persistenceReactor(){

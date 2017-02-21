@@ -44,8 +44,8 @@ public class MessagesController extends BasicController {
 			Room room = roomRepository.findByUid(uid);
 			String message = params.getContent();
 			
-//			Message m = messageRepository.save(buildMessage(message, room, sender));
-			
+			Message m = messageRepository.save(buildMessage(message, room, sender));
+
 			eventNotifier.saveMessage(buildMessage(message, room, sender));
 
 //			eventNotifier.messageSaved(m);
