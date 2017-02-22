@@ -7,7 +7,6 @@ spring:
 server:
   compression.enabled: true
   port: 8080
-  jetty.acceptors: 400
 
 logging.level.org.springframework.cloud.sleuth: DEBUG
 

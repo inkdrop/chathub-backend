@@ -18,7 +18,7 @@ public class FirebaseConfig {
 
 	@Autowired
 	private ResourceLoader resourceLoader;
-
+	
 	@Bean
 	public FirebaseApp firebase(){
 		try {

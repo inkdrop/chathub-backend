@@ -1,7 +1,6 @@
 package com.inkdrop.app.eventnotifier;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.inkdrop.app.consumers.EventConsumer;
@@ -17,22 +16,22 @@ import reactor.bus.EventBus;
 @Component
 public class EventNotifier {
 	
-	@Autowired @Qualifier("persistenceReactor") EventBus r;
+	@Autowired EventBus bus;
 	
 	@Autowired MessageBuilder mbuilder;
 	
-	public void saveMessage(Message message){
-        r.notify(EventConsumer.NEW_MESSAGE, Event.wrap(message));
-    }
-	
 	public void newUser(User user){
-		r.notify(EventConsumer.EVENT, Event.wrap(
+		bus.notify(EventConsumer.EVENT, Event.wrap(
 				MixpanelEventBuilder
 				.newEvent(mbuilder)
 				.ofType(EventType.NEW_USER)
 				.withDistinctId(user.getUid().toString())
 //				.andProperties(getProperties(m))
 				.build()));
+	}
+
+	public void messageSaved(Message m) {
+		bus.notify(EventConsumer.MESSAGE_SAVED, Event.wrap(m));
 	}
 	
 }
