@@ -7,18 +7,18 @@ import com.inkdrop.app.domain.models.Message;
 
 public class PushToFirebaseCommand {
 
-    private DatabaseReference getDatabase(Message message) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference db = database.getReference("/messages");
-        return db.child(message.getRoom().getUid().toString());
-    }
+  private DatabaseReference getDatabase(Message message) {
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference db = database.getReference("/messages");
+    return db.child(message.getRoom().getUid().toString());
+  }
 
-    public void pushToFirebase(Message message){
-        try{
-            DatabaseReference db = getDatabase(message);
-            db.child(message.getId().toString()).setValue(new ObjectMapper().writeValueAsString(message));
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+  public void pushToFirebase(Message message) {
+    try {
+      DatabaseReference db = getDatabase(message);
+      db.child(message.getId().toString()).setValue(new ObjectMapper().writeValueAsString(message));
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 }

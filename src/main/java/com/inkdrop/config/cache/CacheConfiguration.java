@@ -13,30 +13,30 @@ import org.springframework.data.redis.core.RedisTemplate;
 @EnableCaching
 public class CacheConfiguration {
 
-    @Value("${cache.host:127.0.0.1}")
-    String cacheHost;
+  @Value("${cache.host:127.0.0.1}")
+  String cacheHost;
 
-    @Value("${cache.port:6379}")
-    int cachePort;
+  @Value("${cache.port:6379}")
+  int cachePort;
 
-    @Bean
-    JedisConnectionFactory jedisConnectionFactory() {
-        JedisConnectionFactory factory = new JedisConnectionFactory();
-        factory.setHostName(cacheHost);
-        factory.setPort(cachePort);
-        factory.setUsePool(true);
-        return factory;
-    }
+  @Bean
+  JedisConnectionFactory jedisConnectionFactory() {
+    JedisConnectionFactory factory = new JedisConnectionFactory();
+    factory.setHostName(cacheHost);
+    factory.setPort(cachePort);
+    factory.setUsePool(true);
+    return factory;
+  }
 
-    @Bean
-    RedisTemplate<Object, Object> redisTemplate() {
-        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(jedisConnectionFactory());
-        return redisTemplate;
-    }
+  @Bean
+  RedisTemplate<Object, Object> redisTemplate() {
+    RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+    redisTemplate.setConnectionFactory(jedisConnectionFactory());
+    return redisTemplate;
+  }
 
-    @Bean
-    CacheManager cacheManager() {
-        return new RedisCacheManager(redisTemplate());
-    }
+  @Bean
+  CacheManager cacheManager() {
+    return new RedisCacheManager(redisTemplate());
+  }
 }

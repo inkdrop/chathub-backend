@@ -1,7 +1,8 @@
 package com.inkdrop.app.domain.repositories;
 
+import com.inkdrop.app.domain.models.Message;
 import org.springframework.data.repository.CrudRepository;
 
-import com.inkdrop.app.domain.models.Message;
+public interface MessageRepository extends CrudRepository<Message, Long> {
 
-public interface MessageRepository extends CrudRepository<Message, Long> {}
+}

@@ -18,12 +18,13 @@ public class ChathubApp implements CommandLineRunner {
 //	}
 
 
-    public static void main(String[] args) {
-        SpringApplication.run(ChathubApp.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(ChathubApp.class, args);
+  }
 
-    @Override
-    public void run(String... args) throws Exception {}
+  @Override
+  public void run(String... args) throws Exception {
+  }
 }
 
 

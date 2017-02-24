@@ -10,8 +10,8 @@ import reactor.core.scheduler.Schedulers;
 @Component
 public class EventNotifier {
 
-    @Autowired
-	MessageSavedConsumer consumer;
+  @Autowired
+  MessageSavedConsumer consumer;
 
 //
 //	public void newUser(User user){
@@ -24,10 +24,10 @@ public class EventNotifier {
 //				.build()));
 //	}
 
-	public void messageSaved(Message m) {
-		Mono.just(m)
-				.publishOn(Schedulers.parallel())
-				.subscribe(consumer);
-	}
-	
+  public void messageSaved(Message m) {
+    Mono.just(m)
+        .publishOn(Schedulers.parallel())
+        .subscribe(consumer);
+  }
+
 }

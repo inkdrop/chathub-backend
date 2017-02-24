@@ -10,14 +10,14 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @EnableAsync
 public class AsyncConfig {
 
-	@Bean
-	public AsyncTaskExecutor getAsync(){
-		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(7);
-		executor.setMaxPoolSize(42);
-		executor.setQueueCapacity(11);
-		executor.setThreadNamePrefix("ChathubAsyncExec-");
-		executor.initialize();
-		return executor;
-	}
+  @Bean
+  public AsyncTaskExecutor getAsync() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(7);
+    executor.setMaxPoolSize(42);
+    executor.setQueueCapacity(11);
+    executor.setThreadNamePrefix("ChathubAsyncExec-");
+    executor.initialize();
+    return executor;
+  }
 }
