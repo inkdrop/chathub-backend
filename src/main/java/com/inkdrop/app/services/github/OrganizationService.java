@@ -28,7 +28,7 @@ public class OrganizationService extends AbstractGithubService {
 			GHOrganization ghOrg = getGitHubConnection(accessToken).getOrganization(login);
 			findOrCreateOrganization(ghOrg);
 			ghOrg.getRepositories().values()
-				.stream().forEach(ghRepo -> repositoryService.findOrCreateRoom(ghRepo));
+					.stream().forEach(ghRepo -> repositoryService.findOrCreateRoom(ghRepo));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

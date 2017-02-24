@@ -18,10 +18,10 @@ public class RepositoryService extends AbstractGithubService {
 
 	@Autowired
 	RoomRepository roomRepository;
-	
+
 	@Autowired
 	OrganizationRepository organizationRepository;
-	
+
 	public Room findOrCreateRoom(GHRepository repo){
 		try{
 			Room room = roomRepository.findByFullName(repo.getFullName());
@@ -38,7 +38,7 @@ public class RepositoryService extends AbstractGithubService {
 			e.printStackTrace();
 			return null;
 		}
-		
+
 	}
 
 	private Room loadFromGithub(Room room, GHRepository repo) throws IOException {
@@ -52,7 +52,7 @@ public class RepositoryService extends AbstractGithubService {
 		room.setOwner(repo.getOwner().getLogin());
 		room.setUpdatedAt(repo.getUpdatedAt());
 		room.setOrganization(organizationRepository.findByLoginIgnoreCase(repo.getOwnerName()));
-		
+
 		return room;
 	}
 }

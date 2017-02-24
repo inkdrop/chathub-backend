@@ -6,14 +6,12 @@ import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import reactor.Environment;
-
 @Configuration
 @EnableAsync
 public class AsyncConfig {
 
 	@Bean
-	public AsyncTaskExecutor getAsync(Environment env){
+	public AsyncTaskExecutor getAsync(){
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(7);
 		executor.setMaxPoolSize(42);

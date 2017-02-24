@@ -12,7 +12,7 @@ import com.inkdrop.app.domain.repositories.MessageRepository;
 public class MessageService {
 
 	@Autowired MessageRepository messageRepo;
-	
+
 	@Transactional
 	public Message save(Message m){
 		try{

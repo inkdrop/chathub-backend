@@ -14,18 +14,18 @@ public class RoomService {
 
 	@Autowired
 	RoomRepository roomRepository;
-	
+
 	@Autowired UserRepository userRepository;
 
 	@Transactional
 	public void joinRoom(User user, Room room){
 		user = userRepository.findOne(user.getId());
 		room = roomRepository.findOne(room.getId());
-		if(user.getRooms().contains(room)) 
+		if(user.getRooms().contains(room))
 			return;
 		else
 			user.getRooms().add(room);
-		
+
 		userRepository.save(user);
 	}
 
@@ -34,7 +34,7 @@ public class RoomService {
 		user = userRepository.findOne(user.getId());
 		room = roomRepository.findOne(room.getId());
 		user.getRooms().remove(room);
-		
+
 		userRepository.save(user);
 	}
 }

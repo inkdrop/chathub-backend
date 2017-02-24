@@ -30,7 +30,7 @@ public class GitHubController extends BasicController {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 
 	@RequestMapping(method = RequestMethod.POST, path="/auth/github")
 	public ResponseEntity<?> createUser(@PathParam("token") String token){

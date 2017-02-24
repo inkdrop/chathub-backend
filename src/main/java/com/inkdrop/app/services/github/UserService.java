@@ -11,7 +11,7 @@ import com.inkdrop.app.domain.repositories.UserRepository;
 
 @Service
 public class UserService extends AbstractGithubService {
-	
+
 	@Autowired UserRepository userRepository;
 
 	public User findOrCreateUser(GHMyself currentUser, String accessToken) throws IOException{
@@ -23,7 +23,7 @@ public class UserService extends AbstractGithubService {
 		user = userFromGithub(currentUser, user);
 		return user;
 	}
-	
+
 	private User userFromGithub(GHMyself currentUser, User user) throws IOException{
 		user.setAvatar(currentUser.getAvatarUrl());
 		user.setCompany(currentUser.getCompany());
@@ -34,7 +34,7 @@ public class UserService extends AbstractGithubService {
 		user.setLogin(currentUser.getLogin());
 		user.setUid(currentUser.getId());
 		user.setUpdatedAt(null);
-		
+
 		return user;
 	}
 }

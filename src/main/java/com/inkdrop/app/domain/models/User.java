@@ -77,11 +77,11 @@ public class User extends BasePersistable {
 
 	@ManyToMany(targetEntity=Room.class, cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name="room_users",
-				joinColumns={ @JoinColumn(name="user_id") },
-				inverseJoinColumns={ @JoinColumn(name="room_id") })
+			joinColumns={ @JoinColumn(name="user_id") },
+			inverseJoinColumns={ @JoinColumn(name="room_id") })
 	@JsonIgnore
 	private Set<Room> rooms = new HashSet<>();
-	
+
 	@Transient
 	@JsonProperty(value="firebase_token")
 	private String firebaseJwt = "";

@@ -79,20 +79,20 @@ public class GithubLoginService extends AbstractGithubService {
 					.collect(Collectors.toList()));
 		}
 		userRepoUid.stream()
-		.forEach(uid -> user.getRooms().add(roomRepository.findByUid(uid)));
+				.forEach(uid -> user.getRooms().add(roomRepository.findByUid(uid)));
 		//		user.setRooms(roomRepository.findByUidIn(userRepoUid)
 		//				.stream().collect(Collectors.toSet()));
 	}
 
 	private void findOrCreateOrganizations() throws IOException {
 		githubUser.getAllOrganizations()
-		.stream()
-		.forEach(org -> organizationService.findOrCreateOrganization(org));
+				.stream()
+				.forEach(org -> organizationService.findOrCreateOrganization(org));
 	}
 
 	private void findOrCreateRooms() throws IOException {
 		githubUser.getRepositories().values()
-		.stream()
-		.forEach(repo -> repositoryService.findOrCreateRoom(repo));
+				.stream()
+				.forEach(repo -> repositoryService.findOrCreateRoom(repo));
 	}
 }

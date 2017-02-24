@@ -17,13 +17,13 @@ public class RepositoryServiceAsync extends RepositoryService {
 	@Async
 	public Future<Void> findOrCreateRoomAsync(GHMyself currentUser) throws IOException{
 		currentUser.getRepositories().values()
-		.stream()
-		.forEach(repo -> findOrCreateRoom(repo));
+				.stream()
+				.forEach(repo -> findOrCreateRoom(repo));
 
 		for (GHOrganization org : currentUser.getAllOrganizations()) {
 			org.getRepositories().values()
-			.stream()
-			.forEach(repo -> findOrCreateRoom(repo));
+					.stream()
+					.forEach(repo -> findOrCreateRoom(repo));
 		}
 		return new AsyncResult<Void>(null);
 	}

@@ -16,8 +16,8 @@ public class OrganizationServiceAsync extends OrganizationService {
 	@Async
 	public Future<Void> findOrCreateOrganizationAsync(GHMyself currentUser) throws IOException{
 		currentUser.getOrganizations()
-		.stream()
-		.forEach(org -> findOrCreateOrganization(org));
+				.stream()
+				.forEach(org -> findOrCreateOrganization(org));
 		return new AsyncResult<Void>(null);
 	}
 }

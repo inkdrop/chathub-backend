@@ -16,8 +16,8 @@ public class MixpanelAPIService {
 		try{
 			ClientDelivery delivery = new ClientDelivery();
 			delivery.addMessage(event);
-			
-			 new MixpanelAPI().deliver(delivery);
+
+			new MixpanelAPI().deliver(delivery);
 		} catch(Exception e){
 			e.printStackTrace();
 			log.error(e.getLocalizedMessage());
