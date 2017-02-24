@@ -32,7 +32,7 @@ public class Message extends BasePersistable {
 	@NotNull
 	private Room room;
 
-	@Column(nullable = false, columnDefinition = "TEXT")
+	@Column(nullable = false, columnDefinition = "CLOB")
 	@NotEmpty
 	private String content;
 
