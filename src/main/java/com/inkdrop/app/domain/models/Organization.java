@@ -3,11 +3,7 @@ package com.inkdrop.app.domain.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -30,6 +26,9 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper=true, of={"uid"})
 @ToString(of={"name", "uid", "login"})
 @JsonInclude(content=Include.NON_NULL)
+@NamedEntityGraphs(
+		@NamedEntityGraph(name = "with-rooms",
+				attributeNodes = { @NamedAttributeNode("rooms") }))
 public class Organization extends BasePersistable {
 	private static final long serialVersionUID = -7119760968529447945L;
 

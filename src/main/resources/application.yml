@@ -19,8 +19,9 @@ params:
   datasource:
     username: postgres
     password: postgres
-    maximumPoolSize: 100
+    maximumPoolSize: 10
     poolName: chathub_conn_pool
+    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub
 
 spring.jpa:
   show-sql: true
