@@ -14,13 +14,13 @@ public class ReactorConfigurator {
 	private static final int BUFFER = 8192;
 	
 	@Bean
-	public Environment environment(){
+	public Environment reactorEnvironment(){
 		return Environment.initializeIfEmpty().assignErrorJournal();
 	}
 	
 	@Bean
 	public EventBus eventBus(){
-		return EventBus.create(environment(), getDispatcher("wq-chathub"));
+		return EventBus.create(reactorEnvironment(), getDispatcher("wq-chathub"));
 	}
 	
 	public MultiThreadDispatcher getDispatcher(String name){

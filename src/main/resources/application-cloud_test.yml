@@ -1,0 +1,5 @@
+params:
+  datasource:
+    username: postgres
+    password: qwerty
+    jdbcUrl: jdbc:postgresql://postgres:5432/chathub_test

@@ -1,8 +1,6 @@
 spring:
   application:
     name: chathub-api
-  profiles:
-    active: dev
 
 server:
   compression.enabled: true
@@ -11,8 +9,8 @@ server:
 logging.level.org.springframework.cloud.sleuth: DEBUG
 
 cache:
-  host: ${CACHE_HOST:127.0.0.1}
-  port: ${CACHE_PORT:6379}
+  host: 127.0.0.1
+  port: 6379
 
 mixpanel:
   token: invalid
@@ -31,47 +29,3 @@ spring.jpa:
 logging.level.org:
   springframework.web: INFO
   hibernate: INFO
-
----
-
-spring:
-  profiles: dev
-
-params:
-  datasource:
-    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub
-
----
-
-spring:
-  profiles: cloud_test
-
-params:
-  datasource:
-    username: postgres
-    password: qwerty
-    jdbcUrl: jdbc:postgresql://postgres:5432/chathub_test
-
----
-
-spring:
-  profiles: test
-
-params:
-  datasource:
-    jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub_test
-
----
-
-# Production
-spring:
-  profiles: docker
-
-mixpanel:
-  token: ${MIXPANEL_TOKEN}
-
-params:
-  datasource:
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    jdbcUrl: ${DATABASE_URL}

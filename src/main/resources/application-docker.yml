@@ -1,0 +1,16 @@
+# Production
+spring:
+  profiles: docker
+
+mixpanel:
+  token: ${MIXPANEL_TOKEN}
+
+params:
+  datasource:
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    jdbcUrl: ${DATABASE_URL}
+
+cache:
+  host: ${CACHE_HOST}
+  port: ${CACHE_PORT}

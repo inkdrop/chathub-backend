@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Profile;
 import com.mixpanel.mixpanelapi.MessageBuilder;
 
 @Configuration
-@Profile({"dev", "cloud_test", "test"})
+@Profile({"default", "cloud_test", "test"})
 public class MixPanelConfigDevelopment {
 
 	@Bean
