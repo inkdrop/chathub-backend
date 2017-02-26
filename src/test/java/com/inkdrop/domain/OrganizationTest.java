@@ -15,9 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.inkdrop.TestHelper;
-import com.inkdrop.app.domain.models.Organization;
-import com.inkdrop.app.domain.models.User;
-import com.inkdrop.app.domain.repositories.OrganizationRepository;
+import com.inkdrop.domain.models.Organization;
+import com.inkdrop.domain.models.User;
+import com.inkdrop.infrastructure.repositories.OrganizationRepository;
 import com.jayway.restassured.RestAssured;
 
 import lombok.extern.slf4j.Slf4j;

@@ -2,8 +2,8 @@ package com.inkdrop;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.inkdrop.app.domain.models.User;
-import com.inkdrop.app.domain.repositories.UserRepository;
+import com.inkdrop.domain.models.User;
+import com.inkdrop.infrastructure.repositories.UserRepository;
 
 public class TestHelper {
 
