@@ -15,9 +15,6 @@ public class OrganizationService extends AbstractGithubService {
   @Autowired
   OrganizationRepository organizationRepository;
 
-  @Autowired
-  RepositoryService repositoryService;
-
   public Organization findOrCreateOrganization(GHOrganization ghOrganization) throws IOException {
     Organization org = organizationRepository.findByUid(ghOrganization.getId());
     if (org == null) {

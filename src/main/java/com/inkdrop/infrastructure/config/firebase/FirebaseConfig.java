@@ -1,14 +1,16 @@
 package com.inkdrop.infrastructure.config.firebase;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import java.io.IOException;
-import java.io.InputStream;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
@@ -27,7 +29,7 @@ public class FirebaseConfig {
       log.info("Firebase application loaded");
       return FirebaseApp.initializeApp(options);
     } catch (IOException exception) {
-      log.error("Error during seting up firebase", exception);
+      log.error("Error during setting up firebase", exception);
       exception.printStackTrace();
       return null;
     }

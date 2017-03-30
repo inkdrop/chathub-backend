@@ -1,14 +1,10 @@
 package com.inkdrop.presentation.controllers;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.inkdrop.presentation.controllers.api.v1.BasicController;
-import com.inkdrop.domain.models.User;
-import com.inkdrop.application.exceptions.ChathubBackendException;
-import com.inkdrop.application.services.github.GithubLoginService;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -16,6 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.inkdrop.application.exceptions.ChathubBackendException;
+import com.inkdrop.application.services.github.GithubLoginService;
+import com.inkdrop.domain.models.User;
+import com.inkdrop.presentation.controllers.api.v1.BasicController;
 
 @RestController
 @EnableAutoConfiguration

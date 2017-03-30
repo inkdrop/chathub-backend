@@ -6,20 +6,12 @@ server:
   compression.enabled: true
   port: 8080
 
-logging.level.org.springframework.cloud.sleuth: DEBUG
-
-cache:
-  host: 127.0.0.1
-  port: 6379
-
-mixpanel:
-  token: invalid
+logging.level.org.springframework.cloud.sleuth: INFO
 
 params:
   datasource:
     username: postgres
     password: postgres
-    maximumPoolSize: 10
     poolName: chathub_conn_pool
     jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub
 

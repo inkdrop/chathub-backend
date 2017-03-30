@@ -1,6 +1,3 @@
-spring:
-  profiles: docker
-
 mixpanel:
   token: ${MIXPANEL_TOKEN}
 

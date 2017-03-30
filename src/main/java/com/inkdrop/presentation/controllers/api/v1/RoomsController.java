@@ -1,26 +1,22 @@
 package com.inkdrop.presentation.controllers.api.v1;
 
-import com.inkdrop.domain.models.Room;
-import com.inkdrop.domain.models.User;
-import com.inkdrop.infrastructure.repositories.RoomRepository;
-import com.inkdrop.infrastructure.repositories.UserRepository;
-import com.inkdrop.application.services.RoomService;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.inkdrop.application.services.RoomService;
+import com.inkdrop.domain.models.Room;
+import com.inkdrop.domain.models.User;
+import com.inkdrop.infrastructure.repositories.RoomRepository;
+import com.inkdrop.infrastructure.repositories.UserRepository;
 
 @RestController
 public class RoomsController extends BasicController {

@@ -1,6 +1,6 @@
-package com.inkdrop.application.eventnotifier;
+package com.inkdrop.application.reactive.eventnotifier;
 
-import com.inkdrop.application.consumers.MessageSavedConsumer;
+import com.inkdrop.application.reactive.consumers.MessageSavedConsumer;
 import com.inkdrop.domain.models.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

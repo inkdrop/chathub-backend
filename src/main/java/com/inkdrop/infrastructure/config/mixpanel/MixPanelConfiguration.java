@@ -7,11 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("docker")
-public class MixPanelConfigProduction {
+public class MixPanelConfiguration {
 
-  @Value("${mixpanel.token}")
-  String mixpanelToken;
+  @Value("${mixpanel.token:invalid}")
+  private String mixpanelToken;
 
   @Bean
   public MessageBuilder getMessageBuilder() {

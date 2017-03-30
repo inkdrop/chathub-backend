@@ -13,20 +13,18 @@ lb:
     - api
   ports:
     - '80:80'
-  roles:
-    - global
 
-cadvisor:
-  image: google/cadvisor
-  name: cadvisor
-  ports:
-    - "8080:8080"
-  deployment_strategy: every_node
-  tags:
-    - sta
-    - live
-  volumes:
-    - /:/rootfs:ro
-    - /var/run:/var/run:rw
-    - /sys:/sys:ro
-    - /var/lib/docker/:/var/lib/docker:ro
+# cadvisor:
+#   image: google/cadvisor
+#   name: cadvisor
+#   ports:
+#     - "8080:8080"
+#   deployment_strategy: every_node
+#   tags:
+#     - sta
+#     - live
+#   volumes:
+#     - /:/rootfs:ro
+#     - /var/run:/var/run:rw
+#     - /sys:/sys:ro
+#     - /var/lib/docker/:/var/lib/docker:ro

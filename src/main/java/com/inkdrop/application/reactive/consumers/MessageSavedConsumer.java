@@ -1,4 +1,4 @@
-package com.inkdrop.application.consumers;
+package com.inkdrop.application.reactive.consumers;
 
 import com.inkdrop.application.commands.PushToFirebaseCommand;
 import com.inkdrop.domain.builder.MixpanelEventBuilder;

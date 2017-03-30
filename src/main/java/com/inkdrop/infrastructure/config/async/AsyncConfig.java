@@ -13,11 +13,11 @@ public class AsyncConfig {
   @Bean
   public AsyncTaskExecutor getAsync() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-    executor.setCorePoolSize(7);
-    executor.setMaxPoolSize(42);
-    executor.setQueueCapacity(11);
-    executor.setThreadNamePrefix("ChathubAsyncExec-");
-    executor.initialize();
+    int cores = Runtime.getRuntime().availableProcessors();
+    executor.setCorePoolSize(cores);
+    executor.setMaxPoolSize(cores * 2);
+    executor.setQueueCapacity(cores * 200);
+    executor.setThreadNamePrefix("chathub-threadpool-");
     return executor;
   }
 
