@@ -12,7 +12,7 @@ params:
   datasource:
     username: postgres
     password: postgres
-    poolName: chathub_conn_pool
+    poolName: chathub_connection_pool
     jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub
 
 spring.jpa:
