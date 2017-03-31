@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,10 +21,10 @@ public class MessageSavedConsumer implements Consumer<Message> {
   MixpanelAPIService mixpanelApi;
 
   @Autowired
-  MessageBuilder messageBuilder;
-
-  @Autowired
   PushToFirebaseCommand pushToFirebaseCommand;
+
+  @Value("${mixpanel.token:invalid}")
+  String mixpanelToken;
 
   public void accept(Message message) {
     pushToFirebaseCommand.pushToFirebase(message);
@@ -31,12 +32,13 @@ public class MessageSavedConsumer implements Consumer<Message> {
   }
 
   private JSONObject getMixpanelJson(Message m) {
-    return MixpanelEventBuilder
-        .newEvent(messageBuilder)
-        .ofType(EventType.MESSAGE_SENT)
-        .withDistinctId(m.getUid())
-        .andProperties(getMessageProperties(m))
-        .build();
+    return MixpanelEventBuilder.builder()
+        .mixpanelToken(mixpanelToken)
+        .type(EventType.MESSAGE_SENT)
+        .id(m.getUid())
+        .properties(getMessageProperties(m))
+        .build()
+        .toJsonObject();
   }
 
   private Map<String, String> getMessageProperties(Message m) {

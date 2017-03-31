@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TokenGeneratorHelper {
 
-  private final String ALLOWED = "&()0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvzyzw";
+  private final String ALLOWED = "=()0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvzyzw";
 	private SecureRandom random = new SecureRandom();
 
   public String newToken(int length) {

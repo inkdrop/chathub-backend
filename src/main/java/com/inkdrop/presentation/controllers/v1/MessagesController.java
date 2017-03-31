@@ -1,6 +1,5 @@
-package com.inkdrop.presentation.controllers.api.v1;
+package com.inkdrop.presentation.controllers.v1;
 
-import com.inkdrop.application.reactive.eventnotifier.EventNotifier;
 import com.inkdrop.application.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,6 @@ import com.inkdrop.application.exceptions.ChathubBackendException;
 import com.inkdrop.domain.models.Message;
 import com.inkdrop.domain.models.Room;
 import com.inkdrop.domain.models.User;
-import com.inkdrop.infrastructure.repositories.MessageRepository;
 import com.inkdrop.infrastructure.repositories.RoomRepository;
 import com.inkdrop.infrastructure.repositories.UserRepository;
 

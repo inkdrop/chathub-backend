@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.inkdrop.application.exceptions.ChathubBackendException;
 import com.inkdrop.application.services.github.GitHubLoginService;
 import com.inkdrop.domain.models.User;
-import com.inkdrop.presentation.controllers.api.v1.BasicController;
+import com.inkdrop.presentation.controllers.v1.BasicController;
 
 @RestController
 @EnableAutoConfiguration

@@ -1,4 +1,4 @@
-package com.inkdrop.presentation.controllers.api.v1;
+package com.inkdrop.presentation.controllers.v1;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -69,9 +69,6 @@ public class BasicController {
     private static final long serialVersionUID = 6961393145500932303L;
 
     private String content;
-
-    public Params() {
-    }
 
     @JsonCreator
     public Params(@JsonProperty("content") String content) {

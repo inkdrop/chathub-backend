@@ -1,8 +1,12 @@
-package com.inkdrop.presentation.controllers.api.v1;
+package com.inkdrop.presentation.controllers.v1;
 
+import com.inkdrop.application.services.RoomService;
+import com.inkdrop.domain.models.Room;
+import com.inkdrop.domain.models.User;
+import com.inkdrop.infrastructure.repositories.RoomRepository;
+import com.inkdrop.infrastructure.repositories.UserRepository;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +15,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.inkdrop.application.services.RoomService;
-import com.inkdrop.domain.models.Room;
-import com.inkdrop.domain.models.User;
-import com.inkdrop.infrastructure.repositories.RoomRepository;
-import com.inkdrop.infrastructure.repositories.UserRepository;
 
 @RestController
 public class RoomsController extends BasicController {
@@ -33,8 +31,7 @@ public class RoomsController extends BasicController {
   @RequestMapping(method = RequestMethod.GET, path = "/v1/rooms")
   public ResponseEntity<?> getRoomsFromUser(@RequestHeader("Auth-Token") String token) {
     User user = userRepository.findByBackendAccessToken(token);
-    Set<Room> rooms = formatRooms(user.getRooms());
-    return createSuccessfulResponse(rooms);
+    return createSuccessfulResponse(formatRooms(user.getRooms()));
   }
 
   @RequestMapping(method = RequestMethod.GET, path = "/v1/rooms/{uid}")

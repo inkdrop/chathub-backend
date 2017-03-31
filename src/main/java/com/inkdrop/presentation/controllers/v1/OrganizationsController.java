@@ -1,4 +1,4 @@
-package com.inkdrop.presentation.controllers.api.v1;
+package com.inkdrop.presentation.controllers.v1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
