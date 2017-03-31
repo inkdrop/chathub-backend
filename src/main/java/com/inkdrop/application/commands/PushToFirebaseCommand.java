@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.inkdrop.domain.models.Message;
+import com.inkdrop.infrastructure.annotations.Command;
 
+@Command
 public class PushToFirebaseCommand {
 
   public void pushToFirebase(Message message) {

@@ -1,16 +1,17 @@
-package com.inkdrop.application.services.github;
+package com.inkdrop.application.commands;
 
+import com.inkdrop.application.services.github.AbstractGitHubService;
 import com.inkdrop.domain.models.Organization;
+import com.inkdrop.infrastructure.annotations.Command;
 import com.inkdrop.infrastructure.repositories.OrganizationRepository;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.GHOrganization;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
+@Command
 @Slf4j
-public class OrganizationService extends AbstractGithubService {
+public class OrganizationCommand {
 
   @Autowired
   OrganizationRepository organizationRepository;
@@ -36,6 +37,5 @@ public class OrganizationService extends AbstractGithubService {
 
     org = organizationRepository.save(org);
     return org;
-
   }
 }

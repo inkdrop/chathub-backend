@@ -53,6 +53,14 @@ public class BasePersistable implements Serializable {
     this.updatedAt = updatedAt;
   }
 
+  public boolean isPersisted(){
+    return getId() != null;
+  }
+
+  public boolean isNewRecord(){
+    return getId() == null;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;

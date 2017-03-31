@@ -65,7 +65,7 @@ public class Organization extends BasePersistable {
   private List<Room> rooms = new ArrayList<>();
 
 //	@Column(name="members", columnDefinition="text[]")
-//	@Converter(converterClass=ListToArrayConveter.class, name = "arrayConverter")
+//	@Converter(converterClass=ListToArrayConverter.class, name = "arrayConverter")
 //	private List<String> members = new ArrayList<>();
 
 }

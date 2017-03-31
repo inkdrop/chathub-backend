@@ -1,5 +1,6 @@
 package com.inkdrop.application.services.github;
 
+import com.inkdrop.application.commands.UserInitialisationCommand;
 import com.inkdrop.application.exceptions.ChathubBackendException;
 import com.inkdrop.domain.models.User;
 import com.inkdrop.infrastructure.repositories.UserRepository;
@@ -11,10 +12,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class GithubLoginService extends AbstractGithubService {
+public class GitHubLoginService extends AbstractGitHubService {
 
   @Autowired
-  UserService userService;
+  UserInitialisationCommand userInitialisationCommand;
 
   @Autowired
   UserRepository userRepository;
@@ -22,16 +23,13 @@ public class GithubLoginService extends AbstractGithubService {
   @Autowired
   SetupUserService setupUserService;
 
-
-  private GHMyself githubUser = null;
-
   public User createOrLoginUser(String githubAccessToken) throws ChathubBackendException {
     try {
-      this.githubUser = getCurrentUser(githubAccessToken);
-      User user = userService.findOrCreateUser(githubUser, githubAccessToken);
-      if (user.getId() == null) {
+      GHMyself gitHubUser = getCurrentUser(githubAccessToken);
+      User user = userInitialisationCommand.findOrInstantiateUser(gitHubUser, githubAccessToken);
+      if (user.isNewRecord()) {
         log.info("New user arrived, setting up");
-        setupUserService.setupUser(user, githubUser);
+        setupUserService.setupUser(user, gitHubUser);
       }
       return userRepository.save(user);
     } catch (IOException exception) {

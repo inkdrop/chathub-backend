@@ -22,8 +22,11 @@ public class MessageSavedConsumer implements Consumer<Message> {
   @Autowired
   MessageBuilder messageBuilder;
 
+  @Autowired
+  PushToFirebaseCommand pushToFirebaseCommand;
+
   public void accept(Message message) {
-    new PushToFirebaseCommand().pushToFirebase(message);
+    pushToFirebaseCommand.pushToFirebase(message);
     mixpanelApi.sendEvent(getMixpanelJson((message)));
   }
 

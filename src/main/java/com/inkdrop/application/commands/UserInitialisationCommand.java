@@ -1,19 +1,20 @@
-package com.inkdrop.application.services.github;
+package com.inkdrop.application.commands;
 
+import com.inkdrop.application.services.github.AbstractGitHubService;
 import com.inkdrop.domain.models.User;
+import com.inkdrop.infrastructure.annotations.Command;
 import com.inkdrop.infrastructure.repositories.UserRepository;
 import java.io.IOException;
 import org.kohsuke.github.GHMyself;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class UserService extends AbstractGithubService {
+@Command
+public class UserInitialisationCommand {
 
   @Autowired
   UserRepository userRepository;
 
-  public User findOrCreateUser(GHMyself currentUser, String accessToken) throws IOException {
+  public User findOrInstantiateUser(GHMyself currentUser, String accessToken) throws IOException {
     User user = userRepository.findByUid(currentUser.getId());
     if (user == null) {
       user = new User();

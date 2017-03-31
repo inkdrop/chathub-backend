@@ -1,5 +1,7 @@
 package com.inkdrop.application.services.github;
 
+import com.inkdrop.application.commands.OrganizationCommand;
+import com.inkdrop.application.commands.RepositoryCommand;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
@@ -22,10 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 public class SetupUserService {
 
   @Autowired
-  OrganizationService organizationService;
+  OrganizationCommand organizationCommand;
 
   @Autowired
-  RepositoryService repositoryService;
+  RepositoryCommand repositoryCommand;
 
   @Autowired
   RoomRepository roomRepository;
@@ -66,7 +68,7 @@ public class SetupUserService {
         .parallelStream()
         .forEach(org -> {
           try {
-            organizationService.findOrCreateOrganization(org);
+            organizationCommand.findOrCreateOrganization(org);
           } catch (IOException e) {
             throw new UncheckedIOException(e);
           }
@@ -79,7 +81,7 @@ public class SetupUserService {
         .parallelStream()
         .forEach(repo -> {
           try {
-            repositoryService.findOrCreateRoom(repo);
+            repositoryCommand.findOrCreateRoom(repo);
           } catch (IOException e) {
             throw new UncheckedIOException(e);
           }
