@@ -7,11 +7,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.springframework.stereotype.Component;
 
+/**
+ * for com.inkdrop.application.commands
+ */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Documented
 @Component
-public @interface Command {
-
-  String value() default "";
-}
+public @interface Command {}

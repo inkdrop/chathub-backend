@@ -57,7 +57,7 @@
     <dependency>
       <groupId>org.kohsuke</groupId>
       <artifactId>github-api</artifactId>
-      <version>1.84</version>
+      <version>1.85</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -82,7 +82,7 @@
     <dependency>
       <groupId>io.projectreactor</groupId>
       <artifactId>reactor-core</artifactId>
-      <version>3.0.5.RELEASE</version>
+      <version>3.0.6.RELEASE</version>
     </dependency>
 
     <!-- Test deps. -->
