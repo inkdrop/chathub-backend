@@ -13,21 +13,9 @@ public class EventNotifier {
   @Autowired
   MessageSavedConsumer consumer;
 
-//
-//	public void newUser(User user){
-//		bus.notify(EventConsumer.EVENT, Event.wrap(
-//				MixpanelEventBuilder
-//				.newEvent(mbuilder)
-//				.ofType(EventType.NEW_USER)
-//				.withDistinctId(user.getUid().toString())
-////				.andProperties(getProperties(m))
-//				.build()));
-//	}
-
   public void messageSaved(Message m) {
     Mono.just(m)
         .publishOn(Schedulers.parallel())
         .subscribe(consumer);
   }
-
 }

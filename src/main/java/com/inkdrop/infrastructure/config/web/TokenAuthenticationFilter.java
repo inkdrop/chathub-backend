@@ -30,6 +30,7 @@ public class TokenAuthenticationFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
+    HttpServletResponse httpResponse = (HttpServletResponse) response;
     if (httpRequest.getHeader("Access-Control-Request-Method") != null && "OPTIONS"
         .equals(httpRequest.getMethod())) {
       chain.doFilter(httpRequest, response);
@@ -37,17 +38,16 @@ public class TokenAuthenticationFilter implements Filter {
     }
 
     String backendToken = httpRequest.getHeader("Auth-Token");
-    HttpServletResponse servletResponse = (HttpServletResponse) response;
 
     if (backendToken == null) {
       log.info("Token is null");
-      servletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "No token given");
+      httpResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "No token given");
       return;
     }
 
     if (userRepository.findByBackendAccessToken(backendToken) == null) {
       log.info("Invalid token: " + backendToken);
-      servletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
+      httpResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
       return;
     }
 

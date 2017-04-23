@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,23 +65,13 @@ public class BasicController {
     return "{\"error\": \"" + e.getMessage() + "\" }";
   }
 
+  @Data
   static class Params implements Serializable {
-
-    private static final long serialVersionUID = 6961393145500932303L;
-
     private String content;
 
     @JsonCreator
     public Params(@JsonProperty("content") String content) {
       super();
-      this.content = content;
-    }
-
-    public String getContent() {
-      return content;
-    }
-
-    public void setContent(String content) {
       this.content = content;
     }
   }
