@@ -46,7 +46,6 @@ public class TokenAuthenticationFilter implements Filter {
     }
 
     if (userRepository.findByBackendAccessToken(backendToken) == null) {
-      log.info("Invalid token: " + backendToken);
       httpResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
       return;
     }
