@@ -21,7 +21,7 @@ public class OrganizationsController extends BasicController {
   OrganizationRepository organizationRepository;
 
   @RequestMapping(method = RequestMethod.GET, path = "/v1/organizations/{uid}")
-  public ResponseEntity<?> getOrgInfo(@PathVariable String uid,
+  public ResponseEntity getOrgInfo(@PathVariable String uid,
       @RequestHeader("Auth-Token") String token) {
     try {
       Organization org = organizationRepository.findByUid(Integer.parseInt(uid));

@@ -78,9 +78,7 @@ public class RoomsController extends BasicController {
   private Set<Room> formatRooms(Set<Room> rooms) {
     Set<Room> formattedRooms = new HashSet<>();
     rooms.forEach(
-        room -> {
-          formattedRooms.add((Room) excludeFieldsFromObject(room, new String[]{"users"}));
-        });
+        room -> formattedRooms.add((Room) excludeFieldsFromObject(room, new String[]{"users"})));
     return formattedRooms;
   }
 }

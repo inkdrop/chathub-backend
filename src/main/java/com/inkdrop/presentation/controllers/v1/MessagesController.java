@@ -46,10 +46,7 @@ public class MessagesController extends BasicController {
 
       messageService.saveAndPushToFirebase(buildMessage(message, room, sender));
       return new ResponseEntity<>(HttpStatus.CREATED);
-    } catch (ChathubBackendException e) {
-      log.error(e.getLocalizedMessage());
-      return createErrorResponse(e);
-    } catch (IllegalArgumentException e){
+    } catch (ChathubBackendException | IllegalArgumentException e) {
       log.error(e.getLocalizedMessage());
       return createErrorResponse(e);
     }
