@@ -5,7 +5,6 @@ import com.inkdrop.domain.builder.MixpanelEventBuilder;
 import com.inkdrop.domain.models.EventType;
 import com.inkdrop.domain.models.Message;
 import com.inkdrop.application.services.MixpanelAPIService;
-import com.mixpanel.mixpanelapi.MessageBuilder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;

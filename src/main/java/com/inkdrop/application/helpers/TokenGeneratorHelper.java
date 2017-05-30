@@ -2,10 +2,8 @@ package com.inkdrop.application.helpers;
 
 import java.security.SecureRandom;
 import lombok.experimental.UtilityClass;
-import lombok.extern.java.Log;
 
 @UtilityClass
-@Log
 public class TokenGeneratorHelper {
 
   private final String ALLOWED = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvzyzw";
