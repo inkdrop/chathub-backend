@@ -11,12 +11,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-@WebFilter(urlPatterns = {"/v1/*", "/v1/**"})
-@Slf4j
+@WebFilter(urlPatterns = {"/v1/*"})
 public class TokenAuthenticationFilter implements Filter {
 
   @Autowired
@@ -40,7 +38,6 @@ public class TokenAuthenticationFilter implements Filter {
     String backendToken = httpRequest.getHeader("Auth-Token");
 
     if (backendToken == null) {
-      log.info("Token is null");
       httpResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "No token given");
       return;
     }
