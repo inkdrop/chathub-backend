@@ -10,7 +10,7 @@ public enum EventType {
 
   private String key;
 
-  private EventType(String key) {
+  EventType(String key) {
     this.key = key;
   }
 

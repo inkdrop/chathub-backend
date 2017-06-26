@@ -29,8 +29,6 @@ import org.springframework.data.annotation.CreatedDate;
     @Index(unique = true, columnList = "uid"),
     @Index(unique = true, columnList = "backendAccessToken"),
     @Index(unique = true, columnList = "login"),
-    @Index(columnList = "backendAccessToken", name = "idx_backend"),
-    @Index(columnList = "login", name = "idx_login")
 })
 @Data
 @EqualsAndHashCode(callSuper = true, of = {"login"})
@@ -84,10 +82,8 @@ public class User extends BasePersistable {
   private String firebaseJwt = "";
 
 
-  @Override
   @PrePersist
   public void onCreate() {
-    super.onCreate();
     if (backendAccessToken == null) {
       backendAccessToken = TokenGeneratorHelper.newToken(25);
     }

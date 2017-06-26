@@ -8,9 +8,10 @@ import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -21,6 +22,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 })
 @Data
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Message extends BasePersistable {
 
   private static final long serialVersionUID = -5293724621181603251L;
@@ -28,7 +31,6 @@ public class Message extends BasePersistable {
   @ManyToOne(optional = false)
   @JsonIgnoreProperties({"description", "homepage", "owner", "organization", "messages", "users",
       "_private", "joined"})
-  @NotNull
   private Room room;
 
   @Column(nullable = false, columnDefinition = "CLOB")
@@ -38,7 +40,6 @@ public class Message extends BasePersistable {
   @ManyToOne(optional = false)
   @JsonIgnoreProperties({"backendAccessToken", "email", "memberSince", "firebaseJwt", "rooms",
       "location", "company"})
-  @NotNull
   private User sender;
 
   @Column(nullable = false, unique = true, length = 15)
@@ -49,8 +50,6 @@ public class Message extends BasePersistable {
     if (uid == null) {
       uid = TokenGeneratorHelper.newToken(15);
     }
-
-    super.onCreate();
   }
 
 }

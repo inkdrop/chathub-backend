@@ -24,7 +24,6 @@ import lombok.ToString;
 @Entity
 @Table(name = "rooms", indexes = {
     @Index(columnList = "uid", unique = true),
-    @Index(columnList = "uid", name = "uid_room_idx"),
     @Index(columnList = "fullName", name = "full_name_idx")
 })
 @JsonInclude(content = Include.NON_NULL)
@@ -41,13 +40,13 @@ public class Room extends BasePersistable {
   @Column(nullable = false)
   private String name;
 
-  @Column(nullable = true)
+  @Column
   private String fullName;
 
   @Column(nullable = true, length = 500)
   private String description;
 
-  @Column(nullable = true)
+  @Column()
   private String homepage;
 
   @Column(nullable = false)
@@ -62,7 +61,6 @@ public class Room extends BasePersistable {
   private List<Message> messages = new ArrayList<>();
 
   @ManyToMany(mappedBy = "rooms", targetEntity = User.class)
-//	@JsonIgnoreProperties({"backendAccessToken", "email", "memberSince", "firebaseJwt", "rooms", "location", "company"})
   @JsonIgnore
   private Set<User> users = new HashSet<>();
 

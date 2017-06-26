@@ -2,22 +2,19 @@ package com.inkdrop.application.services.github;
 
 import com.inkdrop.application.commands.OrganizationCommand;
 import com.inkdrop.application.commands.RepositoryCommand;
+import com.inkdrop.domain.models.User;
+import com.inkdrop.infrastructure.repositories.RoomRepository;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.inkdrop.domain.models.User;
-import com.inkdrop.infrastructure.repositories.RoomRepository;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j

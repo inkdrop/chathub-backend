@@ -1,10 +1,10 @@
 package com.inkdrop.application.reactive.consumers;
 
 import com.inkdrop.application.commands.PushToFirebaseCommand;
+import com.inkdrop.application.services.MixpanelAPIService;
 import com.inkdrop.domain.builder.MixpanelEventBuilder;
 import com.inkdrop.domain.models.EventType;
 import com.inkdrop.domain.models.Message;
-import com.inkdrop.application.services.MixpanelAPIService;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;

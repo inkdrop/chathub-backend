@@ -10,13 +10,16 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/v1/rooms")
 public class RoomsController extends BasicController {
 
   @Autowired
@@ -28,13 +31,13 @@ public class RoomsController extends BasicController {
   @Autowired
   RoomService roomService;
 
-  @RequestMapping(method = RequestMethod.GET, path = "/v1/rooms")
+  @GetMapping
   public ResponseEntity<?> getRoomsFromUser(@RequestHeader("Auth-Token") String token) {
     User user = userRepository.findByBackendAccessToken(token);
     return createSuccessfulResponse(formatRooms(user.getRooms()));
   }
 
-  @RequestMapping(method = RequestMethod.GET, path = "/v1/rooms/{uid}")
+  @GetMapping("/{uid}")
   public ResponseEntity<?> getRoomInformation(@PathVariable Integer uid,
       @RequestHeader("Auth-Token") String token) {
     try {
@@ -47,7 +50,7 @@ public class RoomsController extends BasicController {
     }
   }
 
-  @RequestMapping(method = RequestMethod.POST, path = "/v1/rooms/{uid}/join")
+  @PostMapping("/{uid}/join")
   public ResponseEntity<String> joinRoom(@PathVariable Integer uid,
       @RequestHeader("Auth-Token") String token) {
     try {
@@ -61,7 +64,7 @@ public class RoomsController extends BasicController {
     }
   }
 
-  @RequestMapping(method = RequestMethod.POST, path = "/v1/rooms/{uid}/leave")
+  @PostMapping("/{uid}/leave")
   public ResponseEntity<String> leaveRoom(@PathVariable Integer uid,
       @RequestHeader("Auth-Token") String token) {
     try {

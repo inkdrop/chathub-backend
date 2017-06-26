@@ -1,16 +1,13 @@
 package com.inkdrop.infrastructure.config.firebase;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import java.io.IOException;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
@@ -23,7 +20,8 @@ public class FirebaseConfig {
   public FirebaseApp firebase() {
     try {
       FirebaseOptions options = new FirebaseOptions.Builder()
-          .setServiceAccount(resourceLoader.getResource("classpath:credentials.json").getInputStream())
+          .setServiceAccount(
+              resourceLoader.getResource("classpath:credentials.json").getInputStream())
           .setDatabaseUrl("https://chathub-48840.firebaseio.com/")
           .build();
       log.info("Firebase application loaded");

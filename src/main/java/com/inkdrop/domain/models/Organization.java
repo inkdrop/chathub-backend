@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "organizations", indexes = {
@@ -37,11 +36,9 @@ public class Organization extends BasePersistable {
   private static final long serialVersionUID = -7119760968529447945L;
 
   @Column(nullable = false)
-  @NotEmpty
   private String name;
 
   @Column(nullable = false, unique = true)
-  @NotNull
   private Integer uid;
 
   @Column

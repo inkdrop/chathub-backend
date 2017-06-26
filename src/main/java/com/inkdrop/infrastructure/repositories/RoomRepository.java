@@ -1,9 +1,8 @@
 package com.inkdrop.infrastructure.repositories;
 
+import com.inkdrop.domain.models.Room;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.repository.CrudRepository;
-
-import com.inkdrop.domain.models.Room;
 
 public interface RoomRepository extends CrudRepository<Room, Long> {
 
