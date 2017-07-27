@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.GHMyself;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -29,9 +30,9 @@ public class GitHubLoginService extends AbstractGitHubService {
       User user = userInitialisationCommand.findOrInstantiateUser(gitHubUser, githubAccessToken);
       if (user.isNewRecord()) {
         log.info("New user arrived, setting up");
-        setupUserService.setupUser(user, gitHubUser);
+        user = setupUserService.setupUser(user, gitHubUser);
       }
-      return userRepository.save(user);
+      return user;
     } catch (IOException exception) {
       throw new ChathubBackendException(exception.getMessage());
     }

@@ -5,6 +5,7 @@ import com.inkdrop.application.helpers.TokenGeneratorHelper;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -33,7 +34,8 @@ public class Message extends BasePersistable {
       "_private", "joined"})
   private Room room;
 
-  @Column(nullable = false, columnDefinition = "CLOB")
+  @Column(nullable = false)
+  @Lob
   @NotEmpty
   private String content;
 

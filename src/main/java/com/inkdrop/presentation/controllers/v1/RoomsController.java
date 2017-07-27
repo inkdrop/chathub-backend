@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,20 +31,18 @@ public class RoomsController extends BasicController {
   RoomService roomService;
 
   @GetMapping
-  public ResponseEntity<?> getRoomsFromUser(@RequestHeader("Auth-Token") String token) {
+  public ResponseEntity getRoomsFromUser(@RequestHeader("Auth-Token") String token) {
     User user = userRepository.findByBackendAccessToken(token);
     return createSuccessfulResponse(formatRooms(user.getRooms()));
   }
 
   @GetMapping("/{uid}")
-  public ResponseEntity<?> getRoomInformation(@PathVariable Integer uid,
+  public ResponseEntity getRoomInformation(@PathVariable Integer uid,
       @RequestHeader("Auth-Token") String token) {
     try {
       Room room = roomRepository.findByUid(uid);
-//			room.setJoined(room.getUsers().contains(findByBackendToken(token, userRepository)));
       return ResponseEntity.ok(room);
     } catch (Exception e) {
-      e.printStackTrace();
       return createErrorResponse(e);
     }
   }

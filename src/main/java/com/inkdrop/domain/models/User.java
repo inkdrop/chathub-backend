@@ -16,6 +16,9 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -34,6 +37,9 @@ import org.springframework.data.annotation.CreatedDate;
 @EqualsAndHashCode(callSuper = true, of = {"login"})
 @ToString(of = {"login", "uid"})
 @JsonInclude(content = Include.NON_NULL)
+@NamedEntityGraphs(
+    @NamedEntityGraph(name = "with-join-rooms",
+        attributeNodes = {@NamedAttributeNode("rooms")}))
 public class User extends BasePersistable {
 
   private static final long serialVersionUID = 1492535311821424305L;
@@ -70,7 +76,7 @@ public class User extends BasePersistable {
   @CreatedDate
   private Date memberSince;
 
-  @ManyToMany(targetEntity = Room.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @ManyToMany(targetEntity = Room.class)
   @JoinTable(name = "room_users",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "room_id")})

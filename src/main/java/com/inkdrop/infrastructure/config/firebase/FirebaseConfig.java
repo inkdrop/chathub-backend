@@ -28,7 +28,6 @@ public class FirebaseConfig {
       return FirebaseApp.initializeApp(options);
     } catch (IOException exception) {
       log.error("Error during setting up firebase", exception);
-      exception.printStackTrace();
       return null;
     }
   }

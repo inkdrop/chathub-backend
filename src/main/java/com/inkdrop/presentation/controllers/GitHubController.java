@@ -25,12 +25,12 @@ public class GitHubController extends BasicController {
   GitHubLoginService githubLoginService;
 
   @RequestMapping(method = RequestMethod.POST, path = "/auth/github")
-  public ResponseEntity<?> createUser(@PathParam("token") String token) {
+  public ResponseEntity createUser(@PathParam("token") String token) {
     try {
       User user = githubLoginService.createOrLoginUser(token);
       Assert.notNull(user, "No user was found");
       user.setFirebaseJwt(getFirebaseJwtToken(user.getUid()));
-      return new ResponseEntity<User>(user, HttpStatus.OK);
+      return new ResponseEntity(user, HttpStatus.OK);
     } catch (ChathubBackendException e) {
       return createErrorResponse(e);
     }

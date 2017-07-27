@@ -43,7 +43,7 @@ public class Room extends BasePersistable {
   @Column
   private String fullName;
 
-  @Column(nullable = true, length = 500)
+  @Column(length = 500)
   private String description;
 
   @Column()

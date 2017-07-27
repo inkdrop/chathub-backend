@@ -17,8 +17,7 @@ public class MixpanelAPIService {
 
       new MixpanelAPI().deliver(delivery);
     } catch (Exception e) {
-      e.printStackTrace();
-      log.error(e.getLocalizedMessage());
+      log.error("Error while delivering message to Mixpanel", e.getLocalizedMessage());
     }
   }
 }
