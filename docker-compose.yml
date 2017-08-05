@@ -1,4 +1,0 @@
-chathub:
-  image: luizkowalski/chathub:qa
-  ports:
-    - "80:8080"

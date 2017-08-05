@@ -2,13 +2,11 @@ api:
   image: luizkowalski/chathub:qa
   ports:
     - "8080:8080"
-    - "9090:9090"
-    - "1099:1099"
-  deployment_strategy: every_node
+  deployment_strategy: high_availabilty
   tags:
     - sta
 lb:
-  image: 'dockercloud/haproxy:1.5.3'
+  image: 'dockercloud/haproxy:1.5.6'
   links:
     - api
   ports:
