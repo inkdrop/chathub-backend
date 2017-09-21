@@ -3,8 +3,8 @@ package com.inkdrop.domain;
 import static com.jayway.restassured.RestAssured.given;
 
 import com.inkdrop.TestHelper;
-import com.inkdrop.domain.models.Organization;
-import com.inkdrop.domain.models.User;
+import com.inkdrop.domain.room.Organization;
+import com.inkdrop.domain.user.User;
 import com.inkdrop.infrastructure.repositories.OrganizationRepository;
 import com.jayway.restassured.RestAssured;
 import lombok.extern.slf4j.Slf4j;

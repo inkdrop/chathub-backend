@@ -2,7 +2,7 @@ package com.inkdrop.application.services.github;
 
 import com.inkdrop.application.commands.OrganizationCommand;
 import com.inkdrop.application.commands.RepositoryCommand;
-import com.inkdrop.domain.models.User;
+import com.inkdrop.domain.user.User;
 import com.inkdrop.infrastructure.repositories.RoomRepository;
 import com.inkdrop.infrastructure.repositories.UserRepository;
 import java.io.IOException;

@@ -1,20 +1,23 @@
-package com.inkdrop.application.reactive.consumers;
+package com.inkdrop.domain.consumers;
 
 import com.inkdrop.application.commands.PushToFirebaseCommand;
 import com.inkdrop.application.services.MixpanelAPIService;
 import com.inkdrop.domain.builder.MixpanelEventBuilder;
-import com.inkdrop.domain.models.EventType;
-import com.inkdrop.domain.models.Message;
+import com.inkdrop.domain.EventType;
+import com.inkdrop.domain.message.Message;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MessageSavedConsumer implements Consumer<Message> {
+@Slf4j
+public class MessageSavedListener {
 
   @Autowired
   MixpanelAPIService mixpanelApi;
@@ -25,9 +28,12 @@ public class MessageSavedConsumer implements Consumer<Message> {
   @Value("${mixpanel.token:invalid}")
   String mixpanelToken;
 
+  @Async
+  @EventListener
   public void accept(Message message) {
     pushToFirebaseCommand.pushToFirebase(message);
     mixpanelApi.sendEvent(getMixpanelJson((message)));
+    log.info("Message posted");
   }
 
   private JSONObject getMixpanelJson(Message m) {

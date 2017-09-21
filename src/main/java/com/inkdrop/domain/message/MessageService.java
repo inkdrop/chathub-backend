@@ -1,12 +1,12 @@
-package com.inkdrop.application.services;
+package com.inkdrop.domain.message;
 
-import com.inkdrop.application.reactive.eventnotifier.EventNotifier;
-import com.inkdrop.domain.models.Message;
+import com.inkdrop.domain.message.Message;
 import com.inkdrop.infrastructure.repositories.MessageRepository;
 import com.inkdrop.infrastructure.repositories.RoomRepository;
 import com.inkdrop.infrastructure.repositories.UserRepository;
 import com.inkdrop.presentation.dto.MessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,16 +22,16 @@ public class MessageService {
   UserRepository userRepository;
 
   @Autowired
-  EventNotifier eventNotifier;
+  private ApplicationEventPublisher publisher;
 
   public void saveAndPushToFirebase(MessageDTO messageDTO) {
     Message message = fromDto(messageDTO);
 
     messageRepository.save(message);
-    eventNotifier.messageSaved(message);
+    publisher.publishEvent(message);
   }
 
-  private Message fromDto(MessageDTO messageDto){
+  private Message fromDto(MessageDTO messageDto) {
     Message message = new Message();
     message.setContent(messageDto.getContent());
     message.setRoom(roomRepository.findByUid(messageDto.getRoomUid()));

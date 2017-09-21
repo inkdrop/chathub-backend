@@ -1,6 +1,6 @@
 package com.inkdrop.presentation.controllers.v1;
 
-import com.inkdrop.domain.models.Organization;
+import com.inkdrop.domain.room.Organization;
 import com.inkdrop.infrastructure.repositories.OrganizationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

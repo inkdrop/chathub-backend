@@ -3,7 +3,7 @@ package com.inkdrop.presentation.controllers;
 import com.google.firebase.auth.FirebaseAuth;
 import com.inkdrop.application.exceptions.ChathubBackendException;
 import com.inkdrop.application.services.github.GitHubLoginService;
-import com.inkdrop.domain.models.User;
+import com.inkdrop.domain.user.User;
 import com.inkdrop.presentation.controllers.v1.BasicController;
 import java.util.HashMap;
 import java.util.Map;

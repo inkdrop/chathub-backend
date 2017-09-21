@@ -1,6 +1,6 @@
 package com.inkdrop.domain.builder;
 
-import com.inkdrop.domain.models.EventType;
+import com.inkdrop.domain.EventType;
 import com.mixpanel.mixpanelapi.MessageBuilder;
 import java.util.Map;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.inkdrop.application.commands;
 
-import com.inkdrop.domain.models.Room;
+import com.inkdrop.domain.room.Room;
 import com.inkdrop.infrastructure.annotations.Command;
 import com.inkdrop.infrastructure.repositories.OrganizationRepository;
 import com.inkdrop.infrastructure.repositories.RoomRepository;

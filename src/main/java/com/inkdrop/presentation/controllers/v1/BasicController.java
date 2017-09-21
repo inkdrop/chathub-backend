@@ -2,7 +2,7 @@ package com.inkdrop.presentation.controllers.v1;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.inkdrop.domain.models.User;
+import com.inkdrop.domain.user.User;
 import com.inkdrop.infrastructure.repositories.UserRepository;
 import java.io.Serializable;
 import java.lang.reflect.Field;

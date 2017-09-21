@@ -1,8 +1,8 @@
 package com.inkdrop.presentation.controllers.v1;
 
-import com.inkdrop.application.services.RoomService;
-import com.inkdrop.domain.models.Room;
-import com.inkdrop.domain.models.User;
+import com.inkdrop.domain.room.RoomService;
+import com.inkdrop.domain.room.Room;
+import com.inkdrop.domain.user.User;
 import com.inkdrop.infrastructure.repositories.RoomRepository;
 import com.inkdrop.infrastructure.repositories.UserRepository;
 import java.util.HashSet;

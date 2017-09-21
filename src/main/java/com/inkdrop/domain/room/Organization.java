@@ -1,8 +1,10 @@
-package com.inkdrop.domain.models;
+package com.inkdrop.domain.room;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.inkdrop.domain.BasePersistable;
+import com.inkdrop.domain.room.Room;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;

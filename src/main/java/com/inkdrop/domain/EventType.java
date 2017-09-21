@@ -1,4 +1,4 @@
-package com.inkdrop.domain.models;
+package com.inkdrop.domain;
 
 public enum EventType {
   LOGIN("login"),

@@ -1,6 +1,6 @@
 package com.inkdrop.application.commands;
 
-import com.inkdrop.domain.models.Organization;
+import com.inkdrop.domain.room.Organization;
 import com.inkdrop.infrastructure.annotations.Command;
 import com.inkdrop.infrastructure.repositories.OrganizationRepository;
 import java.io.IOException;

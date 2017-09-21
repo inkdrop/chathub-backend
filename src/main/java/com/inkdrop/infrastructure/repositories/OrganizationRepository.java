@@ -1,6 +1,6 @@
 package com.inkdrop.infrastructure.repositories;
 
-import com.inkdrop.domain.models.Organization;
+import com.inkdrop.domain.room.Organization;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.repository.CrudRepository;

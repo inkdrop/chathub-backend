@@ -1,4 +1,4 @@
-package com.inkdrop.domain.models;
+package com.inkdrop.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;

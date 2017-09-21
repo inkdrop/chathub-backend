@@ -1,6 +1,6 @@
 package com.inkdrop.infrastructure.repositories;
 
-import com.inkdrop.domain.models.User;
+import com.inkdrop.domain.user.User;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

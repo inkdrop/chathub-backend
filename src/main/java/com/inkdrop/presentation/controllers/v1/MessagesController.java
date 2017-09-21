@@ -1,6 +1,6 @@
 package com.inkdrop.presentation.controllers.v1;
 
-import com.inkdrop.application.services.MessageService;
+import com.inkdrop.domain.message.MessageService;
 import com.inkdrop.presentation.dto.MessageDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

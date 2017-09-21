@@ -2,14 +2,13 @@ package com.inkdrop.application.services.github;
 
 import com.inkdrop.application.commands.UserInitialisationCommand;
 import com.inkdrop.application.exceptions.ChathubBackendException;
-import com.inkdrop.domain.models.User;
+import com.inkdrop.domain.user.User;
 import com.inkdrop.infrastructure.repositories.UserRepository;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.GHMyself;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j

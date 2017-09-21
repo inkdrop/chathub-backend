@@ -1,7 +1,10 @@
-package com.inkdrop.domain.models;
+package com.inkdrop.domain.message;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.inkdrop.application.helpers.TokenGeneratorHelper;
+import com.inkdrop.domain.BasePersistable;
+import com.inkdrop.domain.room.Room;
+import com.inkdrop.domain.user.User;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;

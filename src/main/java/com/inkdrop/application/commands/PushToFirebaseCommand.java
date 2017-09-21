@@ -3,7 +3,7 @@ package com.inkdrop.application.commands;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.inkdrop.domain.models.Message;
+import com.inkdrop.domain.message.Message;
 import com.inkdrop.infrastructure.annotations.Command;
 import lombok.extern.slf4j.Slf4j;
 
