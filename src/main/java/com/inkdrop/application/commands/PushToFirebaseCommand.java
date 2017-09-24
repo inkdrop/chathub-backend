@@ -3,7 +3,7 @@ package com.inkdrop.application.commands;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.inkdrop.domain.message.Message;
+import com.inkdrop.domain.room.Message;
 import com.inkdrop.infrastructure.annotations.Command;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +14,8 @@ public class PushToFirebaseCommand {
   public void pushToFirebase(Message message) {
     try {
       DatabaseReference db = getDatabase(message);
-      db.child(message.getId().toString()).setValue(new ObjectMapper().writeValueAsString(message));
+      log.info("Message: {}", message);
+      db.child(message.getUid().toString()).setValue(new ObjectMapper().writeValueAsString(message));
     } catch (Exception e) {
       log.error("Could not send message to Firebase", e);
     }

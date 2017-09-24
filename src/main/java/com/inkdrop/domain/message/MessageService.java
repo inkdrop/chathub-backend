@@ -1,6 +1,6 @@
 package com.inkdrop.domain.message;
 
-import com.inkdrop.domain.message.Message;
+import com.inkdrop.domain.room.Message;
 import com.inkdrop.infrastructure.repositories.MessageRepository;
 import com.inkdrop.infrastructure.repositories.RoomRepository;
 import com.inkdrop.infrastructure.repositories.UserRepository;

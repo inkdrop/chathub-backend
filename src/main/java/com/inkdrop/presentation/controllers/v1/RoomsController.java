@@ -1,11 +1,13 @@
 package com.inkdrop.presentation.controllers.v1;
 
-import com.inkdrop.domain.room.RoomService;
 import com.inkdrop.domain.room.Room;
+import com.inkdrop.domain.room.RoomService;
 import com.inkdrop.domain.user.User;
 import com.inkdrop.infrastructure.repositories.RoomRepository;
 import com.inkdrop.infrastructure.repositories.UserRepository;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +35,8 @@ public class RoomsController extends BasicController {
   @GetMapping
   public ResponseEntity getRoomsFromUser(@RequestHeader("Auth-Token") String token) {
     User user = userRepository.findByBackendAccessToken(token);
-    return createSuccessfulResponse(formatRooms(user.getRooms()));
+
+    return createSuccessfulResponse(formatRooms(roomRepository.findByUsers(Arrays.asList(user))));
   }
 
   @GetMapping("/{uid}")
@@ -75,7 +78,7 @@ public class RoomsController extends BasicController {
     }
   }
 
-  private Set<Room> formatRooms(Set<Room> rooms) {
+  private Set<Room> formatRooms(List<Room> rooms) {
     Set<Room> formattedRooms = new HashSet<>();
     rooms.forEach(
         room -> formattedRooms.add((Room) excludeFieldsFromObject(room, new String[]{"users"})));

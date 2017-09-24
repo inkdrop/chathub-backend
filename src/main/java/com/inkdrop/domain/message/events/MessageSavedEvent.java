@@ -1,9 +1,14 @@
 package com.inkdrop.domain.message.events;
 
-import com.inkdrop.domain.message.Message;
+import com.inkdrop.domain.room.Message;
+import java.io.Serializable;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class MessageSavedEvent {
-  public Message message;
+@AllArgsConstructor
+@NoArgsConstructor
+public class MessageSavedEvent implements Serializable{
+  private Message message;
 }

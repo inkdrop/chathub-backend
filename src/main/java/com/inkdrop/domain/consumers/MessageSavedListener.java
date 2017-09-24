@@ -4,16 +4,17 @@ import com.inkdrop.application.commands.PushToFirebaseCommand;
 import com.inkdrop.application.services.MixpanelAPIService;
 import com.inkdrop.domain.builder.MixpanelEventBuilder;
 import com.inkdrop.domain.EventType;
-import com.inkdrop.domain.message.Message;
+import com.inkdrop.domain.message.events.MessageSavedEvent;
+import com.inkdrop.domain.room.Message;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 @Slf4j
@@ -29,10 +30,9 @@ public class MessageSavedListener {
   String mixpanelToken;
 
   @Async
-  @EventListener
-  public void accept(Message message) {
-    pushToFirebaseCommand.pushToFirebase(message);
-    mixpanelApi.sendEvent(getMixpanelJson((message)));
+  @TransactionalEventListener
+  public void messageSaved(MessageSavedEvent event) {
+    pushToFirebaseCommand.pushToFirebase(event.getMessage());
     log.info("Message posted");
   }
 
