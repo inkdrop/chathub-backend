@@ -1,15 +1,8 @@
 package com.inkdrop.application.services.github;
 
-import com.inkdrop.application.commands.OrganizationCommand;
 import com.inkdrop.application.commands.RepositoryCommand;
 import com.inkdrop.domain.user.User;
-import com.inkdrop.infrastructure.repositories.RoomRepository;
-import com.inkdrop.infrastructure.repositories.UserRepository;
 import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHOrganization;
@@ -23,70 +16,43 @@ import org.springframework.transaction.annotation.Transactional;
 public class SetupUserService {
 
   @Autowired
-  OrganizationCommand organizationCommand;
-
-  @Autowired
   RepositoryCommand repositoryCommand;
-
-  @Autowired
-  RoomRepository roomRepository;
-
-  @Autowired
-  UserRepository userRepository;
 
   @Transactional
   public User setupUser(User appUser, GHMyself githubUser) throws IOException {
-    log.info("Creating organizations");
-    findOrCreateOrganizations(githubUser);
-
     log.info("Creating rooms...");
-    findOrCreateRooms(githubUser);
+    findOrCreateRooms(githubUser, appUser);
 
-    log.info("Linking user to rooms...");
-    linkUserToRooms(appUser, githubUser);
+    findOrCreateRoomsForOrganizations(githubUser, appUser);
+    log.info("Done");
 
-    log.info("Done: linking user to rooms");
-    return userRepository.save(appUser);
+    return appUser;
   }
 
-  private void linkUserToRooms(User user, GHMyself githubUser) throws IOException {
-    Map<String, GHRepository> repositories = githubUser.getRepositories();
-    List<Integer> userRepoUid = repositories
-        .values().stream()
-        .map(GHRepository::getId).collect(Collectors.toList());
-
-    for (GHOrganization org : githubUser.getAllOrganizations()) {
-      userRepoUid.addAll(org.getRepositories().values()
-          .stream()
-          .map(GHRepository::getId)
-          .collect(Collectors.toList()));
+  private void findOrCreateRoomsForOrganizations(GHMyself githubUser, User appUser) throws IOException {
+    for (GHOrganization organization : githubUser.getAllOrganizations()) {
+      log.info("GUESS WHAT: I'm {}", organization.getName());
+      for (GHRepository repository : organization.getRepositories().values()) {
+        log.info("Creating {}", repository.getFullName());
+        createRoom(repository, organization.getLogin(), appUser);
+      }
     }
-    userRepoUid.parallelStream()
-        .forEach(uid -> user.getRooms().add(roomRepository.findByUid(uid)));
   }
 
-  private void findOrCreateOrganizations(GHMyself githubUser) throws IOException {
-    githubUser.getAllOrganizations()
-        .parallelStream()
-        .forEach(org -> {
-          try {
-            organizationCommand.findOrCreateOrganization(org);
-          } catch (IOException e) {
-            throw new UncheckedIOException(e);
-          }
-        });
-  }
-
-
-  private void findOrCreateRooms(GHMyself githubUser) throws IOException {
+  private void findOrCreateRooms(GHMyself githubUser, User appUser) throws IOException {
     githubUser.getRepositories().values()
         .parallelStream()
         .forEach(repo -> {
-          try {
-            repositoryCommand.findOrCreateRoom(repo);
-          } catch (IOException e) {
-            throw new UncheckedIOException(e);
-          }
+          createRoom(repo, null, appUser);
         });
+  }
+
+  private void createRoom(GHRepository repository, String organization, User appUser) {
+    log.info("Creating room for repo: {}", repository.getFullName());
+    try {
+      repositoryCommand.findOrCreateRoom(repository, organization, appUser);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

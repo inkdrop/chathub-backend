@@ -37,9 +37,6 @@ import org.springframework.data.annotation.CreatedDate;
 @EqualsAndHashCode(callSuper = true, of = {"login"})
 @ToString(of = {"login", "uid"})
 @JsonInclude(content = Include.NON_NULL)
-@NamedEntityGraphs(
-    @NamedEntityGraph(name = "with-join-rooms",
-        attributeNodes = {@NamedAttributeNode("rooms")}))
 public class User extends BasePersistable {
 
   private static final long serialVersionUID = 1492535311821424305L;
@@ -75,13 +72,6 @@ public class User extends BasePersistable {
 
   @CreatedDate
   private Date memberSince;
-
-  @ManyToMany(targetEntity = Room.class)
-  @JoinTable(name = "room_users",
-      joinColumns = {@JoinColumn(name = "user_id")},
-      inverseJoinColumns = {@JoinColumn(name = "room_id")})
-  @JsonIgnore
-  private Set<Room> rooms = new HashSet<>();
 
   @Transient
   @JsonProperty(value = "firebase_token")

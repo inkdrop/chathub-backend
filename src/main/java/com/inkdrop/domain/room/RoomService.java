@@ -20,11 +20,6 @@ public class RoomService {
   public void joinRoom(User user, Room room) {
     user = userRepository.findOne(user.getId());
     room = roomRepository.findOne(room.getId());
-    if (user.getRooms().contains(room)) {
-      return;
-    } else {
-      user.getRooms().add(room);
-    }
 
     userRepository.save(user);
   }
@@ -33,7 +28,6 @@ public class RoomService {
   public void leave(User user, Room room) {
     user = userRepository.findOne(user.getId());
     room = roomRepository.findOne(room.getId());
-    user.getRooms().remove(room);
 
     userRepository.save(user);
   }

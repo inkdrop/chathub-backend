@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -56,6 +57,7 @@ public class BasePersistable implements Serializable {
     this.updatedAt = updatedAt;
   }
 
+  @Transient
   public boolean isNewRecord() {
     return getId() == null;
   }

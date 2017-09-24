@@ -7,25 +7,23 @@ import com.inkdrop.domain.user.User;
 import com.inkdrop.presentation.controllers.v1.BasicController;
 import java.util.HashMap;
 import java.util.Map;
-import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@EnableAutoConfiguration
 public class GitHubController extends BasicController {
 
   @Autowired
   GitHubLoginService githubLoginService;
 
   @RequestMapping(method = RequestMethod.POST, path = "/auth/github")
-  public ResponseEntity createUser(@PathParam("token") String token) {
+  public ResponseEntity createUser(@RequestParam("token") String token) {
     try {
       User user = githubLoginService.createOrLoginUser(token);
       Assert.notNull(user, "No user was found");

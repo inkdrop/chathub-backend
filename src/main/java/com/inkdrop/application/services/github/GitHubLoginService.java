@@ -20,14 +20,20 @@ public class GitHubLoginService extends AbstractGitHubService {
   @Autowired
   SetupUserService setupUserService;
 
+  @Autowired
+  UserRepository userRepository;
+
   public User createOrLoginUser(String githubAccessToken) throws ChathubBackendException {
     try {
       GHMyself gitHubUser = getCurrentUser(githubAccessToken);
       User user = userInitialisationCommand.findOrInstantiateUser(gitHubUser, githubAccessToken);
       if (user.isNewRecord()) {
         log.info("New user arrived, setting up");
-        user = setupUserService.setupUser(user, gitHubUser);
+        user = userRepository.save(user);
+        setupUserService.setupUser(user, gitHubUser);
+        log.info("Done setup user!");
       }
+      log.info("Returning user");
       return user;
     } catch (IOException exception) {
       throw new ChathubBackendException(exception.getMessage());

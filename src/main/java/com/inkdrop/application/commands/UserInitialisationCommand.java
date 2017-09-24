@@ -17,6 +17,8 @@ public class UserInitialisationCommand {
     User user = userRepository.findByUid(currentUser.getId());
     if (user == null) {
       user = new User();
+      user.setUid(currentUser.getId());
+      user.setMemberSince(currentUser.getCreatedAt());
     }
     user.setAccessToken(accessToken);
     user = userFromGithub(currentUser, user);
@@ -28,10 +30,8 @@ public class UserInitialisationCommand {
     user.setCompany(currentUser.getCompany());
     user.setEmail(currentUser.getEmail());
     user.setLocation(currentUser.getLocation());
-    user.setMemberSince(currentUser.getCreatedAt());
     user.setName(currentUser.getName());
     user.setLogin(currentUser.getLogin());
-    user.setUid(currentUser.getId());
     user.setUpdatedAt(null);
 
     return user;

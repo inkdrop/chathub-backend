@@ -20,6 +20,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
@@ -81,22 +83,26 @@ public class Room extends AbstractAggregateRoot implements Serializable {
   @Column(nullable = false)
   private String owner;
 
-  @ManyToOne
-  @JsonIgnoreProperties({"rooms", "members"})
-  private Organization organization;
+  @Column(length = 500)
+  private String organization;
 
-  @OneToMany(mappedBy = "room", cascade = {CascadeType.MERGE, CascadeType.PERSIST,
-      CascadeType.REMOVE})
+  @Column(length = 500)
+  private String avatar;
+
+  @OneToMany(mappedBy = "room", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
   @JsonIgnore
   private List<Message> messages = new ArrayList<>();
 
-  @ManyToMany(mappedBy = "rooms", targetEntity = User.class)
+  @ManyToMany
+  @JoinTable(name = "room_users",
+      joinColumns = {@JoinColumn(name = "user_id")},
+      inverseJoinColumns = {@JoinColumn(name = "room_id")})
   @JsonIgnore
   private Set<User> users = new HashSet<>();
 
-  @Column(name = "private")
+  @Column
   @JsonProperty(value = "private")
-  private Boolean _private = false;
+  private Boolean privateRoom = false;
 
   @Transient
   private boolean joined = false;
@@ -105,5 +111,9 @@ public class Room extends AbstractAggregateRoot implements Serializable {
     message.setRoom(this);
     messages.add(message);
     registerEvent(new MessageSavedEvent((message)));
+  }
+
+  public void addUser(User user){
+    users.add(user);
   }
 }
