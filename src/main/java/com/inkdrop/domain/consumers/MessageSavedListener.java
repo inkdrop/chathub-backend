@@ -4,7 +4,7 @@ import com.inkdrop.application.commands.PushToFirebaseCommand;
 import com.inkdrop.application.services.MixpanelAPIService;
 import com.inkdrop.domain.builder.MixpanelEventBuilder;
 import com.inkdrop.domain.EventType;
-import com.inkdrop.domain.message.events.MessageSavedEvent;
+import com.inkdrop.domain.room.events.MessageSavedEvent;
 import com.inkdrop.domain.room.Message;
 import java.util.HashMap;
 import java.util.Map;

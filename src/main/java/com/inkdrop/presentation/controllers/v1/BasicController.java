@@ -17,12 +17,6 @@ import org.springframework.http.ResponseEntity;
 @Slf4j
 public class BasicController {
 
-  protected boolean isValid(Object object) {
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    Validator validator = factory.getValidator();
-    return validator.validate(object).isEmpty();
-  }
-
   protected Object excludeFieldsFromObject(Object object, String[] ignoredFields) {
     try {
       for (String string : ignoredFields) {

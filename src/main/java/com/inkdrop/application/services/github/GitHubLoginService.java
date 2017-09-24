@@ -18,9 +18,6 @@ public class GitHubLoginService extends AbstractGitHubService {
   UserInitialisationCommand userInitialisationCommand;
 
   @Autowired
-  UserRepository userRepository;
-
-  @Autowired
   SetupUserService setupUserService;
 
   public User createOrLoginUser(String githubAccessToken) throws ChathubBackendException {

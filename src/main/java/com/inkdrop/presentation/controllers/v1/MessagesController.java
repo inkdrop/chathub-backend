@@ -42,7 +42,7 @@ public class MessagesController extends BasicController {
       return new ResponseEntity<>(HttpStatus.CREATED);
     } catch (IllegalArgumentException e) {
       log.error(e.getLocalizedMessage());
-      return createErrorResponse(e);
+      return createErrorResponse(e, HttpStatus.NOT_FOUND);
     }
   }
 }

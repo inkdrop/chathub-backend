@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.inkdrop.domain.message.events.MessageSavedEvent;
+import com.inkdrop.domain.room.events.MessageSavedEvent;
 import com.inkdrop.domain.user.User;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,7 +34,6 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.AbstractAggregateRoot;
-import org.springframework.data.domain.AfterDomainEventPublication;
 
 @Entity
 @Table(name = "rooms", indexes = {

@@ -1,4 +1,4 @@
-package com.inkdrop.domain.message.events;
+package com.inkdrop.domain.room.events;
 
 import com.inkdrop.domain.room.Message;
 import java.io.Serializable;

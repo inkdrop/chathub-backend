@@ -87,7 +87,6 @@ public class User extends BasePersistable {
   @JsonProperty(value = "firebase_token")
   private String firebaseJwt = "";
 
-
   @PrePersist
   public void onCreate() {
     if (backendAccessToken == null) {

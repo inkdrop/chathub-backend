@@ -35,7 +35,6 @@ public class RoomsController extends BasicController {
   @GetMapping
   public ResponseEntity getRoomsFromUser(@RequestHeader("Auth-Token") String token) {
     User user = userRepository.findByBackendAccessToken(token);
-
     return createSuccessfulResponse(formatRooms(roomRepository.findByUsers(Arrays.asList(user))));
   }
 
