@@ -6,6 +6,7 @@ import com.inkdrop.domain.builder.MixpanelEventBuilder;
 import com.inkdrop.domain.EventType;
 import com.inkdrop.domain.room.events.MessageSavedEvent;
 import com.inkdrop.domain.room.Message;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,9 @@ public class MessageSavedListener {
   @Async
   @TransactionalEventListener
   public void messageSaved(MessageSavedEvent event) {
-    pushToFirebaseCommand.pushToFirebase(event.getMessage());
+    Message message = event.getMessage();
+    message.setCreatedAt(new Date());
+    pushToFirebaseCommand.pushToFirebase(message);
     log.info("Message posted");
   }
 
