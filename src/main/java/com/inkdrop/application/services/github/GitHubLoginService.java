@@ -29,8 +29,8 @@ public class GitHubLoginService extends AbstractGitHubService {
       User user = userInitialisationCommand.findOrInstantiateUser(gitHubUser, githubAccessToken);
       if (user.isNewRecord()) {
         log.info("New user arrived, setting up");
-        user = userRepository.save(user);
         setupUserService.setupUser(user, gitHubUser);
+        user = userRepository.save(user);
         log.info("Done setup user!");
       }
       log.info("Returning user");

@@ -9,6 +9,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   User findByUid(Integer uid);
 
-  @Cacheable(cacheNames = "userByBackendToken")
+//  @Cacheable(cacheNames = "userByBackendToken")
   User findByBackendAccessToken(String token);
 }

@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"room", "sender"}, of = {"id", "uid"})
+@ToString(of = {"id", "uid"})
 public class Message extends BasePersistable {
 
   private static final long serialVersionUID = -5293724621181603251L;

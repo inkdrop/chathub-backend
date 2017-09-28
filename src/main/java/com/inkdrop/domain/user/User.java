@@ -6,19 +6,16 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.inkdrop.application.helpers.TokenGeneratorHelper;
 import com.inkdrop.domain.BasePersistable;
-import com.inkdrop.domain.room.Room;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
-import javax.persistence.NamedEntityGraphs;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -41,7 +38,7 @@ public class User extends BasePersistable {
 
   private static final long serialVersionUID = 1492535311821424305L;
 
-  @Column(nullable = false, unique = true)
+  @Column(nullable = false)
   private String login;
 
   @Column(nullable = false)
@@ -76,6 +73,10 @@ public class User extends BasePersistable {
   @Transient
   @JsonProperty(value = "firebase_token")
   private String firebaseJwt = "";
+
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "subscriptions", joinColumns = @JoinColumn(name="user_id"))
+  private Set<Subscription> subscriptions = new HashSet<>();
 
   @PrePersist
   public void onCreate() {

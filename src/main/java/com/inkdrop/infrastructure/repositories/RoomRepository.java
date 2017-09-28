@@ -14,6 +14,4 @@ public interface RoomRepository extends CrudRepository<Room, Long> {
   Room findByUid(Integer uid);
 
   Room findByFullName(String name);
-
-  List<Room> findByUsers(List<User> user);
 }

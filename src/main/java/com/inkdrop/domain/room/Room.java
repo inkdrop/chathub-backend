@@ -1,7 +1,6 @@
 package com.inkdrop.domain.room;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,7 +22,6 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
@@ -89,16 +87,10 @@ public class Room extends AbstractAggregateRoot implements Serializable {
   @Column(length = 500)
   private String avatar;
 
-  @OneToMany(mappedBy = "room", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+  @OneToMany(mappedBy = "room", cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+      CascadeType.REMOVE})
   @JsonIgnore
   private List<Message> messages = new ArrayList<>();
-
-  @ManyToMany
-  @JoinTable(name = "room_users",
-      joinColumns = {@JoinColumn(name = "user_id")},
-      inverseJoinColumns = {@JoinColumn(name = "room_id")})
-  @JsonIgnore
-  private Set<User> users = new HashSet<>();
 
   @Column
   @JsonProperty(value = "private")
@@ -111,9 +103,5 @@ public class Room extends AbstractAggregateRoot implements Serializable {
     message.setRoom(this);
     messages.add(message);
     registerEvent(new MessageSavedEvent((message)));
-  }
-
-  public void addUser(User user){
-    users.add(user);
   }
 }

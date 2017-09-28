@@ -15,7 +15,7 @@ public class PushToFirebaseCommand {
     try {
       DatabaseReference db = getDatabase(message);
       log.info("Message: {}", message);
-      db.child(message.getUid().toString()).setValue(new ObjectMapper().writeValueAsString(message));
+      db.child(message.getUid()).setValue(new ObjectMapper().writeValueAsString(message));
     } catch (Exception e) {
       log.error("Could not send message to Firebase", e);
     }

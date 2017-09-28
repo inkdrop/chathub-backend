@@ -23,7 +23,7 @@ public class RepositoryCommand {
       log.debug("New room being created: " + repo.getFullName());
     }
     room = loadFromGithub(room, repo, orgName);
-    room.addUser(appUser);
+//    room.addUser(appUser);
 
     roomRepository.save(room);
     return room;

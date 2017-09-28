@@ -1,6 +1,8 @@
 package com.inkdrop.application.services.github;
 
 import com.inkdrop.application.commands.RepositoryCommand;
+import com.inkdrop.domain.room.Room;
+import com.inkdrop.domain.user.Subscription;
 import com.inkdrop.domain.user.User;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +52,8 @@ public class SetupUserService {
   private void createRoom(GHRepository repository, String organization, User appUser) {
     log.info("Creating room for repo: {}", repository.getFullName());
     try {
-      repositoryCommand.findOrCreateRoom(repository, organization, appUser);
+      Room room = repositoryCommand.findOrCreateRoom(repository, organization, appUser);
+      appUser.getSubscriptions().add(new Subscription(room.getId()));
     } catch (IOException e) {
       e.printStackTrace();
     }

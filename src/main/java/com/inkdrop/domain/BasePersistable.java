@@ -58,6 +58,7 @@ public class BasePersistable implements Serializable {
   }
 
   @Transient
+  @JsonIgnore
   public boolean isNewRecord() {
     return getId() == null;
   }
