@@ -25,7 +25,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Table(name = "messages", indexes = {
     @Index(columnList = "room_id", name = "room_index"),
     @Index(columnList = "sender_id", name = "sender_index")
-})
+}, schema = "rooms")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

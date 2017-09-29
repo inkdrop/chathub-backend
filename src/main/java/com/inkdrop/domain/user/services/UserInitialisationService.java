@@ -2,7 +2,8 @@ package com.inkdrop.domain.user.services;
 
 import com.inkdrop.application.helpers.TokenGeneratorHelper;
 import com.inkdrop.domain.user.User;
-import com.inkdrop.domain.user.events.UserCreatedEvent;
+import com.inkdrop.domain.user.events.NewUserArrivedEvent;
+import com.inkdrop.infrastructure.externalServices.firebase.FirebaseTokenGenerator;
 import com.inkdrop.infrastructure.repositories.UserRepository;
 import java.io.IOException;
 import org.kohsuke.github.GHMyself;
@@ -19,6 +20,9 @@ public class UserInitialisationService {
   @Autowired
   ApplicationContext context;
 
+  @Autowired
+  FirebaseTokenGenerator firebaseTokenGenerator;
+
   public User findOrInstantiateUser(GHMyself githubUser, String accessToken) throws IOException {
     User user = userRepository.findByUid(githubUser.getId());
     if (user == null) {
@@ -26,9 +30,10 @@ public class UserInitialisationService {
       user.setUid(githubUser.getId());
       user.setMemberSince(githubUser.getCreatedAt());
       user.setBackendAccessToken(TokenGeneratorHelper.newToken(25));
-      context.publishEvent(new UserCreatedEvent(user, githubUser));
+      context.publishEvent(new NewUserArrivedEvent(user, githubUser));
     }
     user.setAccessToken(accessToken);
+    user.setFirebaseToken(firebaseTokenGenerator.getToken(user));
     user = updateDataFromGithub(githubUser, user);
     return user;
   }

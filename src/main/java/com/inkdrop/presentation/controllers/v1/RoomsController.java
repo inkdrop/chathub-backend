@@ -2,16 +2,13 @@ package com.inkdrop.presentation.controllers.v1;
 
 import com.google.common.collect.Lists;
 import com.inkdrop.domain.room.Room;
-import com.inkdrop.domain.room.RoomService;
 import com.inkdrop.domain.user.User;
 import com.inkdrop.infrastructure.repositories.RoomRepository;
 import com.inkdrop.infrastructure.repositories.UserRepository;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,9 +25,6 @@ public class RoomsController extends BasicController {
 
   @Autowired
   RoomRepository roomRepository;
-
-  @Autowired
-  RoomService roomService;
 
   @GetMapping
   public ResponseEntity getRoomsFromUser(@RequestHeader("Authorization") String token) {
@@ -56,8 +50,10 @@ public class RoomsController extends BasicController {
     try {
       User user = findByBackendToken(token, userRepository);
       Room room = roomRepository.findByUid(uid);
+      Assert.notNull(room, "Room not found");
 
-      roomService.joinRoom(user, room);
+      user.subscribeToRoom(room.getId());
+      userRepository.save(user);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception e) {
       return createErrorResponse(e);
@@ -70,8 +66,10 @@ public class RoomsController extends BasicController {
     try {
       User user = findByBackendToken(token, userRepository);
       Room room = roomRepository.findByUid(uid);
+      Assert.notNull(room, "Room not found");
 
-      roomService.leave(user, room);
+      user.leaveRoom(room.getId());
+      userRepository.save(user);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception e) {
       return createErrorResponse(e);

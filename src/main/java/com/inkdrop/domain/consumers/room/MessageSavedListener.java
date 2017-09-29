@@ -1,4 +1,4 @@
-package com.inkdrop.domain.consumers;
+package com.inkdrop.domain.consumers.room;
 
 import com.inkdrop.domain.room.Message;
 import com.inkdrop.domain.room.events.MessageSavedEvent;

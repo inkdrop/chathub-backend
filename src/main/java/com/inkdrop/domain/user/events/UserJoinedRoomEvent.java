@@ -3,10 +3,12 @@ package com.inkdrop.domain.user.events;
 import com.inkdrop.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class UserCreatedEvent {
-
+@NoArgsConstructor
+public class UserJoinedRoomEvent {
   private User user;
+  private Long roomId;
 }

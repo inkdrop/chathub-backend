@@ -1,10 +1,11 @@
 package com.inkdrop.domain.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.inkdrop.domain.BasePersistable;
+import com.inkdrop.domain.user.events.UserCreatedEvent;
+import com.inkdrop.domain.user.events.UserJoinedRoomEvent;
+import com.inkdrop.domain.user.events.UserLeftRoomEvent;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -14,26 +15,33 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.AbstractAggregateRoot;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "users", indexes = {
     @Index(unique = true, columnList = "uid"),
     @Index(unique = true, columnList = "backendAccessToken"),
     @Index(unique = true, columnList = "login"),
-})
+}, schema = "users")
 @Data
 @EqualsAndHashCode(callSuper = true, of = {"login"})
 @ToString(of = {"login", "uid"})
@@ -41,9 +49,20 @@ import org.springframework.data.annotation.CreatedDate;
 @NamedEntityGraphs(
     @NamedEntityGraph(name = "with-subscriptions",
         attributeNodes = {@NamedAttributeNode("subscriptions")}))
-public class User extends BasePersistable {
+@EntityListeners(AuditingEntityListener.class)
+public class User extends AbstractAggregateRoot implements Serializable {
 
   private static final long serialVersionUID = 1492535311821424305L;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @CreatedDate
+  private Date createdAt;
+
+  @LastModifiedDate
+  private Date updatedAt;
 
   @Column(nullable = false)
   private String login;
@@ -58,7 +77,6 @@ public class User extends BasePersistable {
   private String name;
 
   @Column
-  @JsonIgnore
   private String email;
 
   @Column
@@ -71,20 +89,16 @@ public class User extends BasePersistable {
   private String avatar;
 
   @Column
-  @JsonIgnore
   private String accessToken;
 
   @CreatedDate
   private Date memberSince;
 
   @Transient
-  @JsonProperty(value = "firebase_token")
-  private String firebaseJwt = "";
+  private String firebaseToken = "";
 
   @ElementCollection
-  @Fetch(FetchMode.JOIN)
   @CollectionTable(name = "subscriptions", joinColumns = @JoinColumn(name = "user_id"))
-  @JsonIgnore
   private Set<Subscription> subscriptions = new HashSet<>();
 
   public List<Long> subscribedRoomsId() {
@@ -95,5 +109,23 @@ public class User extends BasePersistable {
 
   public void subscribeToRoom(Long roomId) {
     getSubscriptions().add(new Subscription(roomId));
+    registerEvent(new UserJoinedRoomEvent(this, roomId));
+  }
+
+  public void leaveRoom(Long roomId) {
+    Subscription toBeRemoved = getSubscriptions().stream()
+        .filter(s -> s.getRoomId().equals(roomId)).findFirst().get();
+    getSubscriptions().remove(toBeRemoved);
+    registerEvent(new UserLeftRoomEvent(this, roomId));
+  }
+
+  @PostPersist
+  public void postPersist() {
+    registerEvent(new UserCreatedEvent(this));
+  }
+
+  @PostUpdate
+  public void postUpdate(){
+    System.out.println("HERE");
   }
 }

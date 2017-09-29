@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.inkdrop.domain.room.events.MessageSavedEvent;
+import com.inkdrop.domain.room.events.RoomCreatedEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
 import javax.persistence.OneToMany;
+import javax.persistence.PostPersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.Data;
@@ -33,7 +35,7 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 @Table(name = "rooms", indexes = {
     @Index(columnList = "uid", unique = true),
     @Index(columnList = "fullName", name = "full_name_idx", unique = true)
-})
+}, schema = "rooms")
 @JsonInclude(content = Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper = true, of = {"uid"})
@@ -90,12 +92,14 @@ public class Room extends AbstractAggregateRoot implements Serializable {
   @JsonProperty(value = "private")
   private Boolean privateRoom = false;
 
-  @Transient
-  private boolean joined = false;
-
   public void sendMessage(Message message) {
     message.setRoom(this);
     messages.add(message);
     registerEvent(new MessageSavedEvent((message)));
+  }
+
+  @PostPersist
+  public void afterCreate(){
+    registerEvent(new RoomCreatedEvent(this));
   }
 }
