@@ -28,6 +28,7 @@ import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -100,6 +101,9 @@ public class User extends AbstractAggregateRoot implements Serializable {
   @ElementCollection
   @CollectionTable(name = "subscriptions", joinColumns = @JoinColumn(name = "user_id"))
   private Set<Subscription> subscriptions = new HashSet<>();
+
+  @Version
+  private Long version;
 
   public List<Long> subscribedRoomsId() {
     return getSubscriptions()

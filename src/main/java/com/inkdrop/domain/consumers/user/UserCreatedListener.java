@@ -8,6 +8,7 @@ import com.inkdrop.domain.user.readModel.ReadUser;
 import com.inkdrop.infrastructure.repositories.readRepositories.ReadUsersRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Async
+@Slf4j
 public class UserCreatedListener {
 
   @Autowired
@@ -28,6 +30,7 @@ public class UserCreatedListener {
     readUsersRepository.save(ru);
   }
 
+  // TODO move to own listener
   @EventListener
   public void accept(UserJoinedRoomEvent event){
     User user = event.getUser();
@@ -36,6 +39,7 @@ public class UserCreatedListener {
     readUsersRepository.save(ru);
   }
 
+  // TODO move to own listener
   @EventListener
   public void accept(UserLeftRoomEvent event){
     User user = event.getUser();
@@ -45,7 +49,11 @@ public class UserCreatedListener {
   }
 
   private ReadUser getReadUser(User user) {
-    ReadUser ru = new ReadUser();
+    ReadUser ru = readUsersRepository.findOne(user.getId());
+    if(ru == null){
+      ru = new ReadUser();
+      ru.setId(user.getId());
+    }
     ru.setAvatar(user.getAvatar());
     ru.setBackendAccessToken(user.getBackendAccessToken());
     ru.setCompany(user.getCompany());
@@ -53,7 +61,6 @@ public class UserCreatedListener {
     ru.setFirebaseToken(user.getFirebaseToken());
     ru.setLocation(user.getLocation());
     ru.setLogin(user.getLogin());
-    ru.setId(user.getId());
     ru.setUid(user.getUid());
     ru.setName(user.getName());
     ru.setRooms(getSubscribedRooms(user));

@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -75,4 +76,7 @@ public class ReadUser implements Serializable {
   )
   @JsonIgnore
   private Integer[] rooms;
+
+  @Version
+  private Long version;
 }
