@@ -4,24 +4,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.inkdrop.application.helpers.TokenGeneratorHelper;
 import com.inkdrop.domain.BasePersistable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
-import javax.persistence.PrePersist;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -34,6 +38,9 @@ import org.springframework.data.annotation.CreatedDate;
 @EqualsAndHashCode(callSuper = true, of = {"login"})
 @ToString(of = {"login", "uid"})
 @JsonInclude(content = Include.NON_NULL)
+@NamedEntityGraphs(
+    @NamedEntityGraph(name = "with-subscriptions",
+        attributeNodes = {@NamedAttributeNode("subscriptions")}))
 public class User extends BasePersistable {
 
   private static final long serialVersionUID = 1492535311821424305L;
@@ -74,14 +81,19 @@ public class User extends BasePersistable {
   @JsonProperty(value = "firebase_token")
   private String firebaseJwt = "";
 
-  @ElementCollection(fetch = FetchType.EAGER)
-  @CollectionTable(name = "subscriptions", joinColumns = @JoinColumn(name="user_id"))
+  @ElementCollection
+  @Fetch(FetchMode.JOIN)
+  @CollectionTable(name = "subscriptions", joinColumns = @JoinColumn(name = "user_id"))
+  @JsonIgnore
   private Set<Subscription> subscriptions = new HashSet<>();
 
-  @PrePersist
-  public void onCreate() {
-    if (backendAccessToken == null) {
-      backendAccessToken = TokenGeneratorHelper.newToken(25);
-    }
+  public List<Long> subscribedRoomsId() {
+    return getSubscriptions()
+        .stream().map(s -> s.getRoomId())
+        .collect(Collectors.toList());
+  }
+
+  public void subscribeToRoom(Long roomId) {
+    getSubscriptions().add(new Subscription(roomId));
   }
 }

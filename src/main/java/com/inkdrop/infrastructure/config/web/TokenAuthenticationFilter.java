@@ -36,7 +36,7 @@ public class TokenAuthenticationFilter implements Filter {
       return;
     }
 
-    String backendToken = httpRequest.getHeader("Auth-Token");
+    String backendToken = httpRequest.getHeader("Authorization");
 
     if (backendToken == null) {
       httpResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "No token given");

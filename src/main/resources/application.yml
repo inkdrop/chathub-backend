@@ -16,7 +16,7 @@ params:
     jdbcUrl: jdbc:postgresql://127.0.0.1:5432/chathub
 
 spring.jpa:
-  show-sql: false
+  show-sql: true
   hibernate.ddl-auto: update
 
 logging.level.org:

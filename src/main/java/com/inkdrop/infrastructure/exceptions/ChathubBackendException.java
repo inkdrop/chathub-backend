@@ -1,4 +1,4 @@
-package com.inkdrop.application.exceptions;
+package com.inkdrop.infrastructure.exceptions;
 
 public class ChathubBackendException extends Exception {
 

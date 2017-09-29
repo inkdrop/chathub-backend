@@ -5,13 +5,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.inkdrop.domain.room.events.MessageSavedEvent;
-import com.inkdrop.domain.user.User;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,9 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
@@ -38,7 +32,7 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 @Entity
 @Table(name = "rooms", indexes = {
     @Index(columnList = "uid", unique = true),
-    @Index(columnList = "fullName", name = "full_name_idx")
+    @Index(columnList = "fullName", name = "full_name_idx", unique = true)
 })
 @JsonInclude(content = Include.NON_NULL)
 @Data

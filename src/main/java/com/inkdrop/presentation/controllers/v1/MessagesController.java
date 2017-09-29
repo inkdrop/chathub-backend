@@ -31,7 +31,7 @@ public class MessagesController extends BasicController {
   public ResponseEntity<String> sendMessage(
       @PathVariable Integer uid,
       @RequestBody Params params,
-      @RequestHeader("Auth-Token") String token) {
+      @RequestHeader("Authorization") String token) {
     try {
       Room room = roomRepository.findByUid(uid);
       Assert.notNull(room, "Room not found");

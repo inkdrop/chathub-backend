@@ -6,13 +6,9 @@ import com.inkdrop.domain.room.RoomService;
 import com.inkdrop.domain.user.User;
 import com.inkdrop.infrastructure.repositories.RoomRepository;
 import com.inkdrop.infrastructure.repositories.UserRepository;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import javax.persistence.CollectionTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,17 +33,15 @@ public class RoomsController extends BasicController {
   RoomService roomService;
 
   @GetMapping
-  public ResponseEntity getRoomsFromUser(@RequestHeader("Auth-Token") String token) {
+  public ResponseEntity getRoomsFromUser(@RequestHeader("Authorization") String token) {
     User user = userRepository.findByBackendAccessToken(token);
-    List<Long> rooms = user.getSubscriptions()
-        .stream().map(s -> s.getRoomId())
-        .collect(Collectors.toList());
-    return createSuccessfulResponse(Lists.newArrayList(roomRepository.findAll(rooms)));
+    return createSuccessfulResponse(
+        Lists.newArrayList(roomRepository.findAll(user.subscribedRoomsId())));
   }
 
   @GetMapping("/{uid}")
   public ResponseEntity getRoomInformation(@PathVariable Integer uid,
-      @RequestHeader("Auth-Token") String token) {
+      @RequestHeader("Authorization") String token) {
     try {
       Room room = roomRepository.findByUid(uid);
       return ResponseEntity.ok(room);
@@ -58,7 +52,7 @@ public class RoomsController extends BasicController {
 
   @PostMapping("/{uid}/join")
   public ResponseEntity<String> joinRoom(@PathVariable Integer uid,
-      @RequestHeader("Auth-Token") String token) {
+      @RequestHeader("Authorization") String token) {
     try {
       User user = findByBackendToken(token, userRepository);
       Room room = roomRepository.findByUid(uid);
@@ -72,7 +66,7 @@ public class RoomsController extends BasicController {
 
   @PostMapping("/{uid}/leave")
   public ResponseEntity<String> leaveRoom(@PathVariable Integer uid,
-      @RequestHeader("Auth-Token") String token) {
+      @RequestHeader("Authorization") String token) {
     try {
       User user = findByBackendToken(token, userRepository);
       Room room = roomRepository.findByUid(uid);
@@ -82,12 +76,5 @@ public class RoomsController extends BasicController {
     } catch (Exception e) {
       return createErrorResponse(e);
     }
-  }
-
-  private Set<Room> formatRooms(List<Room> rooms) {
-    Set<Room> formattedRooms = new HashSet<>();
-    rooms.forEach(
-        room -> formattedRooms.add((Room) excludeFieldsFromObject(room, new String[]{"users"})));
-    return formattedRooms;
   }
 }

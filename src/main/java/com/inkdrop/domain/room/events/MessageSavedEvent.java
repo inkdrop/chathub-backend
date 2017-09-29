@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageSavedEvent implements Serializable{
+public class MessageSavedEvent implements Serializable {
+
   private Message message;
 }
